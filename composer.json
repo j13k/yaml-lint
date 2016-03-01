@@ -1,0 +1,27 @@
+{
+    "name": "j13k/yaml-lint",
+    "description": "Command line utility for checking YAML file syntax",
+    "keywords": [
+        "yaml",
+        "yml",
+        "lint",
+        "syntax",
+        "cli",
+        "utility",
+        "symfony"
+    ],
+    "homepage": "https://github.com/j13k/yaml-lint",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "John Fitzpatrick",
+            "homepage": "http://github.com/j13k"
+        }
+    ],
+    "require": {
+        "symfony/yaml": "^2"
+    },
+    "bin": [
+        "bin/yaml-lint"
+    ]
+}
