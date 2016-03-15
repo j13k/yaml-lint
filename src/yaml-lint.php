@@ -17,8 +17,10 @@ use Symfony\Component\Yaml\Yaml;
 define('APP_NAME', 'yaml-lint');
 define('APP_VERSION', '1.0.0');
 
-define('ANSI_RED', 1);
-define('ANSI_GRN', 2);
+define('ANSI_BLD', 01);
+define('ANSI_UDL', 04);
+define('ANSI_RED', 31);
+define('ANSI_GRN', 32);
 
 // Init app name and args
 $appStr = APP_NAME . ' ' . APP_VERSION;
@@ -28,6 +30,7 @@ $argPath = null;
 try {
 
     // Composer bootstrap
+    $pathToTry = null;
     foreach (['/../../../', '/../vendor/'] as $pathToTry) {
         if (is_readable(__DIR__ . $pathToTry . 'autoload.php')) {
             /** @noinspection PhpIncludeInspection */
@@ -37,6 +40,16 @@ try {
     }
     if (!class_exists('\Composer\Autoload\ClassLoader')) {
         throw new \Exception(_msg('composer'));
+    }
+
+    // Extract YAML component metadata
+    $componentsManifest = __DIR__ . $pathToTry . 'composer/installed.json';
+    $components = json_decode(file_get_contents($componentsManifest), true);
+    foreach ($components as $component) {
+        if ($component['name'] == 'symfony/yaml') {
+            $appStr .= ', symfony/yaml ' . $component['version'];
+            break;
+        }
     }
 
     // Process and check args
@@ -55,45 +68,55 @@ try {
                 $argPath = $arg;
         }
     }
+
     if (!$argPath) {
-        throw new UsageException('No file specified', 1);
+        throw new UsageException('no input specified', 1);
     }
 
-    // Check input file
-    if (!is_readable($argPath)) {
-        throw new \Exception('File is not readable', 1);
+    if ($argPath === '-') {
+        $path = 'php://stdin';
+    } else {
+        // Check input file
+        if (!file_exists($argPath)) {
+            throw new ParseException('File does not exist');
+        }
+        if (!is_readable($argPath)) {
+            throw new ParseException('File is not readable');
+        }
+        $path = $argPath;
     }
-
-    // Output messages if allowed
-    if (!$argQuiet) {
-        print $appStr . ' Parsing ' . $argPath;
+    $content = file_get_contents($path);
+    if (strlen($content) < 1) {
+        throw new ParseException('Input has no content');
     }
 
     // Do the thing
-    Yaml::parse(file_get_contents($argPath), true);
+    Yaml::parse($content, true);
 
-    // Success
+    // Output app string and file path if allowed
     if (!$argQuiet) {
-        printf(" [ %s ]\n", _ansify('OK', ANSI_GRN));
+        fwrite(STDOUT, trim($appStr . ': parsing ' . $argPath));
+        fwrite(STDOUT, sprintf(" [ %s ]\n", _ansify('OK', ANSI_GRN)));
     }
     exit(0);
 
 } catch (UsageException $e) {
 
     // Usage message
-    print $appStr . "\n\n";
+    fwrite($e->getCode() ? STDERR : STDOUT, $appStr);
     if ($e->getMessage()) {
-        fwrite(STDERR, sprintf("%s\n\n", _ansify($e->getMessage(), ANSI_RED)));
+        fwrite(
+            STDERR,
+            sprintf(": %s", _ansify($e->getMessage(), ANSI_RED))
+        );
     }
-    print _msg('usage');
+    fwrite(STDOUT, sprintf("\n\n%s\n\n", _msg('usage')));
     exit($e->getCode());
 
 } catch (ParseException $e) {
 
     // Syntax exception
-    if ($argQuiet) { // If argQuiet filtered earlier message, output it now
-        fwrite(STDERR, $appStr . ' Parsing ' . $argPath);
-    }
+    fwrite(STDERR, trim($appStr . ': parsing ' . $argPath));
     fwrite(STDERR, sprintf(" [ %s ]\n", _ansify('ERROR', ANSI_RED)));
     fwrite(STDERR, "\n" . $e->getMessage() . "\n\n");
     exit(1);
@@ -102,7 +125,7 @@ try {
 
     // The rest
     fwrite(STDERR, $appStr);
-    fwrite(STDERR, sprintf("\n\n%s\n\n", _ansify($e->getMessage(), ANSI_RED)));
+    fwrite(STDERR, sprintf(": %s\n", _ansify($e->getMessage(), ANSI_RED)));
     exit(1);
 
 }
@@ -111,7 +134,7 @@ try {
  * Helper to wrap input string in ANSI colour code
  *
  * @param string $str
- * @param int    $colourCode
+ * @param int $colourCode
  *
  * @return string
  */
@@ -120,7 +143,7 @@ function _ansify($str, $colourCode)
     $colourCode = max(0, $colourCode);
     $colourCode = min(255, $colourCode);
 
-    return sprintf("\033[38;5;%dm%s\033[0m", $colourCode, $str);
+    return sprintf("\e[%dm%s\e[0m", $colourCode, $str);
 }
 
 /**
@@ -135,19 +158,18 @@ function _msg($str)
     switch ($str) {
         case 'composer':
             return <<<EOD
-Composer dependencies cannot be loaded; run the following commands to remedy:
- curl -sS https://getcomposer.org/installer | php
- php composer.phar install
+Composer dependencies cannot be loaded; install Composer to remedy:
+https://getcomposer.org/download/
 EOD;
             break;
         case 'usage':
             return <<<EOD
-usage: yaml-lint [<options>] <path>
+usage: yaml-lint [options] [input source]
+
+  input source    Path to file, or "-" to read from standard input
 
   -q, --quiet     Restrict output to syntax errors
   -h, --help      Display this help
-
-
 EOD;
             break;
         default:
@@ -161,4 +183,6 @@ EOD;
  *
  * @property int $code Exception code is passed through as script exit code
  */
-class UsageException extends \RuntimeException {}
+class UsageException extends \RuntimeException
+{
+}
