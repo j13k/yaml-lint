@@ -17,7 +17,9 @@ $ composer require j13k/yaml-lint
 ## Usage
 
 ``` bash
-usage: yaml-lint [<options>] <path>
+usage: yaml-lint [options] [input source]
+
+  input source    Path to file, or "-" to read from standard input
 
   -q, --quiet     Restrict output to syntax errors
   -h, --help      Display this help
