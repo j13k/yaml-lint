@@ -3,6 +3,7 @@
 [![Latest Version on Packagist][ico-version]][link-packagist]
 [![Software License][ico-license]](LICENSE.md)
 [![Total Downloads][ico-downloads]][link-downloads]
+[![Scrutinizer Code Quality][ico-code-quality]][link-code-quality]
 
 Command line utility for checking YAML file syntax. Uses the parsing facility of the [Symfony Yaml Component](https://github.com/symfony/yaml).
 
