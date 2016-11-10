@@ -31,7 +31,7 @@ try {
 
     // Composer bootstrap
     $pathToTry = null;
-    foreach (['/../../../', '/../vendor/'] as $pathToTry) {
+    foreach (array('/../../../', '/../vendor/') as $pathToTry) {
         if (is_readable(__DIR__ . $pathToTry . 'autoload.php')) {
             /** @noinspection PhpIncludeInspection */
             require __DIR__ . $pathToTry . 'autoload.php';
