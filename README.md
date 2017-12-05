@@ -4,6 +4,7 @@
 [![Software License][ico-license]](LICENSE)
 [![Total Downloads][ico-downloads]][link-downloads]
 [![Scrutinizer Code Quality][ico-code-quality]][link-code-quality]
+[![Dependency Status][ico-dependencies]][link-dependencies]
 
 Command line utility for checking YAML file syntax. Uses the parsing facility of the [Symfony Yaml Component](https://github.com/symfony/yaml).
 
@@ -46,11 +47,13 @@ The MIT License (MIT). Please see [LICENCE](LICENSE) for more information.
 [ico-scrutinizer]: https://img.shields.io/scrutinizer/coverage/g/j13k/yaml-lint.svg?style=flat-square
 [ico-code-quality]: https://img.shields.io/scrutinizer/g/j13k/yaml-lint.svg?style=flat-square
 [ico-downloads]: https://img.shields.io/packagist/dt/j13k/yaml-lint.svg?style=flat-square
+[ico-dependencies]: https://www.versioneye.com/user/projects/58324238eaa74b004633a7c1/badge.svg?style=flat-square
 
 [link-packagist]: https://packagist.org/packages/j13k/yaml-lint
 [link-travis]: https://travis-ci.org/j13k/yaml-lint
 [link-scrutinizer]: https://scrutinizer-ci.com/g/j13k/yaml-lint/code-structure
 [link-code-quality]: https://scrutinizer-ci.com/g/j13k/yaml-lint
 [link-downloads]: https://packagist.org/packages/j13k/yaml-lint
+[link-dependencies]: https://www.versioneye.com/user/projects/58324238eaa74b004633a7c1
 [link-author]: https://github.com/j13k
 [link-contributors]: ../../contributors
