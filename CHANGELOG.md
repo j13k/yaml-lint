@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.1.2] - 2017-12-06
+
+### Added
+- Added support for Symfony 4 YAML component
+- New CLI option for displaying application version
+- README documentation now includes 'dependencies' badge
+
+### Updated
+- Refactored custom 'UsageException' class into standalone file
+- Updated application descriptions to emphasise 'compact' design of the application
+- composer update now tracks latest Symfony 4 YAML in local sandbox (composer.lock)
+
 ## [1.1.1] - 2016-11-11
 
 ### Added

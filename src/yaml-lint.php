@@ -1,9 +1,7 @@
 <?php
 
-namespace J13k\YamlLint;
-
 /**
- * yaml-lint, a command line utility for checking YAML file syntax.
+ * yaml-lint, a compact command line utility for checking YAML file syntax.
  *
  * Uses the parsing facility of the Symfony Yaml Component.
  *
@@ -11,11 +9,12 @@ namespace J13k\YamlLint;
  * file that was distributed with this source code.
  */
 
+use J13k\YamlLint\UsageException;
 use Symfony\Component\Yaml\Exception\ParseException;
 use Symfony\Component\Yaml\Yaml;
 
 define('APP_NAME', 'yaml-lint');
-define('APP_VERSION', '1.1.1');
+define('APP_VERSION', '1.1.2');
 
 define('ANSI_BLD', 01);
 define('ANSI_UDL', 04);
@@ -60,6 +59,10 @@ try {
             case '-h':
             case '--help':
                 throw new UsageException();
+            case '-V':
+            case '--version':
+                fwrite(STDOUT, $appStr . "\n");
+                exit(0);
             case '-q':
             case '--quiet':
                 $argQuiet = true;
@@ -134,7 +137,7 @@ try {
  * Helper to wrap input string in ANSI colour code
  *
  * @param string $str
- * @param int $colourCode
+ * @param int    $colourCode
  *
  * @return string
  */
@@ -170,19 +173,11 @@ usage: yaml-lint [options] [input source]
 
   -q, --quiet     Restrict output to syntax errors
   -h, --help      Display this help
+  -V, --version   Display application version
 EOD;
             break;
         default:
     }
 
     return '';
-}
-
-/**
- * Runtime exception for triggering usage message
- *
- * @property int $code Exception code is passed through as script exit code
- */
-class UsageException extends \RuntimeException
-{
 }

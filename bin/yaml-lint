@@ -2,7 +2,7 @@
 <?php
 
 /**
- * yaml-lint, a command line utility for checking YAML file syntax.
+ * yaml-lint, a compact command line utility for checking YAML file syntax.
  *
  * Uses the parsing facility of the Symfony Yaml Component.
  *

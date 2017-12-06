@@ -6,7 +6,7 @@
 [![Scrutinizer Code Quality][ico-code-quality]][link-code-quality]
 [![Dependency Status][ico-dependencies]][link-dependencies]
 
-Command line utility for checking YAML file syntax. Uses the parsing facility of the [Symfony Yaml Component](https://github.com/symfony/yaml).
+A compact command line utility for checking YAML file syntax. Uses the parsing facility of the [Symfony Yaml Component](https://github.com/symfony/yaml).
 
 ## Install
 
@@ -25,6 +25,7 @@ usage: yaml-lint [options] [input source]
 
   -q, --quiet     Restrict output to syntax errors
   -h, --help      Display this help
+  -V, --version   Display application version
 ```
 
 ## Change log

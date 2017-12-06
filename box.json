@@ -3,6 +3,7 @@
     "files": [
         "LICENSE",
         "src/yaml-lint.php",
+        "src/UsageException.php",
         "vendor/autoload.php",
         "vendor/composer/installed.json"
     ],

@@ -1,6 +1,6 @@
 {
     "name": "j13k/yaml-lint",
-    "description": "Command line utility for checking YAML file syntax",
+    "description": "A compact command line utility for checking YAML file syntax",
     "keywords": [
         "yaml",
         "yml",
@@ -19,7 +19,12 @@
         }
     ],
     "require": {
-        "symfony/yaml": "^2|^3"
+        "symfony/yaml": "^2|^3|^4"
+    },
+    "autoload": {
+        "psr-4": {
+            "J13k\\YamlLint\\": "src/"
+        }
     },
     "bin": [
         "bin/yaml-lint"
