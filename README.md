@@ -6,15 +6,19 @@
 [![Scrutinizer Code Quality][ico-code-quality]][link-code-quality]
 [![Dependency Status][ico-dependencies]][link-dependencies]
 
-A compact command line utility for checking YAML file syntax. Uses the parsing facility of the [Symfony Yaml Component](https://github.com/symfony/yaml).
+A compact command line utility for checking YAML file syntax. Uses the parsing facility of the 
+[Symfony Yaml Component](https://github.com/symfony/yaml).
 
 ## Install
 
-Via Composer:
+Install as a project component with Composer (executable from the project's `vendor/bin` directory):
 
 ``` bash
 $ composer require j13k/yaml-lint
 ```
+
+Typically a binary edition (`yaml-lint.phar`) is also available for download with [each release](https://github.com/j13k/yaml-lint/releases). 
+This embeds the latest stable version of the Symfony Yaml component that is current at the time of the release.
 
 ## Usage
 
