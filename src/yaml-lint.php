@@ -21,6 +21,9 @@ define('ANSI_UDL', 04);
 define('ANSI_RED', 31);
 define('ANSI_GRN', 32);
 
+define('YAML_PARSE_PARAM_NAME_EXCEPTION_ON_INVALID_TYPE', 'exceptionOnInvalidType');
+define('YAML_PARSE_PARAM_NAME_FLAGS', 'flags');
+
 // Init app name and args
 $appStr = APP_NAME . ' ' . APP_VERSION;
 $argQuiet = false;
@@ -93,8 +96,23 @@ try {
         throw new ParseException('Input has no content');
     }
 
-    // Do the thing
-    Yaml::parse($content, true);
+    // Do the thing (now accommodates changes to the Yaml::parse method introduced in v3)
+    $yamlParseMethod = new ReflectionMethod('\Symfony\Component\Yaml\Yaml', 'parse');
+    $yamlParseParams = $yamlParseMethod->getParameters();
+    switch ($yamlParseParams[1]->getName()) {
+        case YAML_PARSE_PARAM_NAME_EXCEPTION_ON_INVALID_TYPE;
+            // Maintains original behaviour in ^2
+            Yaml::parse($content, true);
+            break;
+        case YAML_PARSE_PARAM_NAME_FLAGS:
+            // Implements same behaviour in ^3|^4
+            Yaml::parse($content, Yaml::PARSE_EXCEPTION_ON_INVALID_TYPE);
+            break;
+        default:
+            // Param name unknown, fall back to the defaults
+            Yaml::parse($content);
+            break;
+    }
 
     // Output app string and file path if allowed
     if (!$argQuiet) {
