@@ -14,12 +14,15 @@ use Symfony\Component\Yaml\Exception\ParseException;
 use Symfony\Component\Yaml\Yaml;
 
 define('APP_NAME', 'yaml-lint');
-define('APP_VERSION', '1.1.2');
+define('APP_VERSION', '1.1.3');
 
 define('ANSI_BLD', 01);
 define('ANSI_UDL', 04);
 define('ANSI_RED', 31);
 define('ANSI_GRN', 32);
+
+define('EXIT_NORMAL', 0);
+define('EXIT_ERROR', 1);
 
 define('YAML_PARSE_PARAM_NAME_EXCEPTION_ON_INVALID_TYPE', 'exceptionOnInvalidType');
 define('YAML_PARSE_PARAM_NAME_FLAGS', 'flags');
@@ -27,7 +30,7 @@ define('YAML_PARSE_PARAM_NAME_FLAGS', 'flags');
 // Init app name and args
 $appStr = APP_NAME . ' ' . APP_VERSION;
 $argQuiet = false;
-$argPath = null;
+$argPaths = [];
 
 try {
 
@@ -65,19 +68,25 @@ try {
             case '-V':
             case '--version':
                 fwrite(STDOUT, $appStr . "\n");
-                exit(0);
+                exit(EXIT_NORMAL);
             case '-q':
             case '--quiet':
                 $argQuiet = true;
                 break;
             default:
-                $argPath = $arg;
+                $argPaths[] = $arg;
         }
     }
 
-    if (!$argPath) {
-        throw new UsageException('no input specified', 1);
+    // Currently only one input file or STDIN supported
+    if (count($argPaths) < 1) {
+        throw new UsageException('no input specified', EXIT_ERROR);
     }
+    if (count($argPaths) > 1) {
+        throw new UsageException('multiple input files currently unsupported', EXIT_ERROR);
+    }
+
+    $argPath = $argPaths[0];
 
     if ($argPath === '-') {
         $path = 'php://stdin';
@@ -119,19 +128,20 @@ try {
         fwrite(STDOUT, trim($appStr . ': parsing ' . $argPath));
         fwrite(STDOUT, sprintf(" [ %s ]\n", _ansify('OK', ANSI_GRN)));
     }
-    exit(0);
+    exit(EXIT_NORMAL);
 
 } catch (UsageException $e) {
 
     // Usage message
-    fwrite($e->getCode() ? STDERR : STDOUT, $appStr);
+    $outputStream = $e->getCode() > EXIT_NORMAL ? STDERR : STDOUT;
+    fwrite($outputStream, $appStr);
     if ($e->getMessage()) {
         fwrite(
-            STDERR,
+            $outputStream,
             sprintf(": %s", _ansify($e->getMessage(), ANSI_RED))
         );
     }
-    fwrite(STDOUT, sprintf("\n\n%s\n\n", _msg('usage')));
+    fwrite($outputStream, sprintf("\n\n%s\n\n", _msg('usage')));
     exit($e->getCode());
 
 } catch (ParseException $e) {
@@ -140,14 +150,14 @@ try {
     fwrite(STDERR, trim($appStr . ': parsing ' . $argPath));
     fwrite(STDERR, sprintf(" [ %s ]\n", _ansify('ERROR', ANSI_RED)));
     fwrite(STDERR, "\n" . $e->getMessage() . "\n\n");
-    exit(1);
+    exit(EXIT_ERROR);
 
 } catch (\Exception $e) {
 
     // The rest
     fwrite(STDERR, $appStr);
     fwrite(STDERR, sprintf(": %s\n", _ansify($e->getMessage(), ANSI_RED)));
-    exit(1);
+    exit(EXIT_ERROR);
 
 }
 
