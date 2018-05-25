@@ -8,6 +8,21 @@
 A compact command line utility for checking YAML file syntax. Uses the parsing
 facility of the [Symfony Yaml Component](https://github.com/symfony/yaml).
 
+## Usage
+
+```text
+usage: yaml-lint [options] [input source]
+
+  input source    Path to file, or "-" to read from standard input
+
+  -q, --quiet     Restrict output to syntax errors
+  -h, --help      Display this help
+  -V, --version   Display application version
+```
+
+> :point_right: Note that only _single files_ or standard input are currently
+> supported, with support for multiple files planned for a future release.
+
 ## Install
 
 Install as a project component with Composer (executable from the project's
@@ -21,21 +36,6 @@ Typically a binary edition (`yaml-lint.phar`) is also available for download
 with [each release](https://github.com/j13k/yaml-lint/releases). This embeds
 the latest stable version of the Symfony Yaml component that is current at
 the time of the release.
-
-## Usage
-
-```text
-usage: yaml-lint [options] [input source]
-
-  input source    Path to file, or "-" to read from standard input
-
-  -q, --quiet     Restrict output to syntax errors
-  -h, --help      Display this help
-  -V, --version   Display application version
-```
-
-Note that only _single files_ or standard input are currently supported, with
-support for multiple files planned for a future release.
 
 ## Change log
 
