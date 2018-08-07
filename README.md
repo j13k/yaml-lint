@@ -63,7 +63,7 @@ The MIT License (MIT). Please see [LICENCE](LICENSE) for more information.
 [link-travis]: https://travis-ci.org/j13k/yaml-lint
 [link-scrutinizer]: https://scrutinizer-ci.com/g/j13k/yaml-lint/code-structure
 [link-code-quality]: https://scrutinizer-ci.com/g/j13k/yaml-lint
-[link-downloads]: https://packagist.org/packages/j13k/yaml-lint
+[link-downloads]: https://packagist.org/packages/j13k/yaml-lint/stats
 [link-dependencies]: https://www.versioneye.com/user/projects/58324238eaa74b004633a7c1
 [link-author]: https://github.com/j13k
 [link-contributors]: ../../contributors
