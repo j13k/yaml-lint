@@ -122,10 +122,10 @@ try {
         // Check input file(s)
 		foreach($argPaths as $argPath) {
 			if (!file_exists($argPath)) {
-				throw new ParseException('File does not exist');
+				throw new ParseException(sprintf('File %s does not exist', $argPath));
 			}
 			if (!is_readable($argPath)) {
-				throw new ParseException('File is not readable');
+				throw new ParseException(sprintf('File %s is not readable', $argPath));
 			}
 			
 			$lintPath($argPath);
