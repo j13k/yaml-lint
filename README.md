@@ -20,6 +20,11 @@ usage: yaml-lint [options] [input source]
   -V, --version   Display application version
 ```
 
+:information_source: Note that only _single files_ or standard input are supported
+in the current stable release, 1.1.3.
+
+:loudspeaker: Experimental support for multiple files is available in `dev-master`.
+ 
 ## Install
 
 Install as a project component with Composer (executable from the project's
@@ -41,9 +46,8 @@ changed recently.
 
 ## Credits
 
-- [John Fitzpatrick][link-author]
-- [Symfony Yaml contributors](https://github.com/symfony/yaml/graphs/contributors)
 - [yaml-lint contributors][link-contributors]
+- [Symfony Yaml contributors](https://github.com/symfony/yaml/graphs/contributors)
 
 ## License
 
