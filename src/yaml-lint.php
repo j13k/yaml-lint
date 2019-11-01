@@ -82,52 +82,56 @@ try {
     if (count($argPaths) < 1) {
         throw new UsageException('no input specified', EXIT_ERROR);
     }
-    if (count($argPaths) > 1) {
-        throw new UsageException('multiple input files currently unsupported', EXIT_ERROR);
-    }
+	
+	$lintPath = function($path) use ($argQuiet, $appStr) {
+		$content = file_get_contents($path);
+		if (strlen($content) < 1) {
+			throw new ParseException('Input has no content');
+		}
 
-    $argPath = $argPaths[0];
+		// Do the thing (now accommodates changes to the Yaml::parse method introduced in v3)
+		$yamlParseMethod = new ReflectionMethod('\Symfony\Component\Yaml\Yaml', 'parse');
+		$yamlParseParams = $yamlParseMethod->getParameters();
+		switch ($yamlParseParams[1]->name) {
+			case YAML_PARSE_PARAM_NAME_EXCEPTION_ON_INVALID_TYPE:
+				// Maintains original behaviour in ^2
+				Yaml::parse($content, true);
+				break;
+			case YAML_PARSE_PARAM_NAME_FLAGS:
+				// Implements same behaviour in ^3 and ^4
+				Yaml::parse($content, Yaml::PARSE_EXCEPTION_ON_INVALID_TYPE);
+				break;
+			default:
+				// Param name unknown, fall back to the defaults
+				Yaml::parse($content);
+				break;
+		}
 
-    if ($argPath === '-') {
+		// Output app string and file path if allowed
+		if (!$argQuiet) {
+			fwrite(STDOUT, trim($appStr . ': parsing ' . $path));
+			fwrite(STDOUT, sprintf(" [ %s ]\n", _ansify('OK', ANSI_GRN)));
+		}
+	};	
+
+    if ($argPaths[0] === '-') {
         $path = 'php://stdin';
+		
+		$lintPath($path);
     } else {
-        // Check input file
-        if (!file_exists($argPath)) {
-            throw new ParseException('File does not exist');
-        }
-        if (!is_readable($argPath)) {
-            throw new ParseException('File is not readable');
-        }
-        $path = $argPath;
-    }
-    $content = file_get_contents($path);
-    if (strlen($content) < 1) {
-        throw new ParseException('Input has no content');
-    }
-
-    // Do the thing (now accommodates changes to the Yaml::parse method introduced in v3)
-    $yamlParseMethod = new ReflectionMethod('\Symfony\Component\Yaml\Yaml', 'parse');
-    $yamlParseParams = $yamlParseMethod->getParameters();
-    switch ($yamlParseParams[1]->name) {
-        case YAML_PARSE_PARAM_NAME_EXCEPTION_ON_INVALID_TYPE:
-            // Maintains original behaviour in ^2
-            Yaml::parse($content, true);
-            break;
-        case YAML_PARSE_PARAM_NAME_FLAGS:
-            // Implements same behaviour in ^3 and ^4
-            Yaml::parse($content, Yaml::PARSE_EXCEPTION_ON_INVALID_TYPE);
-            break;
-        default:
-            // Param name unknown, fall back to the defaults
-            Yaml::parse($content);
-            break;
+        // Check input file(s)
+		foreach($argPaths as $argPath) {
+			if (!file_exists($argPath)) {
+				throw new ParseException(sprintf('File %s does not exist', $argPath));
+			}
+			if (!is_readable($argPath)) {
+				throw new ParseException(sprintf('File %s is not readable', $argPath));
+			}
+			
+			$lintPath($argPath);
+		}
     }
 
-    // Output app string and file path if allowed
-    if (!$argQuiet) {
-        fwrite(STDOUT, trim($appStr . ': parsing ' . $argPath));
-        fwrite(STDOUT, sprintf(" [ %s ]\n", _ansify('OK', ANSI_GRN)));
-    }
     exit(EXIT_NORMAL);
 
 } catch (UsageException $e) {

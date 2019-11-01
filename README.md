@@ -20,9 +20,6 @@ usage: yaml-lint [options] [input source]
   -V, --version   Display application version
 ```
 
-> :point_right: Note that only _single files_ or standard input are currently
-> supported, with support for multiple files planned for a future release.
-
 ## Install
 
 Install as a project component with Composer (executable from the project's
