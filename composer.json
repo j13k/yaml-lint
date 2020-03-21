@@ -26,6 +26,11 @@
             "J13k\\YamlLint\\": "src/"
         }
     },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.1.4-dev"
+        }
+    },
     "bin": [
         "bin/yaml-lint"
     ]
