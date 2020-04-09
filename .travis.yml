@@ -1,0 +1,70 @@
+dist: trusty
+language: php
+
+matrix:
+  include:
+    # 5.6
+    - php: 5.6
+      env: SYMFONY_VERSION=^2 PHPUNIT_VERSION=^5
+    - php: 5.6
+      env: SYMFONY_VERSION=^3 PHPUNIT_VERSION=^5
+    # 7.0
+    - php: 7.0
+      env: SYMFONY_VERSION=^2 PHPUNIT_VERSION=^6
+    - php: 7.0
+      env: SYMFONY_VERSION=^3 PHPUNIT_VERSION=^6
+    # 7.1
+    - php: 7.1
+      env: SYMFONY_VERSION=^2 PHPUNIT_VERSION=^7
+    - php: 7.1
+      env: SYMFONY_VERSION=^3 PHPUNIT_VERSION=^7
+    - php: 7.1
+      env: SYMFONY_VERSION=^4 PHPUNIT_VERSION=^7
+    # 7.2
+    - php: 7.2
+      env: SYMFONY_VERSION=^2
+    - php: 7.2
+      env: SYMFONY_VERSION=^3
+    - php: 7.2
+      env: SYMFONY_VERSION=^4
+    - php: 7.2
+      env: SYMFONY_VERSION=^5
+    # 7.3
+    - php: 7.3
+      env: SYMFONY_VERSION=^2
+    - php: 7.3
+      env: SYMFONY_VERSION=^3
+    - php: 7.3
+      env: SYMFONY_VERSION=^4
+    - php: 7.3
+      env: SYMFONY_VERSION=^5
+    # 7.4
+    - php: 7.4
+      env: SYMFONY_VERSION=^2
+    - php: 7.4
+      env: SYMFONY_VERSION=^3
+    - php: 7.4
+      env: SYMFONY_VERSION=^4
+    - php: 7.4
+      env: SYMFONY_VERSION=^5
+
+before_install:
+  - rm composer.lock
+
+install:
+  - |
+    if [[ $PHPUNIT_VERSION ]]; then
+      composer remove --dev phpunit/phpunit phpstan/phpstan symplify/easy-coding-standard
+      composer require --dev phpunit/phpunit:$PHPUNIT_VERSION
+    else
+      composer remove --dev phpstan/phpstan symplify/easy-coding-standard
+    fi
+  - composer require symfony/yaml:$SYMFONY_VERSION --no-interaction --prefer-source
+
+script:
+  - bin/yaml-lint -V
+  - ./vendor/bin/phpunit
+
+cache:
+  directories:
+    - $HOME/.composer/cache/files

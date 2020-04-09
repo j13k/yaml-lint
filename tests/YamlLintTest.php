@@ -1,4 +1,3 @@
-#!/usr/bin/env php
 <?php
 
 /*
@@ -10,4 +9,13 @@
  * file that was distributed with this source code.
  */
 
-require __DIR__ . '/../src/yaml-lint.php';
+/**
+ * Unit tests.
+ */
+class YamlLintTest extends \PHPUnit\Framework\TestCase
+{
+    public function testDummy()
+    {
+        $this->assertTrue(true);
+    }
+}
