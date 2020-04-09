@@ -19,7 +19,13 @@
         }
     ],
     "require": {
-        "symfony/yaml": "^2|^3|^4|^5"
+        "symfony/yaml": "^2|^3|^4|^5",
+        "ext-json": "*"
+    },
+    "require-dev": {
+        "phpstan/phpstan": "^0",
+        "phpunit/phpunit": "^8",
+        "symplify/easy-coding-standard": "^7"
     },
     "autoload": {
         "psr-4": {
