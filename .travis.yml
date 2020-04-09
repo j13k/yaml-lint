@@ -5,9 +5,6 @@ sudo: false
 
 matrix:
   include:
-#    - php: 5.3
-#      dist: precise
-#      env: SYMFONY_VERSION=^2 PHPUNIT_VERSION=^4
     - php: 5.6
       env: SYMFONY_VERSION=^2 PHPUNIT_VERSION=^5
     - php: 5.6
@@ -35,11 +32,12 @@ before_install:
   - rm composer.lock
 
 install:
-  - composer remove --dev phpstan/phpstan phpunit/phpunit symplify/easy-coding-standard
+  - if [[ ${DEV} != true ]]; then composer remove --dev phpstan/phpstan phpunit/phpunit symplify/easy-coding-standard; fi
   - composer require symfony/yaml:${SYMFONY_VERSION} --no-interaction --prefer-source
-  - composer require phpunit/phpunit:${PHPUNIT_VERSION} --no-interaction
 
-scripts: composer test
+scripts:
+  - bin/yaml-lint -V
+  - phpunit
 
 cache:
   directories:

@@ -42,7 +42,7 @@
         "bin/yaml-lint"
     ],
     "scripts": {
-        "test": "./vendor/bin/phpunit tests/",
+        "test": "./vendor/bin/phpunit",
         "style": "./vendor/bin/ecs check ."
     }
 }
