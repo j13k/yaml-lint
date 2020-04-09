@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * yaml-lint, a compact command line utility for checking YAML file syntax.
  *

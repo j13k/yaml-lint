@@ -3,29 +3,17 @@ language: php
 
 sudo: false
 
-php:
-  - 5.3
-  - 5.6
-  - 7.0
-  - 7.1
-  - 7.2
-  - 7.3
-  - 7.4
-
-cache:
-  directories:
-    - $HOME/.composer/cache/files
-
 matrix:
   include:
-    - env: SYMFONY_VERSION=^2
-    - env: SYMFONY_VERSION=^3
-    - env: SYMFONY_VERSION=^4
-    - env: SYMFONY_VERSION=^5
 #    - php: 5.3
-#      env: SYMFONY_VERSION=^2
-#    - php: 5.5
-#      env: SYMFONY_VERSION=^3
+#      dist: precise
+#      env: SYMFONY_VERSION=^2 PHPUNIT_VERSION=^4
+    - php: 5.6
+      env: SYMFONY_VERSION=^2 PHPUNIT_VERSION=^5
+    - php: 5.6
+      env: SYMFONY_VERSION=^3 PHPUNIT_VERSION=^5
+    - php: 5.6
+      env: SYMFONY_VERSION=^4 PHPUNIT_VERSION=^5
 #    - php: 7.1
 #      env: SYMFONY_VERSION=^2
 #    - php: 7.1
@@ -44,9 +32,15 @@ matrix:
 #      env: SYMFONY_VERSION=^5
 
 before_install:
-  - composer self-update
+  - rm composer.lock
 
 install:
-  - composer require symfony/yaml:${SYMFONY_VERSION}
+  - composer remove --dev phpstan/phpstan phpunit/phpunit symplify/easy-coding-standard
+  - composer require symfony/yaml:${SYMFONY_VERSION} --no-interaction --prefer-source
+  - composer require phpunit/phpunit:${PHPUNIT_VERSION} --no-interaction
 
-scripts: ./vendor/bin/phpunit tests/
+scripts: composer test
+
+cache:
+  directories:
+    - $HOME/.composer/cache/files

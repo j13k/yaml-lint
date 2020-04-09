@@ -2,7 +2,7 @@ imports:
   - { resource: 'vendor/symplify/easy-coding-standard/config/set/symfony.yaml' }
 
 services:
-  PhpCsFixer\Fixer\Strict\DeclareStrictTypesFixer: ~
+  #PhpCsFixer\Fixer\Strict\DeclareStrictTypesFixer: ~
   #PHP_CodeSniffer\Standards\Generic\Sniffs\Arrays\DisallowLongArraySyntaxSniff: ~
 
 parameters:
