@@ -6,3 +6,6 @@
 /.gitattributes     export-ignore
 /.gitignore         export-ignore
 /.scrutinizer.yml   export-ignore
+/box.json           export-ignore
+/ecs.yml            export-ignore
+/tests              export-ignore

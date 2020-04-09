@@ -19,11 +19,18 @@
         }
     ],
     "require": {
+        "php": ">=5.6",
+        "ext-json": "*",
         "symfony/yaml": "^2|^3|^4|^5"
+    },
+    "require-dev": {
+        "phpstan/phpstan": "^0",
+        "phpunit/phpunit": "^9",
+        "symplify/easy-coding-standard": "^7"
     },
     "autoload": {
         "psr-4": {
-            "J13k\\YamlLint\\": "src/"
+            "J13k\\": "src/J13k"
         }
     },
     "extra": {
@@ -33,5 +40,9 @@
     },
     "bin": [
         "bin/yaml-lint"
-    ]
+    ],
+    "scripts": {
+        "test": "./vendor/bin/phpunit",
+        "style": "./vendor/bin/ecs check ."
+    }
 }

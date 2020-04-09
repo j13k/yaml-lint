@@ -1,0 +1,61 @@
+dist: trusty
+language: php
+
+sudo: false
+
+matrix:
+  include:
+    # 5.6
+    - php: 5.6
+      env: SYMFONY_VERSION=^2 SKIP_DEV=true
+    - php: 5.6
+      env: SYMFONY_VERSION=^3 SKIP_DEV=true
+    # 7.1
+    - php: 7.1
+      env: SYMFONY_VERSION=^2
+    - php: 7.1
+      env: SYMFONY_VERSION=^3
+    - php: 7.1
+      env: SYMFONY_VERSION=^4
+    # 7.2
+    - php: 7.2
+      env: SYMFONY_VERSION=^2
+    - php: 7.2
+      env: SYMFONY_VERSION=^3
+    - php: 7.2
+      env: SYMFONY_VERSION=^4
+    - php: 7.2
+      env: SYMFONY_VERSION=^5
+    # 7.3
+    - php: 7.3
+      env: SYMFONY_VERSION=^2
+    - php: 7.3
+      env: SYMFONY_VERSION=^3
+    - php: 7.3
+      env: SYMFONY_VERSION=^4
+    - php: 7.3
+      env: SYMFONY_VERSION=^5
+    # 7.4
+    - php: 7.4
+      env: SYMFONY_VERSION=^2
+    - php: 7.4
+      env: SYMFONY_VERSION=^3
+    - php: 7.4
+      env: SYMFONY_VERSION=^4
+    - php: 7.4
+      env: SYMFONY_VERSION=^5
+
+before_install:
+  - rm composer.lock
+
+install:
+  - if [[ ${SKIP_DEV} == true ]]; then composer remove --dev phpstan/phpstan phpunit/phpunit symplify/easy-coding-standard; fi
+  - composer require symfony/yaml:${SYMFONY_VERSION} --no-interaction --prefer-source
+
+scripts:
+  - bin/yaml-lint -V
+  - phpunit
+
+cache:
+  directories:
+    - $HOME/.composer/cache/files

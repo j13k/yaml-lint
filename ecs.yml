@@ -1,0 +1,16 @@
+imports:
+  - { resource: 'vendor/symplify/easy-coding-standard/config/set/symfony.yaml' }
+
+services:
+  #PhpCsFixer\Fixer\Strict\DeclareStrictTypesFixer: ~
+  #PHP_CodeSniffer\Standards\Generic\Sniffs\Arrays\DisallowLongArraySyntaxSniff: ~
+
+parameters:
+  skip:
+    PhpCsFixer\Fixer\ClassNotation\ClassDefinitionFixer: ~
+    PhpCsFixer\Fixer\ControlStructure\YodaStyleFixer: ~
+    PhpCsFixer\Fixer\Operator\BinaryOperatorSpacesFixer: ~
+    PhpCsFixer\Fixer\Operator\ConcatSpaceFixer: ~
+    PhpCsFixer\Fixer\Operator\IncrementStyleFixer: ~
+    PhpCsFixer\Fixer\Phpdoc\PhpdocToCommentFixer: ~
+    PhpCsFixer\Fixer\ClassNotation\SelfAccessorFixer: ~

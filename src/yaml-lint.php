@@ -8,13 +8,12 @@
  * For full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
 use J13k\YamlLint\UsageException;
 use Symfony\Component\Yaml\Exception\ParseException;
 use Symfony\Component\Yaml\Yaml;
 
 define('APP_NAME', 'yaml-lint');
-define('APP_VERSION', 'dev-master');
+define('APP_VERSION', '1.1.x-dev');
 
 define('ANSI_BLD', 01);
 define('ANSI_UDL', 04);
@@ -33,18 +32,17 @@ $argQuiet = false;
 $argPaths = [];
 
 try {
-
     // Composer bootstrap
     $pathToTry = null;
     foreach (array('/../../../', '/../vendor/') as $pathToTry) {
         if (is_readable(__DIR__ . $pathToTry . 'autoload.php')) {
-            /** @noinspection PhpIncludeInspection */
             require __DIR__ . $pathToTry . 'autoload.php';
+
             break;
         }
     }
     if (!class_exists('\Composer\Autoload\ClassLoader')) {
-        throw new \Exception(_msg('composer'));
+        throw new Exception(_msg('composer'));
     }
 
     // Extract YAML component metadata
@@ -53,6 +51,7 @@ try {
     foreach ($components as $component) {
         if ($component['name'] == 'symfony/yaml') {
             $appStr .= ', symfony/yaml ' . $component['version'];
+
             break;
         }
     }
@@ -72,6 +71,7 @@ try {
             case '-q':
             case '--quiet':
                 $argQuiet = true;
+
                 break;
             default:
                 $argPaths[] = $arg;
@@ -82,91 +82,87 @@ try {
     if (count($argPaths) < 1) {
         throw new UsageException('no input specified', EXIT_ERROR);
     }
-	
-	$lintPath = function($path) use ($argQuiet, $appStr) {
-		$content = file_get_contents($path);
-		if (strlen($content) < 1) {
-			throw new ParseException('Input has no content');
-		}
 
-		// Do the thing (now accommodates changes to the Yaml::parse method introduced in v3)
-		$yamlParseMethod = new ReflectionMethod('\Symfony\Component\Yaml\Yaml', 'parse');
-		$yamlParseParams = $yamlParseMethod->getParameters();
-		switch ($yamlParseParams[1]->name) {
-			case YAML_PARSE_PARAM_NAME_EXCEPTION_ON_INVALID_TYPE:
-				// Maintains original behaviour in ^2
-				Yaml::parse($content, true);
-				break;
-			case YAML_PARSE_PARAM_NAME_FLAGS:
-				// Implements same behaviour in ^3 and ^4
-				Yaml::parse($content, Yaml::PARSE_EXCEPTION_ON_INVALID_TYPE);
-				break;
-			default:
-				// Param name unknown, fall back to the defaults
-				Yaml::parse($content);
-				break;
-		}
+    $lintPath = function ($path) use ($argQuiet, $appStr) {
+        $content = file_get_contents($path);
+        if (strlen($content) < 1) {
+            throw new ParseException('Input has no content');
+        }
 
-		// Output app string and file path if allowed
-		if (!$argQuiet) {
-			fwrite(STDOUT, trim($appStr . ': parsing ' . $path));
-			fwrite(STDOUT, sprintf(" [ %s ]\n", _ansify('OK', ANSI_GRN)));
-		}
-	};	
+        // Do the thing (now accommodates changes to the Yaml::parse method introduced in v3)
+        $yamlParseMethod = new ReflectionMethod('\Symfony\Component\Yaml\Yaml', 'parse');
+        $yamlParseParams = $yamlParseMethod->getParameters();
+        switch ($yamlParseParams[1]->name) {
+            case YAML_PARSE_PARAM_NAME_EXCEPTION_ON_INVALID_TYPE:
+                // Maintains original behaviour in ^2
+                Yaml::parse($content, true);
+
+                break;
+            case YAML_PARSE_PARAM_NAME_FLAGS:
+                // Implements same behaviour in ^3 and ^4
+                Yaml::parse($content, Yaml::PARSE_EXCEPTION_ON_INVALID_TYPE);
+
+                break;
+            default:
+                // Param name unknown, fall back to the defaults
+                Yaml::parse($content);
+
+                break;
+        }
+
+        // Output app string and file path if allowed
+        if (!$argQuiet) {
+            fwrite(STDOUT, trim($appStr . ': parsing ' . $path));
+            fwrite(STDOUT, sprintf(" [ %s ]\n", _ansify('OK', ANSI_GRN)));
+        }
+    };
 
     if ($argPaths[0] === '-') {
         $path = 'php://stdin';
-		
-		$lintPath($path);
+
+        $lintPath($path);
     } else {
         // Check input file(s)
-		foreach($argPaths as $argPath) {
-			if (!file_exists($argPath)) {
-				throw new ParseException(sprintf('File %s does not exist', $argPath));
-			}
-			if (!is_readable($argPath)) {
-				throw new ParseException(sprintf('File %s is not readable', $argPath));
-			}
-			
-			$lintPath($argPath);
-		}
+        foreach ($argPaths as $argPath) {
+            if (!file_exists($argPath)) {
+                throw new RuntimeException(sprintf('File %s does not exist', $argPath));
+            }
+            if (!is_readable($argPath)) {
+                throw new RuntimeException(sprintf('File %s is not readable', $argPath));
+            }
+
+            $lintPath($argPath);
+        }
     }
 
     exit(EXIT_NORMAL);
-
 } catch (UsageException $e) {
-
     // Usage message
     $outputStream = $e->getCode() > EXIT_NORMAL ? STDERR : STDOUT;
     fwrite($outputStream, $appStr);
     if ($e->getMessage()) {
         fwrite(
             $outputStream,
-            sprintf(": %s", _ansify($e->getMessage(), ANSI_RED))
+            sprintf(': %s', _ansify($e->getMessage(), ANSI_RED))
         );
     }
     fwrite($outputStream, sprintf("\n\n%s\n\n", _msg('usage')));
     exit($e->getCode());
-
 } catch (ParseException $e) {
-
     // Syntax exception
     fwrite(STDERR, trim($appStr . ': parsing ' . $argPath));
     fwrite(STDERR, sprintf(" [ %s ]\n", _ansify('ERROR', ANSI_RED)));
     fwrite(STDERR, "\n" . $e->getMessage() . "\n\n");
     exit(EXIT_ERROR);
-
-} catch (\Exception $e) {
-
+} catch (Exception $e) {
     // The rest
     fwrite(STDERR, $appStr);
     fwrite(STDERR, sprintf(": %s\n", _ansify($e->getMessage(), ANSI_RED)));
     exit(EXIT_ERROR);
-
 }
 
 /**
- * Helper to wrap input string in ANSI colour code
+ * Helper to wrap input string in ANSI colour code.
  *
  * @param string $str
  * @param int    $colourCode
@@ -182,7 +178,7 @@ function _ansify($str, $colourCode)
 }
 
 /**
- * Wrapper for heredoc messages
+ * Wrapper for heredoc messages.
  *
  * @param string $str
  *
@@ -196,6 +192,7 @@ function _msg($str)
 Composer dependencies cannot be loaded; install Composer to remedy:
 https://getcomposer.org/download/
 EOD;
+
             break;
         case 'usage':
             return <<<EOD
@@ -207,6 +204,7 @@ usage: yaml-lint [options] [input source]
   -h, --help      Display this help
   -V, --version   Display application version
 EOD;
+
             break;
         default:
     }
