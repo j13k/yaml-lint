@@ -23,7 +23,7 @@ usage: yaml-lint [options] [input source]
 :information_source: Note that only _single files_ or standard input are supported
 in the current stable release, 1.1.3.
 
-:loudspeaker: Experimental support for multiple files is available in `dev-master`.
+:loudspeaker: Experimental support for multiple files is available in `1.1.x-dev`.
  
 ## Install
 
