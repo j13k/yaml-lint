@@ -7,6 +7,7 @@
 - Support for multiple files
 - Support for Symfony 5 YAML component
 - Branch alias for 1.1.x-dev
+- Dependabot scan GitHub Action
 
 ### Updated
 
