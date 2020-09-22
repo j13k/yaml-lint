@@ -1,5 +1,18 @@
 # Changelog
 
+## [1.1.x-dev] - TBC
+
+### Added
+
+- Support for multiple files
+- Support for Symfony 5 YAML component
+- Branch alias for 1.1.x-dev
+
+### Updated
+
+- `composer.lock` tracks `symfony/yaml` v5.0.5
+- Add compare links to changelog (resolves #14)
+
 ## [1.1.3] - 2018-03-27
 
 ### Updated
@@ -50,3 +63,10 @@
 ### Added
 
 - Initial release
+
+[1.0.0]: https://github.com/j13k/yaml-lint/compare/e2142c1..1.0.0
+[1.1.0]: https://github.com/j13k/yaml-lint/compare/1.0.0..1.1.0
+[1.1.1]: https://github.com/j13k/yaml-lint/compare/1.1.0..1.1.1
+[1.1.2]: https://github.com/j13k/yaml-lint/compare/1.1.1..1.1.2
+[1.1.3]: https://github.com/j13k/yaml-lint/compare/1.1.2..1.1.3
+[1.1.x-dev]: https://github.com/j13k/yaml-lint/compare/1.1.3..HEAD
