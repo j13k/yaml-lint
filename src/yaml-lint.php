@@ -16,6 +16,8 @@ use Symfony\Component\Yaml\Yaml;
 define('APP_NAME', 'yaml-lint');
 define('APP_VERSION', '1.1.x-dev');
 
+define('LINTER_CONFIG_FILE', '.yaml-lint.xml');
+
 define('ANSI_BLD', 01);
 define('ANSI_UDL', 04);
 define('ANSI_RED', 31);
@@ -82,7 +84,7 @@ try {
     if (count($argPaths) < 1) {
         throw new UsageException('no input specified', EXIT_ERROR);
     }
-	
+
 	$lintPath = function($path) use ($argQuiet, $appStr) {
 		$content = file_get_contents($path);
 		if (strlen($content) < 1) {
@@ -112,11 +114,23 @@ try {
 			fwrite(STDOUT, trim($appStr . ': parsing ' . $path));
 			fwrite(STDOUT, sprintf(" [ %s ]\n", _ansify('OK', ANSI_GRN)));
 		}
-	};	
+	};
+
+    // build yaml files to lint from .yaml-lint.xml config
+    if ($argPaths[0] === LINTER_CONFIG_FILE) {
+
+        $linterConfig = simplexml_load_file('.yaml-lint.xml');
+
+        $argPaths = [];
+        foreach ($linterConfig->includes->path as $path) {
+            // @todo handle excludes
+            $argPaths[] = $path;
+        }
+    }
 
     if ($argPaths[0] === '-') {
         $path = 'php://stdin';
-		
+
 		$lintPath($path);
     } else {
         // Check input file(s)
@@ -127,7 +141,7 @@ try {
 			if (!is_readable($argPath)) {
 				throw new ParseException(sprintf('File %s is not readable', $argPath));
 			}
-			
+
 			$lintPath($argPath);
 		}
     }
