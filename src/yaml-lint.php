@@ -51,7 +51,7 @@ try {
     $componentsManifest = __DIR__ . $pathToTry . 'composer/installed.json';
     $components = json_decode(file_get_contents($componentsManifest), true);
     foreach ($components as $component) {
-        if ($component['name'] == 'symfony/yaml') {
+        if (isset($component['name']) && $component['name'] == 'symfony/yaml') {
             $appStr .= ', symfony/yaml ' . $component['version'];
             break;
         }
@@ -82,7 +82,7 @@ try {
     if (count($argPaths) < 1) {
         throw new UsageException('no input specified', EXIT_ERROR);
     }
-	
+
 	$lintPath = function($path) use ($argQuiet, $appStr) {
 		$content = file_get_contents($path);
 		if (strlen($content) < 1) {
@@ -112,11 +112,11 @@ try {
 			fwrite(STDOUT, trim($appStr . ': parsing ' . $path));
 			fwrite(STDOUT, sprintf(" [ %s ]\n", _ansify('OK', ANSI_GRN)));
 		}
-	};	
+	};
 
     if ($argPaths[0] === '-') {
         $path = 'php://stdin';
-		
+
 		$lintPath($path);
     } else {
         // Check input file(s)
@@ -127,7 +127,7 @@ try {
 			if (!is_readable($argPath)) {
 				throw new ParseException(sprintf('File %s is not readable', $argPath));
 			}
-			
+
 			$lintPath($argPath);
 		}
     }
