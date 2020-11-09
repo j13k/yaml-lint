@@ -1,0 +1,7 @@
+<rules>
+    <description>YAML Linter config.</description>
+    <includes>
+        <path>foo.yaml</path>
+        <path>example/bar.yaml</path>
+    </includes>
+</rules>

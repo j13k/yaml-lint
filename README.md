@@ -13,7 +13,7 @@ facility of the [Symfony Yaml Component](https://github.com/symfony/yaml).
 ```text
 usage: yaml-lint [options] [input source]
 
-  input source    Path to file, or "-" to read from standard input
+  input source    .yaml-lint.xml with config, Path to file, or "-" to read from standard input
 
   -q, --quiet     Restrict output to syntax errors
   -h, --help      Display this help
