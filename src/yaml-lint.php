@@ -119,6 +119,10 @@ try {
     // build yaml files to lint from .yaml-lint.xml config
     if ($argPaths[0] === LINTER_CONFIG_FILE) {
 
+        if (!file_exists($argPath)) {
+            throw new UsageException(sprintf('Linter config %s not found', LINTER_CONFIG_FILE));
+        }
+
         $linterConfig = simplexml_load_file('.yaml-lint.xml');
 
         $argPaths = [];
@@ -215,7 +219,7 @@ EOD;
             return <<<EOD
 usage: yaml-lint [options] [input source]
 
-  input source    Path to file, or "-" to read from standard input
+  input source    .yaml-lint.xml with config, Path to file, or "-" to read from standard input
 
   -q, --quiet     Restrict output to syntax errors
   -h, --help      Display this help
