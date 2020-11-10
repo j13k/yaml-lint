@@ -122,12 +122,12 @@ try {
             throw new UsageException(sprintf('Linter config %s not found', $argPaths[0]));
         }
         $config = simplexml_load_file($argPaths[0]);
-        if ($config->quiet == 'true') {
+        if ($config->{'quiet'} == 'true') {
             $argQuiet = true;
         }
         $argPaths = [];
         foreach ($config->xpath('//includes')[0] as $path) {
-            $argPaths[] = $path;
+            $argPaths = $argPaths + glob($path);
         }
     }
 

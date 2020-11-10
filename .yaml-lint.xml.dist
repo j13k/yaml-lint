@@ -3,7 +3,8 @@
     <description>YAML Linter config.</description>
     <quiet>false</quiet>
     <includes>
-        <path>src/foo.yaml</path>
-        <path>bar.yaml</path>
+        <path>foo.yaml</path>
+        <path>src/Resources/config/*.yaml</path>
+        <path>/config/bar.yaml</path>
     </includes>
 </yamllinter>
