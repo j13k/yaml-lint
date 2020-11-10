@@ -127,10 +127,16 @@ try {
         }
         $argPaths = [];
         foreach ($config->xpath('//includes/path') as $path) {
-            $argPaths = $argPaths + glob($path);
+            if (strpos($path, '*') !== false) {
+                $argPaths = $argPaths + glob($path);
+            } else {
+                $argPaths[] = $path;
+            }
         }
-
         $argPaths = array_values(array_diff($argPaths, $config->xpath('//excludes/path')));
+        if (!count($argPaths)) {
+            throw new UsageException('Nothing to parse, include paths are empty.');
+        }
     }
 
     if ($argPaths[0] === '-') {
