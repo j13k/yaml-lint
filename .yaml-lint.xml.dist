@@ -1,7 +1,9 @@
-<rules>
+<?xml version="1.0"?>
+<yamllinter name="yaml-linter-config">
     <description>YAML Linter config.</description>
+    <quiet>false</quiet>
     <includes>
-        <path>foo.yaml</path>
-        <path>example/bar.yaml</path>
+        <path>src/foo.yaml</path>
+        <path>bar.yaml</path>
     </includes>
-</rules>
+</yamllinter>

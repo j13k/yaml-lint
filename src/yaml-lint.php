@@ -116,18 +116,17 @@ try {
 		}
 	};
 
-    // build yaml files to lint from .yaml-lint.xml config
+    // load yaml config from .yaml-lint.xml if passed
     if ($argPaths[0] === LINTER_CONFIG_FILE) {
-
-        if (!file_exists($argPath)) {
-            throw new UsageException(sprintf('Linter config %s not found', LINTER_CONFIG_FILE));
+        if (!file_exists($argPaths[0])) {
+            throw new UsageException(sprintf('Linter config %s not found', $argPaths[0]));
         }
-
-        $linterConfig = simplexml_load_file('.yaml-lint.xml');
-
+        $config = simplexml_load_file($argPaths[0]);
+        if ($config->quiet == 'true') {
+            $argQuiet = true;
+        }
         $argPaths = [];
-        foreach ($linterConfig->includes->path as $path) {
-            // @todo handle excludes
+        foreach ($config->xpath('//includes')[0] as $path) {
             $argPaths[] = $path;
         }
     }
