@@ -19,6 +19,7 @@
         }
     ],
     "require": {
+        "ext-simplexml": "*",
         "symfony/yaml": "^2|^3|^4|^5"
     },
     "autoload": {
