@@ -116,7 +116,7 @@ try {
 		}
 	};
 
-    // load yaml config from .yaml-lint.xml if passed
+    // load yaml linter config from xml if passed
     if ($argPaths[0] === LINTER_CONFIG_FILE) {
         if (!file_exists($argPaths[0])) {
             throw new UsageException(sprintf('Linter config %s not found', $argPaths[0]));
@@ -126,9 +126,11 @@ try {
             $argQuiet = true;
         }
         $argPaths = [];
-        foreach ($config->xpath('//includes')[0] as $path) {
+        foreach ($config->xpath('//includes/path') as $path) {
             $argPaths = $argPaths + glob($path);
         }
+
+        $argPaths = array_values(array_diff($argPaths, $config->xpath('//excludes/path')));
     }
 
     if ($argPaths[0] === '-') {
