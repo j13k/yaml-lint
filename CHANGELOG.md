@@ -4,15 +4,19 @@
 
 ### Added
 
-- Support for multiple files
-- Support for Symfony 5 YAML component
+- Support for multiple files (resolves #3, via @staabm)
+- Support for Symfony 5 YAML component (via @OndraM)
 - Branch alias for 1.1.x-dev
 - Dependabot scan GitHub Action
 
 ### Updated
 
-- `composer.lock` tracks `symfony/yaml` v5.1.7
+- `composer.lock` tracks `symfony/yaml` v5.2.0
 - Add compare links to changelog (resolves #14)
+
+### Fixed
+
+- Stopped notice when Composer manifest name key is undefined (via @SimonMacIntyre)
 
 ## [1.1.3] - 2018-03-27
 
