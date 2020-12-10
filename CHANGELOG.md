@@ -4,8 +4,8 @@
 
 ### Added
 
-- Support for multiple files (resolves #3, via @staabm)
-- Support for Symfony 5 YAML component (via @OndraM)
+- Support for multiple files (resolves #3, via [@staabm](https://github.com/staabm))
+- Support for Symfony 5 YAML component (via [@OndraM](https://github.com/OndraM))
 - Branch alias for 1.1.x-dev
 - Dependabot scan GitHub Action
 
@@ -16,7 +16,7 @@
 
 ### Fixed
 
-- Stopped notice when Composer manifest name key is undefined (via @SimonMacIntyre)
+- Stopped notice when Composer manifest name key is undefined (via [@SimonMacIntyre](https://github.com/SimonMacIntyre))
 
 ## [1.1.3] - 2018-03-27
 
@@ -52,7 +52,7 @@
 
 ### Added
 
-- Switched to full array notation, allowing legacy PHP support
+- Switched to full array notation, allowing legacy PHP support (via [neilime](https://github.com/neilime))
 - composer update tracks latest Symfony 3 YAML in local sandbox (composer.lock)
 
 ## [1.1.0] - 2016-09-12
