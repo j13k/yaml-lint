@@ -11,7 +11,7 @@
 
 ### Updated
 
-- `composer.lock` tracks `symfony/yaml` v5.2.0
+- `composer.lock` tracks `symfony/yaml` v5.2.5
 - Add compare links to changelog (resolves #14)
 
 ### Fixed
