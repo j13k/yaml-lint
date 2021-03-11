@@ -11,12 +11,13 @@ TBC
 - Support for multiple files (resolves #3, via [@staabm](https://github.com/staabm))
 - Support for Symfony 5 YAML component (via [@OndraM](https://github.com/OndraM))
 - Branch alias for 1.1.x-dev
-- Dependabot scan GitHub Action
+- Dependabot config
 
 ### Updated
 
 - `composer.lock` tracks `symfony/yaml` v5.2.5
 - Add compare links to changelog (resolves #14)
+- Updated box.json to support changes in upstream requirements
 
 ### Fixed
 
