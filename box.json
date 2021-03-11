@@ -21,6 +21,6 @@
     "output": "build/yaml-lint.phar",
     "chmod": "0755",
     "compression": "GZ",
-    "extract": false,
-    "stub": true
+    "stub": true,
+    "exclude-composer-files": false
 }
