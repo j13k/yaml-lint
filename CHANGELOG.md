@@ -2,6 +2,10 @@
 
 ## [1.1.x-dev] - TBC
 
+TBC
+
+## [1.1.4] - 2021-03-11
+
 ### Added
 
 - Support for multiple files (resolves #3, via [@staabm](https://github.com/staabm))
@@ -74,4 +78,5 @@
 [1.1.1]: https://github.com/j13k/yaml-lint/compare/1.1.0..1.1.1
 [1.1.2]: https://github.com/j13k/yaml-lint/compare/1.1.1..1.1.2
 [1.1.3]: https://github.com/j13k/yaml-lint/compare/1.1.2..1.1.3
-[1.1.x-dev]: https://github.com/j13k/yaml-lint/compare/1.1.3..HEAD
+[1.1.4]: https://github.com/j13k/yaml-lint/compare/1.1.3..1.1.4
+[1.1.x-dev]: https://github.com/j13k/yaml-lint/compare/1.1.4..HEAD
