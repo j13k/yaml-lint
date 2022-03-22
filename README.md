@@ -29,7 +29,7 @@ Install as a project component with Composer (executable from the project's
 composer require j13k/yaml-lint
 ```
 
-Typically a binary edition (`yaml-lint.phar`) is also available for download
+Typically, a binary edition (`yaml-lint.phar`) is also available for download
 with [each release](https://github.com/j13k/yaml-lint/releases). This embeds
 the latest stable version of the Symfony Yaml component that is current at
 the time of the release.
@@ -62,4 +62,3 @@ The MIT License (MIT). Please see [LICENCE](LICENSE) for more information.
 [link-downloads]: https://packagist.org/packages/j13k/yaml-lint/stats
 [link-dependencies]: https://www.versioneye.com/user/projects/58324238eaa74b004633a7c1
 [link-author]: https://github.com/j13k
-[link-contributors]: ../../contributors

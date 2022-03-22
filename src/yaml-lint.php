@@ -9,6 +9,7 @@
  * file that was distributed with this source code.
  */
 
+use Composer\InstalledVersions;
 use J13k\YamlLint\UsageException;
 use Symfony\Component\Yaml\Exception\ParseException;
 use Symfony\Component\Yaml\Yaml;
@@ -28,7 +29,7 @@ define('YAML_PARSE_PARAM_NAME_EXCEPTION_ON_INVALID_TYPE', 'exceptionOnInvalidTyp
 define('YAML_PARSE_PARAM_NAME_FLAGS', 'flags');
 
 // Init app name and args
-$appStr = APP_NAME . ' ' . APP_VERSION;
+$appStr = APP_NAME;
 $argQuiet = false;
 $argPaths = [];
 
@@ -38,23 +39,24 @@ try {
     $pathToTry = null;
     foreach (array('/../../../', '/../vendor/') as $pathToTry) {
         if (is_readable(__DIR__ . $pathToTry . 'autoload.php')) {
-            /** @noinspection PhpIncludeInspection */
             require __DIR__ . $pathToTry . 'autoload.php';
             break;
         }
     }
     if (!class_exists('\Composer\Autoload\ClassLoader')) {
-        throw new \Exception(_msg('composer'));
+        throw new Exception(_msg('composer'));
     }
 
-    // Extract YAML component metadata
-    $componentsManifest = __DIR__ . $pathToTry . 'composer/installed.json';
-    $components = json_decode(file_get_contents($componentsManifest), true);
-    foreach ($components as $component) {
-        if (isset($component['name']) && $component['name'] == 'symfony/yaml') {
-            $appStr .= ', symfony/yaml ' . $component['version'];
-            break;
+    // Build app version string
+    if (class_exists('\Composer\InstalledVersions')) {
+        if (InstalledVersions::isInstalled('j13k/yaml-lint')) {
+            $appStr .= ' ' . InstalledVersions::getPrettyVersion('j13k/yaml-lint');
         }
+        if (InstalledVersions::isInstalled('symfony/yaml')) {
+            $appStr .= ', symfony/yaml ' . InstalledVersions::getPrettyVersion('symfony/yaml');
+        }
+    } else {
+        $appStr .= ' ' . APP_VERSION;
     }
 
     // Process and check args
@@ -78,7 +80,7 @@ try {
         }
     }
 
-    // Currently only one input file or STDIN supported
+    // Currently, only one input file or STDIN supported
     if (count($argPaths) < 1) {
         throw new UsageException('no input specified', EXIT_ERROR);
     }
@@ -94,11 +96,11 @@ try {
 		$yamlParseParams = $yamlParseMethod->getParameters();
 		switch ($yamlParseParams[1]->name) {
 			case YAML_PARSE_PARAM_NAME_EXCEPTION_ON_INVALID_TYPE:
-				// Maintains original behaviour in ^2
+				// Maintains original behaviour in v2
 				Yaml::parse($content, true);
 				break;
 			case YAML_PARSE_PARAM_NAME_FLAGS:
-				// Implements same behaviour in ^3 and ^4
+				// Implements same behaviour in v3+
 				Yaml::parse($content, Yaml::PARSE_EXCEPTION_ON_INVALID_TYPE);
 				break;
 			default:
@@ -156,7 +158,7 @@ try {
     fwrite(STDERR, "\n" . $e->getMessage() . "\n\n");
     exit(EXIT_ERROR);
 
-} catch (\Exception $e) {
+} catch (Exception $e) {
 
     // The rest
     fwrite(STDERR, $appStr);
@@ -196,7 +198,6 @@ function _msg($str)
 Composer dependencies cannot be loaded; install Composer to remedy:
 https://getcomposer.org/download/
 EOD;
-            break;
         case 'usage':
             return <<<EOD
 usage: yaml-lint [options] [input source]
@@ -207,7 +208,6 @@ usage: yaml-lint [options] [input source]
   -h, --help      Display this help
   -V, --version   Display application version
 EOD;
-            break;
         default:
     }
 
