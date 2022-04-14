@@ -62,3 +62,4 @@ The MIT License (MIT). Please see [LICENCE](LICENSE) for more information.
 [link-downloads]: https://packagist.org/packages/j13k/yaml-lint/stats
 [link-dependencies]: https://www.versioneye.com/user/projects/58324238eaa74b004633a7c1
 [link-author]: https://github.com/j13k
+[link-contributors]: ../../contributors
