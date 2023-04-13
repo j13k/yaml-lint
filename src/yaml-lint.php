@@ -1,5 +1,9 @@
 <?php
 
+/** @noinspection PhpMissingParamTypeInspection */
+/** @noinspection PhpMissingReturnTypeInspection */
+/** @noinspection PhpDefineCanBeReplacedWithConstInspection */
+
 /**
  * yaml-lint, a compact command line utility for checking YAML file syntax.
  *
@@ -31,6 +35,7 @@ define('YAML_PARSE_PARAM_NAME_FLAGS', 'flags');
 // Init app name and args
 $appStr = APP_NAME;
 $argQuiet = false;
+$argPath = null;
 $argPaths = [];
 
 try {
@@ -85,53 +90,50 @@ try {
         throw new UsageException('no input specified', EXIT_ERROR);
     }
 
-	$lintPath = function($path) use ($argQuiet, $appStr) {
-		$content = file_get_contents($path);
-		if (strlen($content) < 1) {
-			throw new ParseException('Input has no content');
-		}
+    $lintPath = function ($path) use ($argQuiet, $appStr) {
+        $content = file_get_contents($path);
+        if (strlen($content) < 1) {
+            throw new ParseException('Input has no content');
+        }
 
-		// Do the thing (now accommodates changes to the Yaml::parse method introduced in v3)
-		$yamlParseMethod = new ReflectionMethod('\Symfony\Component\Yaml\Yaml', 'parse');
-		$yamlParseParams = $yamlParseMethod->getParameters();
-		switch ($yamlParseParams[1]->name) {
-			case YAML_PARSE_PARAM_NAME_EXCEPTION_ON_INVALID_TYPE:
-				// Maintains original behaviour in v2
-				Yaml::parse($content, true);
-				break;
-			case YAML_PARSE_PARAM_NAME_FLAGS:
-				// Implements same behaviour in v3+
-				Yaml::parse($content, Yaml::PARSE_EXCEPTION_ON_INVALID_TYPE);
-				break;
-			default:
-				// Param name unknown, fall back to the defaults
-				Yaml::parse($content);
-				break;
-		}
+        // Do the thing (now accommodates changes to the Yaml::parse method introduced in v3)
+        $yamlParseMethod = new ReflectionMethod('\Symfony\Component\Yaml\Yaml', 'parse');
+        $yamlParseParams = $yamlParseMethod->getParameters();
+        switch ($yamlParseParams[1]->name) {
+            case YAML_PARSE_PARAM_NAME_EXCEPTION_ON_INVALID_TYPE:
+                // Maintains original behaviour in v2
+                Yaml::parse($content, true);
+                break;
+            case YAML_PARSE_PARAM_NAME_FLAGS:
+                // Implements same behaviour in v3+
+                Yaml::parse($content, Yaml::PARSE_EXCEPTION_ON_INVALID_TYPE);
+                break;
+            default:
+                // Param name unknown, fall back to the defaults
+                Yaml::parse($content);
+                break;
+        }
 
-		// Output app string and file path if allowed
-		if (!$argQuiet) {
-			fwrite(STDOUT, trim($appStr . ': parsing ' . $path));
-			fwrite(STDOUT, sprintf(" [ %s ]\n", _ansify('OK', ANSI_GRN)));
-		}
-	};
+        // Output app string and file path if allowed
+        if (!$argQuiet) {
+            fwrite(STDOUT, trim($appStr . ': parsing ' . $path));
+            fwrite(STDOUT, sprintf(" [ %s ]\n", _ansify('OK', ANSI_GRN)));
+        }
+    };
 
     if ($argPaths[0] === '-') {
-        $path = 'php://stdin';
-
-		$lintPath($path);
+        $lintPath('php://stdin');
     } else {
         // Check input file(s)
-		foreach($argPaths as $argPath) {
-			if (!file_exists($argPath)) {
-				throw new ParseException(sprintf('File %s does not exist', $argPath));
-			}
-			if (!is_readable($argPath)) {
-				throw new ParseException(sprintf('File %s is not readable', $argPath));
-			}
-
-			$lintPath($argPath);
-		}
+        foreach ($argPaths as $argPath) {
+            if (!file_exists($argPath)) {
+                throw new Exception(sprintf('File %s does not exist', $argPath));
+            }
+            if (!is_readable($argPath)) {
+                throw new Exception(sprintf('File %s is not readable', $argPath));
+            }
+            $lintPath($argPath);
+        }
     }
 
     exit(EXIT_NORMAL);
