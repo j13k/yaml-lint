@@ -3,6 +3,7 @@
 [![Latest Version on Packagist][ico-version]][link-packagist]
 [![Software License][ico-license]](LICENSE)
 [![Total Downloads][ico-downloads]][link-downloads]
+[![Monthly Downloads][ico-downloads-monthly]][link-downloads]
 [![Scrutinizer Code Quality][ico-code-quality]][link-code-quality]
 
 A compact command line utility for checking YAML file syntax. Uses the parsing
@@ -54,6 +55,7 @@ The MIT License (MIT). Please see [LICENCE](LICENSE) for more information.
 [ico-scrutinizer]: https://img.shields.io/scrutinizer/coverage/g/j13k/yaml-lint.svg?style=flat-square
 [ico-code-quality]: https://img.shields.io/scrutinizer/g/j13k/yaml-lint.svg?style=flat-square
 [ico-downloads]: https://img.shields.io/packagist/dt/j13k/yaml-lint.svg?style=flat-square
+[ico-downloads-monthly]: https://poser.pugx.org/j13k/yaml-lint/d/monthly
 
 [link-packagist]: https://packagist.org/packages/j13k/yaml-lint
 [link-travis]: https://travis-ci.org/j13k/yaml-lint
