@@ -18,35 +18,36 @@
             "homepage": "https://github.com/j13k"
         }
     ],
-    "support": {
-        "issues": "https://github.com/j13k/yaml-lint/issues"
-    },
     "require": {
         "php": ">=5.6",
         "ext-json": "*",
         "composer-runtime-api": "^2",
-        "symfony/yaml": "^2|^3|^4|^5|^6"
+        "symfony/yaml": "^2 || ^3 || ^4 || ^5 || ^6"
     },
     "require-dev": {
-        "phpstan/phpstan": "^0",
-        "phpunit/phpunit": "^8",
+        "phpstan/phpstan": "^1",
+        "phpunit/phpunit": "^10",
         "symplify/easy-coding-standard": "^10"
-    },
-    "autoload": {
-        "psr-4": {
-            "J13k\\": "src/J13k"
-        }
     },
     "extra": {
         "branch-alias": {
             "dev-master": "1.1.x-dev"
         }
     },
+    "autoload": {
+        "psr-4": {
+            "J13k\\": "src/J13k"
+        }
+    },
     "bin": [
         "bin/yaml-lint"
     ],
     "scripts": {
-        "test": "./vendor/bin/phpunit",
-        "style": "./vendor/bin/ecs check ."
+        "code-style": "./vendor/bin/ecs check .",
+        "code-analyse": "./vendor/bin/phpstan analyze --level 3 src",
+        "test": "./vendor/bin/phpunit"
+    },
+    "support": {
+        "issues": "https://github.com/j13k/yaml-lint/issues"
     }
 }

@@ -41,7 +41,7 @@ $argPaths = [];
 try {
     // Composer bootstrap
     $pathToTry = null;
-    foreach (array('/../../../', '/../vendor/') as $pathToTry) {
+    foreach (['/../../../', '/../vendor/'] as $pathToTry) {
         if (is_readable(__DIR__ . $pathToTry . 'autoload.php')) {
             require __DIR__ . $pathToTry . 'autoload.php';
 
@@ -156,7 +156,6 @@ try {
     fwrite(STDERR, sprintf(" [ %s ]\n", _ansify('ERROR', ANSI_RED)));
     fwrite(STDERR, "\n" . $e->getMessage() . "\n\n");
     exit(EXIT_ERROR);
-
 } catch (Exception $e) {
 
     // The rest

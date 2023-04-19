@@ -1,0 +1,123 @@
+name: CI
+
+on: push
+
+permissions:
+  contents: read
+
+jobs:
+  includes_only:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        include:
+          # 5.6
+          - php-versions: '5.6'
+            phpunit-versions: '^5'
+            symfony-versions: '^2'
+          - php-versions: '5.6'
+            phpunit-versions: '^5'
+            symfony-versions: '^3'
+          # 7.1
+          - php-versions: '7.1'
+            phpunit-versions: '^7'
+            symfony-versions: '^2'
+          - php-versions: '7.1'
+            phpunit-versions: '^7'
+            symfony-versions: '^3'
+          - php-versions: '7.1'
+            phpunit-versions: '^7'
+            symfony-versions: '^4'
+          # 7.2
+          - php-versions: '7.2'
+            phpunit-versions: '^8'
+            symfony-versions: '^2'
+          - php-versions: '7.2'
+            phpunit-versions: '^8'
+            symfony-versions: '^3'
+          - php-versions: '7.2'
+            phpunit-versions: '^8'
+            symfony-versions: '^4'
+          - php-versions: '7.2'
+            phpunit-versions: '^8'
+            symfony-versions: '^5'
+          # 7.3
+          - php-versions: '7.3'
+            phpunit-versions: '^9'
+            symfony-versions: '^2'
+          - php-versions: '7.3'
+            phpunit-versions: '^9'
+            symfony-versions: '^3'
+          - php-versions: '7.3'
+            phpunit-versions: '^9'
+            symfony-versions: '^4'
+          - php-versions: '7.3'
+            phpunit-versions: '^9'
+            symfony-versions: '^5'
+          # 7.4
+          - php-versions: '7.4'
+            phpunit-versions: '^9'
+            symfony-versions: '^2'
+          - php-versions: '7.4'
+            phpunit-versions: '^9'
+            symfony-versions: '^3'
+          - php-versions: '7.4'
+            phpunit-versions: '^9'
+            symfony-versions: '^4'
+          - php-versions: '7.4'
+            phpunit-versions: '^9'
+            symfony-versions: '^5'
+          # 8.0
+          - php-versions: '8.0'
+            phpunit-versions: '^9'
+            symfony-versions: '^3'
+          - php-versions: '8.0'
+            phpunit-versions: '^9'
+            symfony-versions: '^4'
+          - php-versions: '8.0'
+            phpunit-versions: '^9'
+            symfony-versions: '^5'
+          - php-versions: '8.0'
+            phpunit-versions: '^9'
+            symfony-versions: '^6'
+          # 8.1
+          - php-versions: '8.1'
+            phpunit-versions: '^10'
+            symfony-versions: '^3'
+          - php-versions: '8.1'
+            phpunit-versions: '^10'
+            symfony-versions: '^4'
+          - php-versions: '8.1'
+            phpunit-versions: '^10'
+            symfony-versions: '^5'
+          - php-versions: '8.1'
+            phpunit-versions: '^10'
+            symfony-versions: '^6'
+          # 8.2
+          - php-versions: '8.2'
+            phpunit-versions: '^10'
+            symfony-versions: '^3'
+          - php-versions: '8.2'
+            phpunit-versions: '^10'
+            symfony-versions: '^4'
+          - php-versions: '8.2'
+            phpunit-versions: '^10'
+            symfony-versions: '^5'
+          - php-versions: '8.2'
+            phpunit-versions: '^10'
+            symfony-versions: '^6'
+    steps:
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php-versions }}
+          tools: composer:v2, phpunit:${{ matrix.phpunit-versions }}
+      - name: Checkout
+        uses: actions/checkout@v1
+      - name: Remove composer.lock
+        run: rm composer.lock
+      - name: Require matrix symfony/yaml
+        run: composer require --no-update symfony/yaml:${{ matrix.symfony-versions }}
+      - run: composer update --no-dev --ignore-platform-reqs
+      - name: Test with phpunit
+        run: phpunit

@@ -1,5 +1,5 @@
 parent:
-  child: first
+child: first
   child: duplicate
 parent:
   child: duplicate
