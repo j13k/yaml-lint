@@ -3,7 +3,11 @@
 
 # Ignore all test and documentation with "export-ignore".
 /.editorconfig      export-ignore
-/.github            export-ignore
 /.gitattributes     export-ignore
+/.github            export-ignore
 /.gitignore         export-ignore
-/.scrutinizer.yml   export-ignore
+/box.json           export-ignore
+/build              export-ignore
+/ecs.php            export-ignore
+/phpunit.xml        export-ignore
+/tests              export-ignore
