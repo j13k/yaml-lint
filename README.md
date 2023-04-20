@@ -4,10 +4,10 @@
 [![Software License][ico-license]](LICENSE)
 [![Total Downloads][ico-downloads]][link-downloads]
 [![Monthly Downloads][ico-downloads-monthly]][link-downloads]
-[![Scrutinizer Code Quality][ico-code-quality]][link-code-quality]
+[![CI][ico-github-ci]][link-github-ci]
 
-A compact command line utility for checking YAML file syntax. Uses the parsing
-facility of the [Symfony Yaml Component](https://github.com/symfony/yaml).
+A compact command line utility for checking YAML file syntax. Uses the parsing facility of
+the [Symfony Yaml Component](https://github.com/symfony/yaml).
 
 ## Usage
 
@@ -23,22 +23,19 @@ usage: yaml-lint [options] [input source]
 
 ## Install
 
-Install as a project component with Composer (executable from the project's
- `vendor/bin` directory):
+Install as a project component with Composer (executable from the project's `vendor/bin` directory):
 
 ```bash
 composer require j13k/yaml-lint
 ```
 
 Typically, a binary edition (`yaml-lint.phar`) is also available for download
-with [each release](https://github.com/j13k/yaml-lint/releases). This embeds
-the latest stable version of the Symfony Yaml component that is current at
-the time of the release.
+with [each release](https://github.com/j13k/yaml-lint/releases). This embeds the latest stable version of the Symfony
+Yaml component that is current at the time of the release.
 
 ## Change log
 
-Please see [CHANGELOG](CHANGELOG.md) for information on what has
-changed recently.
+Please see [CHANGELOG](CHANGELOG.md) for information on what has changed recently.
 
 ## Credits
 
@@ -50,18 +47,19 @@ changed recently.
 The MIT License (MIT). Please see [LICENCE](LICENSE) for more information.
 
 [ico-version]: https://img.shields.io/packagist/v/j13k/yaml-lint.svg?style=flat-square
+
 [ico-license]: https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square
-[ico-travis]: https://img.shields.io/travis/j13k/yaml-lint/master.svg?style=flat-square
-[ico-scrutinizer]: https://img.shields.io/scrutinizer/coverage/g/j13k/yaml-lint.svg?style=flat-square
-[ico-code-quality]: https://img.shields.io/scrutinizer/g/j13k/yaml-lint.svg?style=flat-square
+
 [ico-downloads]: https://img.shields.io/packagist/dt/j13k/yaml-lint.svg?style=flat-square
+
 [ico-downloads-monthly]: https://poser.pugx.org/j13k/yaml-lint/d/monthly
 
+[ico-github-ci]: https://github.com/j13k/yaml-lint/actions/workflows/ci.yml/badge.svg
+
 [link-packagist]: https://packagist.org/packages/j13k/yaml-lint
-[link-travis]: https://travis-ci.org/j13k/yaml-lint
-[link-scrutinizer]: https://scrutinizer-ci.com/g/j13k/yaml-lint/code-structure
-[link-code-quality]: https://scrutinizer-ci.com/g/j13k/yaml-lint
+
 [link-downloads]: https://packagist.org/packages/j13k/yaml-lint/stats
-[link-dependencies]: https://www.versioneye.com/user/projects/58324238eaa74b004633a7c1
-[link-author]: https://github.com/j13k
-[link-contributors]: ../../contributors
+
+[link-contributors]: https://github.com/j13k/yaml-lint/contributors
+
+[link-github-ci]: https://github.com/j13k/yaml-lint/actions/workflows/ci.yml
