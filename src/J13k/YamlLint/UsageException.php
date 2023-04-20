@@ -1,5 +1,6 @@
-#!/usr/bin/env php
 <?php
+
+namespace J13k\YamlLint;
 
 /*
  * yaml-lint, a compact command line utility for checking YAML file syntax.
@@ -10,4 +11,13 @@
  * file that was distributed with this source code.
  */
 
-require __DIR__ . '/../src/yaml-lint.php';
+use RuntimeException;
+
+/**
+ * Runtime exception for triggering usage message.
+ *
+ * @property int $code Exception code is passed through as script exit code
+ */
+class UsageException extends RuntimeException
+{
+}
