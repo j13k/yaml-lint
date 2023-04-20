@@ -19,20 +19,35 @@
         }
     ],
     "require": {
+        "php": ">=5.6",
+        "ext-json": "*",
         "composer-runtime-api": "^2",
-        "symfony/yaml": "^2|^3|^4|^5|^6"
+        "symfony/yaml": "^2 || ^3 || ^4 || ^5 || ^6"
     },
-    "autoload": {
-        "psr-4": {
-            "J13k\\YamlLint\\": "src/"
-        }
+    "require-dev": {
+        "phpstan/phpstan": "^1",
+        "phpunit/phpunit": "^10",
+        "symplify/easy-coding-standard": "^10"
     },
     "extra": {
         "branch-alias": {
             "dev-master": "1.1.x-dev"
         }
     },
+    "autoload": {
+        "psr-4": {
+            "J13k\\": "src/J13k"
+        }
+    },
     "bin": [
         "bin/yaml-lint"
-    ]
+    ],
+    "scripts": {
+        "code-style": "./vendor/bin/ecs check .",
+        "code-analyse": "./vendor/bin/phpstan analyze --level 3 src",
+        "test": "./vendor/bin/phpunit"
+    },
+    "support": {
+        "issues": "https://github.com/j13k/yaml-lint/issues"
+    }
 }
