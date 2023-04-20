@@ -1,8 +1,23 @@
 # Changelog
 
-## [1.1.x-dev] - TBC
+## [1.1.5] - 2023-04-20
 
-TBC
+### Added
+
+- Symfony 6 support (https://github.com/j13k/yaml-lint/issues/45) via [@wow-apps](https://github.com/wow-apps)
+- Unit tests (https://github.com/j13k/yaml-lint/issues/5)
+
+### Updated
+
+- Bump symfony/yaml from 5.2.5 to v6.2.7
+
+### Refactor
+
+- Updated .gitattributes
+
+### Fixed
+
+- Switched to using Composer\InstalledVersions for yaml component version (https://github.com/j13k/yaml-lint/issues/47)
 
 ## [1.1.4] - 2021-03-11
 
@@ -75,9 +90,17 @@ TBC
 - Initial release
 
 [1.0.0]: https://github.com/j13k/yaml-lint/compare/e2142c1..1.0.0
+
 [1.1.0]: https://github.com/j13k/yaml-lint/compare/1.0.0..1.1.0
+
 [1.1.1]: https://github.com/j13k/yaml-lint/compare/1.1.0..1.1.1
+
 [1.1.2]: https://github.com/j13k/yaml-lint/compare/1.1.1..1.1.2
+
 [1.1.3]: https://github.com/j13k/yaml-lint/compare/1.1.2..1.1.3
+
 [1.1.4]: https://github.com/j13k/yaml-lint/compare/1.1.3..1.1.4
-[1.1.x-dev]: https://github.com/j13k/yaml-lint/compare/1.1.4..HEAD
+
+[1.1.5]: https://github.com/j13k/yaml-lint/compare/1.1.4..1.1.5
+
+[1.1.x-dev]: https://github.com/j13k/yaml-lint/compare/1.1.5..HEAD
