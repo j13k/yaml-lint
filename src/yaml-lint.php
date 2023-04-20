@@ -4,7 +4,7 @@
 /** @noinspection PhpMissingReturnTypeInspection */
 /** @noinspection PhpDefineCanBeReplacedWithConstInspection */
 
-/**
+/*
  * yaml-lint, a compact command line utility for checking YAML file syntax.
  *
  * Uses the parsing facility of the Symfony Yaml Component.
@@ -39,12 +39,12 @@ $argPath = null;
 $argPaths = [];
 
 try {
-
     // Composer bootstrap
     $pathToTry = null;
-    foreach (array('/../../../', '/../vendor/') as $pathToTry) {
+    foreach (['/../../../', '/../vendor/'] as $pathToTry) {
         if (is_readable(__DIR__ . $pathToTry . 'autoload.php')) {
             require __DIR__ . $pathToTry . 'autoload.php';
+
             break;
         }
     }
@@ -79,6 +79,7 @@ try {
             case '-q':
             case '--quiet':
                 $argQuiet = true;
+
                 break;
             default:
                 $argPaths[] = $arg;
@@ -127,50 +128,44 @@ try {
         // Check input file(s)
         foreach ($argPaths as $argPath) {
             if (!file_exists($argPath)) {
-                throw new Exception(sprintf('File %s does not exist', $argPath));
+                throw new RuntimeException(sprintf('File %s does not exist', $argPath));
             }
             if (!is_readable($argPath)) {
-                throw new Exception(sprintf('File %s is not readable', $argPath));
+                throw new RuntimeException(sprintf('File %s is not readable', $argPath));
             }
             $lintPath($argPath);
         }
     }
 
     exit(EXIT_NORMAL);
-
 } catch (UsageException $e) {
-
     // Usage message
     $outputStream = $e->getCode() > EXIT_NORMAL ? STDERR : STDOUT;
     fwrite($outputStream, $appStr);
     if ($e->getMessage()) {
         fwrite(
             $outputStream,
-            sprintf(": %s", _ansify($e->getMessage(), ANSI_RED))
+            sprintf(': %s', _ansify($e->getMessage(), ANSI_RED))
         );
     }
     fwrite($outputStream, sprintf("\n\n%s\n\n", _msg('usage')));
     exit($e->getCode());
-
 } catch (ParseException $e) {
-
     // Syntax exception
     fwrite(STDERR, trim($appStr . ': parsing ' . $argPath));
     fwrite(STDERR, sprintf(" [ %s ]\n", _ansify('ERROR', ANSI_RED)));
     fwrite(STDERR, "\n" . $e->getMessage() . "\n\n");
     exit(EXIT_ERROR);
-
 } catch (Exception $e) {
 
     // The rest
     fwrite(STDERR, $appStr);
     fwrite(STDERR, sprintf(": %s\n", _ansify($e->getMessage(), ANSI_RED)));
     exit(EXIT_ERROR);
-
 }
 
 /**
- * Helper to wrap input string in ANSI colour code
+ * Helper to wrap input string in ANSI colour code.
  *
  * @param string $str
  * @param int    $colourCode
@@ -186,7 +181,7 @@ function _ansify($str, $colourCode)
 }
 
 /**
- * Wrapper for heredoc messages
+ * Wrapper for heredoc messages.
  *
  * @param string $str
  *
