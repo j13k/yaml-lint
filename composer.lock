@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "f6c10d7642ce0b49967474b555d08070",
+    "content-hash": "8b6a5fc3e8aadbec636e49ef9c96be73",
     "packages": [
         {
             "name": "symfony/polyfill-ctype",
@@ -1784,16 +1784,16 @@
         },
         {
             "name": "symplify/easy-coding-standard",
-            "version": "10.3.3",
+            "version": "11.3.2",
             "source": {
                 "type": "git",
-                "url": "https://github.com/symplify/easy-coding-standard.git",
-                "reference": "c93878b3c052321231519b6540e227380f90be17"
+                "url": "https://github.com/easy-coding-standard/easy-coding-standard.git",
+                "reference": "d4159e06c0970e71a2a58d350160241e7cb3994b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symplify/easy-coding-standard/zipball/c93878b3c052321231519b6540e227380f90be17",
-                "reference": "c93878b3c052321231519b6540e227380f90be17",
+                "url": "https://api.github.com/repos/easy-coding-standard/easy-coding-standard/zipball/d4159e06c0970e71a2a58d350160241e7cb3994b",
+                "reference": "d4159e06c0970e71a2a58d350160241e7cb3994b",
                 "shasum": ""
             },
             "require": {
@@ -1801,17 +1801,13 @@
             },
             "conflict": {
                 "friendsofphp/php-cs-fixer": "<3.0",
-                "squizlabs/php_codesniffer": "<3.6"
+                "squizlabs/php_codesniffer": "<3.6",
+                "symplify/coding-standard": "<11.3"
             },
             "bin": [
                 "bin/ecs"
             ],
             "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-main": "10.3-dev"
-                }
-            },
             "autoload": {
                 "files": [
                     "bootstrap.php"
@@ -1821,9 +1817,16 @@
             "license": [
                 "MIT"
             ],
-            "description": "Prefixed scoped version of ECS package",
+            "description": "Use Coding Standard with 0-knowledge of PHP-CS-Fixer and PHP_CodeSniffer",
+            "keywords": [
+                "Code style",
+                "automation",
+                "fixer",
+                "static analysis"
+            ],
             "support": {
-                "source": "https://github.com/symplify/easy-coding-standard/tree/10.3.3"
+                "issues": "https://github.com/easy-coding-standard/easy-coding-standard/issues",
+                "source": "https://github.com/easy-coding-standard/easy-coding-standard/tree/11.3.2"
             },
             "funding": [
                 {
@@ -1835,7 +1838,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2022-06-13T14:03:37+00:00"
+            "time": "2023-03-22T15:28:51+00:00"
         },
         {
             "name": "theseer/tokenizer",
