@@ -27,7 +27,7 @@
     "require-dev": {
         "phpstan/phpstan": "^1",
         "phpunit/phpunit": "^10",
-        "symplify/easy-coding-standard": "^10"
+        "symplify/easy-coding-standard": "^11"
     },
     "extra": {
         "branch-alias": {
