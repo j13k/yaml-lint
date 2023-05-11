@@ -50,14 +50,14 @@ Yaml component that is current at the time of the release.
 The binary can be conveniently installed using [PHIVE](https://phar.io/):
 
 ```
-phive install j13k/yaml-lint
+phive install yaml-lint
 ```
 
 ### Docker
 
-yaml-lint is bundled in the [phpqa](https://hub.docker.com/r/jakzal/phpqa/) Docker image, which provides a suite of
-static analysis tools for PHP. See the [phpqa project ](https://github.com/jakzal/phpqa#running-tools) for installation
-and usage instructions.
+yaml-lint is bundled in the [phpqa Docker image](https://hub.docker.com/r/jakzal/phpqa/), which provides a suite of
+static analysis tools for PHP. See the [phpqa project](https://github.com/jakzal/phpqa) for [installation
+and usage instructions](https://github.com/jakzal/phpqa#running-tools).
 
 ## Change log
 
