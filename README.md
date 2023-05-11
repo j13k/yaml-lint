@@ -6,7 +6,7 @@
 [![Monthly Downloads][ico-downloads-monthly]][link-downloads]
 [![CI][ico-github-ci]][link-github-ci]
 
-A compact command line utility for checking YAML file syntax. Uses the parsing facility of
+A compact command line linting tool for validating YAML files, using the parsing facility of
 the [Symfony Yaml Component](https://github.com/symfony/yaml).
 
 ## Usage
@@ -23,15 +23,41 @@ usage: yaml-lint [options] [input source]
 
 ## Install
 
-Install as a project component with Composer (executable from the project's `vendor/bin` directory):
+### Composer
+
+To get started using yaml-lint in a project, install it with Composer:
 
 ```bash
-composer require j13k/yaml-lint
+composer require --dev j13k/yaml-lint
 ```
 
-Typically, a binary edition (`yaml-lint.phar`) is also available for download
+It can then be run from the project's `vendor/bin` directory.
+
+To set up yaml-lint globally, install it in the Composer home directory::
+
+```bash
+composer global require j13k/yaml-lint
+```
+
+It can then be run from the `bin` directory of Composer home (typically  `~/.composer/vendor/bin`).
+
+### Binary
+
+A binary edition , `yaml-lint.phar`, is available for download
 with [each release](https://github.com/j13k/yaml-lint/releases). This embeds the latest stable version of the Symfony
 Yaml component that is current at the time of the release.
+
+The binary can be conveniently installed using [PHIVE](https://phar.io/):
+
+```
+phive install j13k/yaml-lint
+```
+
+### Docker
+
+yaml-lint is bundled in the [phpqa](https://hub.docker.com/r/jakzal/phpqa/) Docker image, which provides a suite of
+static analysis tools for PHP. See the [phpqa project ](https://github.com/jakzal/phpqa#running-tools) for installation
+and usage instructions.
 
 ## Change log
 
