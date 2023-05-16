@@ -33,7 +33,7 @@ composer require --dev j13k/yaml-lint
 
 It can then be run from the project's `vendor/bin` directory.
 
-To set up yaml-lint globally, install it in the Composer home directory::
+To set up yaml-lint globally, install it in the Composer home directory:
 
 ```bash
 composer global require j13k/yaml-lint
