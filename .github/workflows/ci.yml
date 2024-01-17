@@ -107,6 +107,19 @@ jobs:
           - php-versions: '8.2'
             phpunit-versions: '^10'
             symfony-versions: '^6'
+          # 8.3
+          - php-versions: '8.3'
+            phpunit-versions: '^10'
+            symfony-versions: '^3'
+          - php-versions: '8.3'
+            phpunit-versions: '^10'
+            symfony-versions: '^4'
+          - php-versions: '8.3'
+            phpunit-versions: '^10'
+            symfony-versions: '^5'
+          - php-versions: '8.3'
+            phpunit-versions: '^10'
+            symfony-versions: '^6'
     steps:
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
