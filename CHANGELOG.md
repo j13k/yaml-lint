@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.1.6] - 2023-04-20
+
+### Added
+
+* Add tests covering quiet mode (https://github.com/j13k/yaml-lint/issues/51)
+
+### Updated
+
+* Add and test Symfony 7 support (https://github.com/j13k/yaml-lint/issues/99)
+* Covered PHP 8.3 and PHPUnit 11 in CI job matrix (https://github.com/j13k/yaml-lint/issues/98)
+* Documentation updates, including PHIVE and Docker installation methods
+
 ## [1.1.5] - 2023-04-20
 
 ### Added
@@ -103,4 +115,6 @@
 
 [1.1.5]: https://github.com/j13k/yaml-lint/compare/1.1.4..1.1.5
 
-[1.1.x-dev]: https://github.com/j13k/yaml-lint/compare/1.1.5..HEAD
+[1.1.6]: https://github.com/j13k/yaml-lint/compare/1.1.5..1.1.6
+
+[1.1.x-dev]: https://github.com/j13k/yaml-lint/compare/1.1.6..HEAD
