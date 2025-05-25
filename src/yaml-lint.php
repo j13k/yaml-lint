@@ -165,12 +165,14 @@ try {
     fwrite(STDERR, trim($appStr . ': parsing ' . $argPath));
     fwrite(STDERR, sprintf(" [ %s ]\n", _ansify('ERROR', ANSI_RED)));
     fwrite(STDERR, "\n" . $e->getMessage());
-    
+
     // Check if the error is about custom tags and suggest the --parse-tags option
     if (strpos($e->getMessage(), 'Tags support is not enabled') !== false) {
-        fwrite(STDERR, "\n" . _ansify('Hint: Use --parse-tags or -t to enable custom YAML tag support', ANSI_UDL));
+        fwrite(STDERR, "\n" . _ansify(
+            'Hint: Use --parse-tags or -t to enable custom YAML tag support (requires symfony/yaml 3+)', ANSI_UDL)
+        );
     }
-    
+
     fwrite(STDERR, "\n\n");
     exit(EXIT_ERROR);
 } catch (Exception $e) {
@@ -219,7 +221,7 @@ usage: yaml-lint [options] [input source]
   input source      Path to file(s), or "-" to read from standard input
 
   -q, --quiet       Restrict output to syntax errors
-  -t, --parse-tags  Enable parsing of custom YAML tags
+  -t, --parse-tags  Enable parsing of custom YAML tags (symfony/yaml 3+ only)
   -h, --help        Display this help
   -V, --version     Display application version
 EOD;

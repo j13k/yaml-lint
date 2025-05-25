@@ -17,7 +17,7 @@ usage: yaml-lint [options] [input source]
   input source      Path to file(s), or "-" to read from standard input
 
   -q, --quiet       Restrict output to syntax errors
-  -t, --parse-tags  Enable parsing of custom YAML tags
+  -t, --parse-tags  Enable parsing of custom YAML tags (symfony/yaml 3+ only)
   -h, --help        Display this help
   -V, --version     Display application version
 ```

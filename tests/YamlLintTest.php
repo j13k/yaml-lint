@@ -90,7 +90,10 @@ class YamlLintTest extends TestCase
      */
     public static function getTestSpecs()
     {
-        return [
+        // Check if Symfony YAML component supports custom tags (v3+)
+        $supportsCustomTags = self::supportsCustomTags();
+        
+        $specs = [
             [
                 '',
                 'assertStringContainsString',
@@ -154,21 +157,43 @@ class YamlLintTest extends TestCase
                 1,
                 'Should display error message for unreadable fixture file',
             ],
-            [
+        ];
+        
+        // Add custom tags tests only if Symfony v3+ is available
+        if ($supportsCustomTags) {
+            $specs[] = [
                 'tests/fixtures/test_custom_tags.yml',
                 'assertStringContainsString',
                 "[ \e[31mERROR\e[0m ]",
                 1,
                 'Should display [ ERROR ] for YAML with custom tags when --parse-tags not used',
-            ],
-            [
+            ];
+            $specs[] = [
                 '--parse-tags tests/fixtures/test_custom_tags.yml',
                 'assertStringContainsString',
                 "[ \e[32mOK\e[0m ]",
                 0,
                 'Should display [ OK ] for YAML with custom tags when --parse-tags is used',
-            ],
-        ];
+            ];
+        }
+        
+        return $specs;
+    }
+
+    /**
+     * Check if Symfony YAML component supports custom tags (v3+).
+     *
+     * @return bool
+     */
+    private static function supportsCustomTags()
+    {
+        try {
+            $yamlParseMethod = new ReflectionMethod('\Symfony\Component\Yaml\Yaml', 'parse');
+            $yamlParseParams = $yamlParseMethod->getParameters();
+            return isset($yamlParseParams[1]) && $yamlParseParams[1]->name === 'flags';
+        } catch (Exception $e) {
+            return false;
+        }
     }
 
     /**
