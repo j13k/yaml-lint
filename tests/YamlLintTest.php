@@ -154,6 +154,20 @@ class YamlLintTest extends TestCase
                 1,
                 'Should display error message for unreadable fixture file',
             ],
+            [
+                'tests/fixtures/test_custom_tags.yml',
+                'assertStringContainsString',
+                "[ \e[31mERROR\e[0m ]",
+                1,
+                'Should display [ ERROR ] for YAML with custom tags when --parse-tags not used',
+            ],
+            [
+                '--parse-tags tests/fixtures/test_custom_tags.yml',
+                'assertStringContainsString',
+                "[ \e[32mOK\e[0m ]",
+                0,
+                'Should display [ OK ] for YAML with custom tags when --parse-tags is used',
+            ],
         ];
     }
 

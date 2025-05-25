@@ -14,11 +14,12 @@ the [Symfony Yaml Component](https://github.com/symfony/yaml).
 ```text
 usage: yaml-lint [options] [input source]
 
-  input source    Path to file(s), or "-" to read from standard input
+  input source      Path to file(s), or "-" to read from standard input
 
-  -q, --quiet     Restrict output to syntax errors
-  -h, --help      Display this help
-  -V, --version   Display application version
+  -q, --quiet       Restrict output to syntax errors
+  -t, --parse-tags  Enable parsing of custom YAML tags
+  -h, --help        Display this help
+  -V, --version     Display application version
 ```
 
 ## Install

@@ -1,0 +1,5 @@
+---
+# Test YAML with custom tags
+simple: value
+custom_tag: !custom_type "some value"
+another_tag: !my_tag [1, 2, 3]
