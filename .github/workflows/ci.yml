@@ -150,10 +150,12 @@ jobs:
           tools: composer:v2, phpunit:${{ matrix.phpunit-versions }}
       - name: Checkout
         uses: actions/checkout@v1
-      - name: Remove composer.lock
-        run: rm composer.lock
+      - name: Remove composer.lock and dev dependencies
+        run: |
+          rm composer.lock
+          composer remove --dev --no-update phpstan/phpstan phpunit/phpunit symplify/easy-coding-standard
       - name: Require matrix symfony/yaml
         run: composer require --no-update symfony/yaml:${{ matrix.symfony-versions }}
-      - run: composer update --no-dev --ignore-platform-reqs
+      - run: composer update --ignore-platform-reqs
       - name: Test with phpunit
         run: phpunit

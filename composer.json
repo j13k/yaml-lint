@@ -21,7 +21,6 @@
     "require": {
         "php": ">=5.6",
         "ext-json": "*",
-        "composer-runtime-api": "^2",
         "symfony/yaml": "^2 || ^3 || ^4 || ^5 || ^6 || ^7"
     },
     "require-dev": {
