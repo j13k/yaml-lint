@@ -23,6 +23,11 @@ class YamlLintTest extends TestCase
      */
     public function testCommandOutput($yamlLintArgs, $assertionType, $expectedOutput, $expectedReturnCode, $message)
     {
+        // Skip custom tags tests if Symfony doesn't support them
+        if (strpos($yamlLintArgs, 'test_custom_tags.yml') !== false && !self::supportsCustomTags()) {
+            $this->markTestSkipped('Symfony YAML component does not support custom tags (requires v3+)');
+        }
+
         // In lieu of setUp
         chmod('tests/fixtures/not_readable.yml', 0200);
 
@@ -90,7 +95,7 @@ class YamlLintTest extends TestCase
      */
     public static function getTestSpecs()
     {
-        return [
+        $specs = [
             [
                 '',
                 'assertStringContainsString',
@@ -155,6 +160,63 @@ class YamlLintTest extends TestCase
                 'Should display error message for unreadable fixture file',
             ],
         ];
+
+        // Always add custom tags tests - they will be skipped at runtime if Symfony doesn't support them
+        $specs[] = [
+            'tests/fixtures/test_custom_tags.yml',
+            'assertStringContainsString',
+            "[ \e[31mERROR\e[0m ]",
+            1,
+            'Should display [ ERROR ] for YAML with custom tags when --parse-tags not used',
+        ];
+        $specs[] = [
+            '--parse-tags tests/fixtures/test_custom_tags.yml',
+            'assertStringContainsString',
+            "[ \e[32mOK\e[0m ]",
+            0,
+            'Should display [ OK ] for YAML with custom tags when --parse-tags is used',
+        ];
+
+        return $specs;
+    }
+
+    /**
+     * Check if Symfony YAML component supports custom tags (v3+).
+     *
+     * @return bool
+     */
+    private static function supportsCustomTags()
+    {
+        // Symfony 3+ throws errors for custom tags by default and provides PARSE_CUSTOM_TAGS flag
+        // Symfony 2.x silently parses through custom tags without errors
+        // We only test custom tags behaviour on Symfony 3+ where the behaviour is defined
+
+        // Fallback to checking Composer's installed.json for the actual Symfony version
+        // This is more reliable than reflection on older PHP versions
+        $installedPath = __DIR__ . '/../vendor/composer/installed.json';
+        if (file_exists($installedPath)) {
+            $installed = json_decode(file_get_contents($installedPath), true);
+            if (isset($installed['packages'])) {
+                foreach ($installed['packages'] as $package) {
+                    if ($package['name'] === 'symfony/yaml') {
+                        $version = $package['version'];
+                        // Version string like "v2.8.52" or "v3.0.0" - check major version
+                        if (preg_match('/^v?(\d+)\./', $version, $matches)) {
+                            $majorVersion = (int)$matches[1];
+                            return $majorVersion >= 3;
+                        }
+                    }
+                }
+            }
+        }
+
+        // Fallback: try constant() as last resort
+        try {
+            $constantExists = @constant('Symfony\Component\Yaml\Yaml::PARSE_CUSTOM_TAGS') !== null;
+            return $constantExists;
+        } catch (Exception $e) {
+            return false;
+        }
     }
 
     /**
