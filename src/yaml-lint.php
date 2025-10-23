@@ -35,6 +35,7 @@ define('YAML_PARSE_PARAM_NAME_FLAGS', 'flags');
 // Init app name and args
 $appStr = APP_NAME;
 $argQuiet = false;
+$argParseTags = false;
 $argPath = null;
 $argPaths = [];
 
@@ -81,6 +82,11 @@ try {
                 $argQuiet = true;
 
                 break;
+            case '-t':
+            case '--parse-tags':
+                $argParseTags = true;
+
+                break;
             default:
                 $argPaths[] = $arg;
         }
@@ -91,7 +97,7 @@ try {
         throw new UsageException('no input specified', EXIT_ERROR);
     }
 
-    $lintPath = function ($path) use ($argQuiet, $appStr) {
+    $lintPath = function ($path) use ($argQuiet, $argParseTags, $appStr) {
         $content = file_get_contents($path);
         if (strlen($content) < 1) {
             throw new ParseException('Input has no content');
@@ -106,8 +112,12 @@ try {
                 Yaml::parse($content, true);
                 break;
             case YAML_PARSE_PARAM_NAME_FLAGS:
-                // Implements same behaviour in v3+
-                Yaml::parse($content, Yaml::PARSE_EXCEPTION_ON_INVALID_TYPE);
+                // Implements same behaviour in v3+ with optional custom tags support
+                $flags = Yaml::PARSE_EXCEPTION_ON_INVALID_TYPE;
+                if ($argParseTags) {
+                    $flags |= Yaml::PARSE_CUSTOM_TAGS;
+                }
+                Yaml::parse($content, $flags);
                 break;
             default:
                 // Param name unknown, fall back to the defaults
@@ -154,7 +164,16 @@ try {
     // Syntax exception
     fwrite(STDERR, trim($appStr . ': parsing ' . $argPath));
     fwrite(STDERR, sprintf(" [ %s ]\n", _ansify('ERROR', ANSI_RED)));
-    fwrite(STDERR, "\n" . $e->getMessage() . "\n\n");
+    fwrite(STDERR, "\n" . $e->getMessage());
+
+    // Check if the error is about custom tags and suggest the --parse-tags option
+    if (strpos($e->getMessage(), 'Tags support is not enabled') !== false) {
+        fwrite(STDERR, "\n" . _ansify(
+            'Hint: Use --parse-tags or -t to enable custom YAML tag support (requires symfony/yaml 3+)', ANSI_UDL)
+        );
+    }
+
+    fwrite(STDERR, "\n\n");
     exit(EXIT_ERROR);
 } catch (Exception $e) {
 
@@ -199,11 +218,12 @@ EOD;
             return <<<EOD
 usage: yaml-lint [options] [input source]
 
-  input source    Path to file(s), or "-" to read from standard input
+  input source      Path to file(s), or "-" to read from standard input
 
-  -q, --quiet     Restrict output to syntax errors
-  -h, --help      Display this help
-  -V, --version   Display application version
+  -q, --quiet       Restrict output to syntax errors
+  -t, --parse-tags  Enable parsing of custom YAML tags (symfony/yaml 3+ only)
+  -h, --help        Display this help
+  -V, --version     Display application version
 EOD;
         default:
     }
