@@ -19,7 +19,7 @@ use Symfony\Component\Yaml\Exception\ParseException;
 use Symfony\Component\Yaml\Yaml;
 
 define('APP_NAME', 'yaml-lint');
-define('APP_VERSION', '1.1.6');
+define('APP_VERSION', '1.1.7');
 
 define('ANSI_BLD', 01);
 define('ANSI_UDL', 04);

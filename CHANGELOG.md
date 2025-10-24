@@ -1,5 +1,26 @@
 # Changelog
 
+## [1.1.7] - 2025-10-24
+
+### Added
+
+* Add `--parse-tags` / `-t` option to enable custom YAML tag support (#166)
+* Add helpful error hint when custom tags are encountered without the flag
+* Add test fixture and comprehensive tests for custom tags functionality
+
+### Fixed
+
+* Fix CI compatibility with PHP 5.6-7.1 by removing `composer-runtime-api` dependency
+* Fix dev dependencies interference in CI by removing them before composer update
+* Fix test suite Symfony version detection to work reliably on PHP 5.6 (use installed.json)
+
+### Updated
+
+* Bump symfony/yaml from 7.0.3 to 7.3.3 (via Dependabot)
+* Covered PHP 8.4 in CI job matrix
+* Documentation updates for `--parse-tags` option
+* Note: Custom tags feature requires Symfony YAML 3+, gracefully handles v2
+
 ## [1.1.6] - 2024-04-18
 
 ### Added
