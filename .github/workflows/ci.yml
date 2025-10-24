@@ -153,7 +153,7 @@ jobs:
       - name: Remove composer.lock and dev dependencies
         run: |
           rm composer.lock
-          composer remove --dev --no-update phpstan/phpstan phpunit/phpunit symplify/easy-coding-standard
+          composer remove --dev --no-update phpstan/phpstan phpunit/phpunit symplify/easy-coding-standard captainhook/captainhook ramsey/conventional-commits
       - name: Require matrix symfony/yaml
         run: composer require --no-update symfony/yaml:${{ matrix.symfony-versions }}
       - run: composer update --ignore-platform-reqs

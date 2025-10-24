@@ -24,8 +24,10 @@
         "symfony/yaml": "^2 || ^3 || ^4 || ^5 || ^6 || ^7"
     },
     "require-dev": {
+        "captainhook/captainhook": "^5",
         "phpstan/phpstan": "^2",
         "phpunit/phpunit": "^11",
+        "ramsey/conventional-commits": "^1",
         "symplify/easy-coding-standard": "^12"
     },
     "extra": {
@@ -43,7 +45,7 @@
     ],
     "scripts": {
         "code-style": "./vendor/bin/ecs check .",
-        "code-analyse": "./vendor/bin/phpstan analyze --level 3 src",
+        "code-analyse": "./vendor/bin/phpstan analyze --level 4 src",
         "test": "./vendor/bin/phpunit"
     },
     "support": {
