@@ -13,6 +13,7 @@ This document describes how to create a new release of yaml-lint.
 ### 1. Update Version and Changelog
 
 1. Update the version constant in `src/yaml-lint.php`:
+
    ```php
    define('APP_VERSION', 'x.y.z');
    ```
@@ -20,6 +21,7 @@ This document describes how to create a new release of yaml-lint.
 2. Update `CHANGELOG.md` with the new version and release notes
 
 3. Commit these changes:
+
    ```bash
    git add src/yaml-lint.php CHANGELOG.md
    git commit -m "Bump version to x.y.z"
@@ -38,11 +40,13 @@ git push origin x.y.z
 The PHAR must be built from the git tag to ensure the version is correct.
 
 1. Checkout the tag:
+
    ```bash
    git checkout x.y.z
    ```
 
 2. Install production dependencies:
+
    ```bash
    composer install --no-dev
    ```
@@ -50,16 +54,19 @@ The PHAR must be built from the git tag to ensure the version is correct.
    **Important:** This step updates `vendor/composer/installed.json` which is how the PHAR gets the correct version number. Without this, the PHAR will show "dev-master".
 
 3. Ensure you have Box installed via PHIVE:
+
    ```bash
    phive install
    ```
 
 4. Build the PHAR:
+
    ```bash
    ./tools/box compile
    ```
 
 5. Verify the version is correct:
+
    ```bash
    build/yaml-lint.phar --version
    ```
@@ -75,39 +82,20 @@ gpg --armor --detach-sign build/yaml-lint.phar
 This creates `build/yaml-lint.phar.asc`.
 
 Verify the signature:
+
 ```bash
 gpg --verify build/yaml-lint.phar.asc build/yaml-lint.phar
 ```
 
 ### 5. Create GitHub Release
 
-1. Go to https://github.com/j13k/yaml-lint/releases/new
+1. Go to <https://github.com/j13k/yaml-lint/releases/new>
 
 2. Select the tag `x.y.z`
 
-3. Use the content from `CHANGELOG.md` for the release notes, adding:
-   ```markdown
-   ## Verifying the Signature
+3. Use the content from `CHANGELOG.md` for the release notes
 
-   The PHAR is signed with GPG. To verify:
-
-   1. Download both `yaml-lint.phar` and `yaml-lint.phar.asc`
-   2. Import the public key:
-      ```bash
-      gpg --recv-keys 38A182AB413064D7
-      ```
-      Or download from the repository:
-      ```bash
-      curl -O https://raw.githubusercontent.com/j13k/yaml-lint/master/j13k_users_noreply_github_com.pub
-      gpg --import j13k_users_noreply_github_com.pub
-      ```
-   3. Verify the signature:
-      ```bash
-      gpg --verify yaml-lint.phar.asc yaml-lint.phar
-      ```
-
-   You should see: `Good signature from "John Fitzpatrick (Software signing key) <j13k@users.noreply.github.com>"`
-   ```
+   Note: Signature verification instructions are in the [README](README.md#verifying-signatures)
 
 4. Attach both files:
    - `build/yaml-lint.phar`
@@ -132,7 +120,7 @@ composer install  # Reinstall dev dependencies
 
 ### Box or PHIVE not working
 
-- Update PHIVE: Check for latest version at https://phar.io
+- Update PHIVE: Check for latest version at <https://phar.io>
 - Update Box via PHIVE: `phive update box`
 - Box requires PHP 8.2+, so ensure you're using a compatible PHP version
 

@@ -50,9 +50,36 @@ Yaml component that is current at the time of the release.
 
 The binary can be conveniently installed using [PHIVE](https://phar.io/):
 
-```
+```bash
 phive install yaml-lint
 ```
+
+#### Verifying Signatures
+
+Release binaries are signed with GPG. To verify the signature:
+
+1. Download both `yaml-lint.phar` and `yaml-lint.phar.asc` from the [releases page](https://github.com/j13k/yaml-lint/releases)
+
+2. Import the public key:
+
+   ```bash
+   gpg --recv-keys 38A182AB413064D7
+   ```
+
+   Or download it from this repository:
+
+   ```bash
+   curl -O https://raw.githubusercontent.com/j13k/yaml-lint/master/j13k_users_noreply_github_com.pub
+   gpg --import j13k_users_noreply_github_com.pub
+   ```
+
+3. Verify the signature:
+
+   ```bash
+   gpg --verify yaml-lint.phar.asc yaml-lint.phar
+   ```
+
+   You should see: `Good signature from "John Fitzpatrick (Software signing key) <j13k@users.noreply.github.com>"`
 
 ### Docker
 
