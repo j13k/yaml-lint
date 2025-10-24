@@ -127,12 +127,20 @@ composer code-analyse
 ./vendor/bin/phpstan analyze --level 4 src
 ```
 
+### Markdown Linting
+
+```bash
+composer markdown-lint
+```
+
+This uses the markdownlint-cli2 Docker image to lint markdown files. Requires Docker to be installed and running.
+
 ### Running All Checks
 
 Before submitting a pull request, ensure all checks pass:
 
 ```bash
-composer test && composer code-style && composer code-analyse
+composer test && composer code-style && composer code-analyse && composer markdown-lint
 ```
 
 ## Testing
