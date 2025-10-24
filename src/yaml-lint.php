@@ -168,15 +168,18 @@ try {
 
     // Check if the error is about custom tags and suggest the --parse-tags option
     if (strpos($e->getMessage(), 'Tags support is not enabled') !== false) {
-        fwrite(STDERR, "\n" . _ansify(
-            'Hint: Use --parse-tags or -t to enable custom YAML tag support (requires symfony/yaml 3+)', ANSI_UDL)
+        fwrite(
+            STDERR,
+            "\n" . _ansify(
+                'Hint: Use --parse-tags or -t to enable custom YAML tag support (requires symfony/yaml 3+)',
+                ANSI_UDL
+            )
         );
     }
 
     fwrite(STDERR, "\n\n");
     exit(EXIT_ERROR);
 } catch (Exception $e) {
-
     // The rest
     fwrite(STDERR, $appStr);
     fwrite(STDERR, sprintf(": %s\n", _ansify($e->getMessage(), ANSI_RED)));
