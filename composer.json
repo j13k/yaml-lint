@@ -30,6 +30,11 @@
         "ramsey/conventional-commits": "^1",
         "symplify/easy-coding-standard": "^12"
     },
+    "config": {
+        "platform": {
+            "php": "8.2.0"
+        }
+    },
     "extra": {
         "branch-alias": {
             "dev-master": "1.1.x-dev"
