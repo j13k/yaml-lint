@@ -42,7 +42,7 @@ class YamlLintTest extends TestCase
                 $message
             );
         } else {
-            $this->{sprintf("%sLegacy", $assertionType)}(
+            $this->{sprintf('%sLegacy', $assertionType)}(
                 $expectedOutput,
                 $actualOutput,
                 $message
@@ -63,9 +63,9 @@ class YamlLintTest extends TestCase
     /**
      * An implementation of assertStringContainsString that works in legacy PHPUnit releases.
      *
-     * @param $needle
-     * @param $haystack
-     * @param $message
+     * @param string $needle
+     * @param string $haystack
+     * @param string $message
      */
     public function assertStringContainsStringLegacy($needle, $haystack, $message = '')
     {
@@ -77,9 +77,9 @@ class YamlLintTest extends TestCase
     /**
      * An implementation of assertStringNotContainsString that works in legacy PHPUnit releases.
      *
-     * @param $needle
-     * @param $haystack
-     * @param $message
+     * @param string $needle
+     * @param string $haystack
+     * @param string $message
      */
     public function assertStringNotContainsStringLegacy($needle, $haystack, $message = '')
     {
@@ -202,7 +202,7 @@ class YamlLintTest extends TestCase
                         $version = $package['version'];
                         // Version string like "v2.8.52" or "v3.0.0" - check major version
                         if (preg_match('/^v?(\d+)\./', $version, $matches)) {
-                            $majorVersion = (int)$matches[1];
+                            $majorVersion = (int) $matches[1];
                             return $majorVersion >= 3;
                         }
                     }
@@ -222,7 +222,7 @@ class YamlLintTest extends TestCase
     /**
      * Exec helper.
      *
-     * @param $optionsAndInputSource
+     * @param string $optionsAndInputSource
      *
      * @return array
      */

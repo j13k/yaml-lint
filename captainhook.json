@@ -1,0 +1,52 @@
+{
+  "commit-msg": {
+    "enabled": true,
+    "actions": [
+      {
+        "action": "\\Ramsey\\CaptainHook\\ValidateConventionalCommit",
+        "config": {
+          "types": [
+            "build",
+            "chore",
+            "ci",
+            "docs",
+            "feat",
+            "fix",
+            "perf",
+            "refactor",
+            "revert",
+            "style",
+            "test"
+          ],
+          "requireBody": false,
+          "requireFooter": false
+        }
+      }
+    ]
+  },
+  "pre-commit": {
+    "enabled": true,
+    "actions": [
+      {
+        "action": "composer code-style",
+        "conditions": [
+          {
+            "exec": "\\CaptainHook\\App\\Hook\\Condition\\FileStaged\\OfType",
+            "args": ["php"]
+          }
+        ]
+      }
+    ]
+  },
+  "pre-push": {
+    "enabled": true,
+    "actions": [
+      {
+        "action": "composer code-analyse"
+      },
+      {
+        "action": "composer test"
+      }
+    ]
+  }
+}

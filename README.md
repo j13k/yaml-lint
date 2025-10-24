@@ -6,8 +6,7 @@
 [![Monthly Downloads][ico-downloads-monthly]][link-downloads]
 [![CI][ico-github-ci]][link-github-ci]
 
-A compact command line linting tool for validating YAML files, using the parsing facility of
-the [Symfony Yaml Component](https://github.com/symfony/yaml).
+A compact command line linting tool for validating YAML files, using the parsing facility of the [Symfony Yaml Component](https://github.com/symfony/yaml).
 
 ## Usage
 
@@ -44,9 +43,7 @@ It can then be run from the `bin` directory of Composer home (typically  `~/.com
 
 ### Binary
 
-A binary edition , `yaml-lint.phar`, is available for download
-with [each release](https://github.com/j13k/yaml-lint/releases). This embeds the latest stable version of the Symfony
-Yaml component that is current at the time of the release.
+A binary edition , `yaml-lint.phar`, is available for download with [each release](https://github.com/j13k/yaml-lint/releases). This embeds the latest stable version of the Symfony Yaml component that is current at the time of the release.
 
 The binary can be conveniently installed using [PHIVE](https://phar.io/):
 
