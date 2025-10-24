@@ -41,6 +41,22 @@ composer global require j13k/yaml-lint
 
 It can then be run from the `bin` directory of Composer home (typically  `~/.composer/vendor/bin`).
 
+> [!NOTE]
+> **Binary Name Conflict**: Both `j13k/yaml-lint` and `symfony/yaml` provide a `yaml-lint` binary. If you see this message during installation:
+>
+> ```text
+> Skipped installation of bin bin/yaml-lint for package j13k/yaml-lint:
+> name conflicts with an existing file
+> ```
+>
+> You can either call the binary directly with `vendor/j13k/yaml-lint/bin/yaml-lint`, or create a symlink:
+>
+> ```bash
+> ln -sf ../j13k/yaml-lint/bin/yaml-lint vendor/bin/yaml-lint
+> ```
+>
+> See [#181](https://github.com/j13k/yaml-lint/issues/181) for details.
+
 ### Binary
 
 A binary edition , `yaml-lint.phar`, is available for download with [each release](https://github.com/j13k/yaml-lint/releases). This embeds the latest stable version of the Symfony Yaml component that is current at the time of the release.
