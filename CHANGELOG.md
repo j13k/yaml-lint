@@ -138,4 +138,6 @@
 
 [1.1.6]: https://github.com/j13k/yaml-lint/compare/1.1.5..1.1.6
 
+[1.1.7]: https://github.com/j13k/yaml-lint/compare/1.1.6..1.1.7
+
 [1.1.x-dev]: https://github.com/j13k/yaml-lint/compare/1.1.6..HEAD
