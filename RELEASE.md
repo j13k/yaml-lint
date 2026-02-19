@@ -35,6 +35,8 @@ git push origin master
 git push origin x.y.z
 ```
 
+> **Note:** Pushing the tag triggers the Docker workflow, which builds and publishes the container image to Docker Hub.
+
 ### 3. Build the PHAR
 
 The PHAR must be built from the git tag to ensure the version is correct.
