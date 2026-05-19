@@ -6,6 +6,8 @@ updates:
     directory: "/"
     schedule:
       interval: "weekly"
+    allow:
+      - dependency-type: "production"
 
   - package-ecosystem: "github-actions"
     directory: "/"
