@@ -100,6 +100,32 @@ yaml-lint is bundled in the [phpqa Docker image](https://hub.docker.com/r/jakzal
 static analysis tools for PHP. See the [phpqa project](https://github.com/jakzal/phpqa) for [installation
 and usage instructions](https://github.com/jakzal/phpqa#running-tools).
 
+### Docker (Official Image)
+
+An official Docker image is published to [Docker Hub](https://hub.docker.com/r/j13k/yaml-lint) with each release:
+
+```bash
+docker pull j13k/yaml-lint
+```
+
+Lint a file:
+
+```bash
+docker run --rm -v "$PWD:/workdir" j13k/yaml-lint config.yml
+```
+
+Read from stdin:
+
+```bash
+cat config.yml | docker run --rm -i j13k/yaml-lint -
+```
+
+Display version:
+
+```bash
+docker run --rm j13k/yaml-lint --version
+```
+
 ## Change log
 
 Please see [CHANGELOG](CHANGELOG.md) for information on what has changed recently.
