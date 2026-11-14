@@ -19,7 +19,7 @@
 
 * Support for symfony/yaml 8 (#184)
 * Versioning policy and release process documentation in `RELEASE.md` (#183, #246)
-* PHIVE configuration and GPG public key for verifying the PHAR
+* PHIVE configuration for building the PHAR
 * Dev container configuration (#213)
 * Git hooks via CaptainHook that enforce Conventional Commits and run quality checks (#187)
 * markdownlint configuration (#194)
