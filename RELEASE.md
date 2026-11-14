@@ -46,7 +46,7 @@ Tags use the bare version number, with no `v` prefix (for example `1.1.8`).
 
    ```bash
    git add src/yaml-lint.php CHANGELOG.md
-   git commit -m "Bump version to x.y.z"
+   git commit -m "chore: release x.y.z"
    ```
 
 ### 2. Create Git Tag
