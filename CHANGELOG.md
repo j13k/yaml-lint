@@ -1,5 +1,28 @@
 # Changelog
 
+## [Unreleased]
+
+### Fixed
+
+* Update bundled symfony/yaml and symfony/filesystem to 7.4.23 for security advisories, including CVE-2026-109413 (#239)
+* Document the `yaml-lint` binary name conflict with symfony/yaml (#181)
+
+### Added
+
+* Versioning policy and release process documentation in `RELEASE.md` (#183, #246)
+* PHIVE configuration and GPG public key for verifying the PHAR
+* Dev container configuration (#213)
+* Git hooks via CaptainHook that enforce Conventional Commits and run quality checks (#187)
+* markdownlint configuration (#194)
+
+### Updated
+
+* Raise PHPStan to level 4 (#192) and apply ECS code style fixes (#193)
+* Fix Dependabot updates and extend them to GitHub Actions and the dev container (#189)
+* Allow legacy symfony/yaml versions with security advisories in the CI matrix (#233, #237)
+* Use 2-space indentation for JSON files (#242)
+* Remove the stale bot (#244)
+
 ## [1.1.7] - 2025-10-24
 
 ### Added
@@ -139,3 +162,5 @@
 [1.1.6]: https://github.com/j13k/yaml-lint/compare/1.1.5..1.1.6
 
 [1.1.7]: https://github.com/j13k/yaml-lint/compare/1.1.6..1.1.7
+
+[Unreleased]: https://github.com/j13k/yaml-lint/compare/1.1.7..HEAD
