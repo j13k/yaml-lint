@@ -52,11 +52,16 @@ Tags use the bare version number, with no `v` prefix (for example `1.1.8`).
 
 ### 2. Create Git Tag
 
+Sign the tag with the release key, check it, then push:
+
 ```bash
-git tag x.y.z
+git tag -s -m "Release x.y.z" x.y.z
+git tag -v x.y.z
 git push origin master
 git push origin x.y.z
 ```
+
+`git tag -v` should report a good signature from the current signing key (see "GPG signing fails" below for its fingerprint).
 
 ### 3. Build the PHAR
 
@@ -149,6 +154,7 @@ composer install  # Reinstall dev dependencies
 
 ### GPG signing fails
 
+- If gpg fails with "Inappropriate ioctl for device", it can't prompt for the passphrase. Run `export GPG_TTY=$(tty)` and try again.
 - Check that your GPG key hasn't expired: `gpg --list-secret-keys`
 - If expired, extend the expiration or create a new key
 - Current signing key fingerprint: `528E 7737 B566 750F 7C00  D32A 38A1 82AB 4130 64D7`
