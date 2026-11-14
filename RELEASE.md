@@ -2,6 +2,25 @@
 
 This document describes how to create a new release of yaml-lint.
 
+## Versioning
+
+yaml-lint follows [Semantic Versioning](https://semver.org/). The public interface is the
+command line: options, output and exit codes.
+
+| Release | When | Examples |
+| --- | --- | --- |
+| Patch (`1.1.x`) | Bug fixes and compatible updates | Bug fixes, dependency security updates (the PHAR bundles them), support for new PHP or symfony/yaml versions |
+| Minor (`1.x.0`) | New features, or dropping support | New CLI options or behaviour, dropping old PHP or symfony/yaml versions |
+| Major (`x.0.0`) | Breaking changes to the CLI | Removing or changing options, output format or exit codes |
+
+Dropping old PHP or symfony/yaml versions is a minor release because Composer keeps
+installing the last compatible release on older environments, so nothing breaks.
+
+Changes that affect only development, CI or documentation don't need a release of their
+own. They go out with the next release.
+
+Tags use the bare version number, with no `v` prefix (for example `1.1.8`).
+
 ## Prerequisites
 
 - PHIVE installed (`brew install phive` on macOS)
@@ -18,7 +37,10 @@ This document describes how to create a new release of yaml-lint.
    define('APP_VERSION', 'x.y.z');
    ```
 
-2. Update `CHANGELOG.md` with the new version and release notes
+2. Update `CHANGELOG.md`:
+   - Check the entries under `## [Unreleased]`, then rename the heading to `## [x.y.z] - YYYY-MM-DD`.
+   - At the bottom, change the `[Unreleased]` compare link to
+     `[x.y.z]: https://github.com/j13k/yaml-lint/compare/<previous>..x.y.z`.
 
 3. Commit these changes:
 
