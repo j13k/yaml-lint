@@ -150,11 +150,12 @@ composer install  # Reinstall dev dependencies
 
 - Check that your GPG key hasn't expired: `gpg --list-secret-keys`
 - If expired, extend the expiration or create a new key
-- Current signing key ID: `38A182AB413064D7`
+- Current signing key fingerprint: `528E 7737 B566 750F 7C00  D32A 38A1 82AB 4130 64D7`
+- The public key is published on the GitHub account (`https://github.com/j13k.gpg`) and on
+  `keyserver.ubuntu.com`. If the key changes, update both and the fingerprint in the README.
 
 ## Files Related to Building
 
 - `.phive/phars.xml` - PHIVE configuration for Box tool
 - `box.json` - Box configuration for building the PHAR
-- `j13k_users_noreply_github_com.pub` - Public GPG key for verification
 - `tools/` - Symlinks to PHIVE-managed tools (gitignored, created by `phive install`)

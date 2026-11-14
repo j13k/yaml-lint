@@ -70,21 +70,26 @@ phive install yaml-lint
 
 #### Verifying Signatures
 
-Release binaries are signed with GPG. To verify the signature:
+Release binaries are signed with GPG, using the key with this fingerprint:
+
+```text
+528E 7737 B566 750F 7C00  D32A 38A1 82AB 4130 64D7
+```
+
+To verify the signature:
 
 1. Download both `yaml-lint.phar` and `yaml-lint.phar.asc` from the [releases page](https://github.com/j13k/yaml-lint/releases)
 
-2. Import the public key:
+2. Import the public key, either from the maintainer's GitHub account:
 
    ```bash
-   gpg --recv-keys 38A182AB413064D7
+   curl -fsSL https://github.com/j13k.gpg | gpg --import
    ```
 
-   Or download it from this repository:
+   Or from a keyserver:
 
    ```bash
-   curl -O https://raw.githubusercontent.com/j13k/yaml-lint/master/j13k_users_noreply_github_com.pub
-   gpg --import j13k_users_noreply_github_com.pub
+   gpg --keyserver hkps://keyserver.ubuntu.com --recv-keys 528E7737B566750F7C00D32A38A182AB413064D7
    ```
 
 3. Verify the signature:
@@ -92,6 +97,10 @@ Release binaries are signed with GPG. To verify the signature:
    ```bash
    gpg --verify yaml-lint.phar.asc yaml-lint.phar
    ```
+
+   Check that the output says `Good signature` and shows the fingerprint above. A warning
+   that the key isn't certified with a trusted signature is normal unless you've signed
+   the key yourself.
 
    You should see: `Good signature from "John Fitzpatrick (Software signing key) <j13k@users.noreply.github.com>"`
 
