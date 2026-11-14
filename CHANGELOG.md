@@ -10,6 +10,7 @@
 * Pin GitHub Actions to commit SHAs, and update the artifact actions to their current versions (#265)
 * Restructure the README (requirements, installation, usage examples and exit codes, troubleshooting), and bring CONTRIBUTING.md and RELEASE.md up to date (#269)
 * Add issue forms (bug report, feature request), a pull request template, and a link to the security policy on the new-issue page. Dependabot updates dev dependencies again, with minor and patch updates grouped into one pull request (#270)
+* Adjust the ECS configuration for ECS 13.3: skip the short list syntax rule until the minimum PHP version allows it (#276)
 
 ## [1.1.8] - 2026-11-14
 

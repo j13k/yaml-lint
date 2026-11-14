@@ -7,7 +7,6 @@
  *
  * Usage: php tests/coverage/report.php <coverage-dir> <report.md> <badge.json>
  */
-
 if ($argc !== 4) {
     fwrite(STDERR, "Usage: php tests/coverage/report.php <coverage-dir> <report.md> <badge.json>\n");
     exit(1);

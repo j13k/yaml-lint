@@ -8,7 +8,6 @@
  * writes that process's coverage to YAML_LINT_COVERAGE_DIR when the process exits.
  * Requires the PCOV extension.
  */
-
 $yamlLintCoverageDir = getenv('YAML_LINT_COVERAGE_DIR');
 
 if ($yamlLintCoverageDir !== false && extension_loaded('pcov')) {
