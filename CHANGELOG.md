@@ -7,6 +7,8 @@
 * Install PHIVE and Box in the dev container, so the PHAR can be built there, and update Box to 4.7.1 (#258)
 * Sign release tags, starting with 1.1.8 (#261)
 * Add a security policy, with reporting through GitHub's private vulnerability reporting (#263)
+* Pin GitHub Actions to commit SHAs, and update the artifact actions to their current versions (#265)
+* Restructure the README (requirements, installation, usage examples and exit codes, troubleshooting), and bring CONTRIBUTING.md and RELEASE.md up to date (#269)
 
 ## [1.1.8] - 2026-11-14
 

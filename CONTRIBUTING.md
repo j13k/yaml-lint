@@ -1,7 +1,5 @@
 # Contributing to yaml-lint
 
-Thank you for your interest in contributing to yaml-lint! This document provides guidelines and information to help you contribute effectively.
-
 ## Development Setup
 
 1. Clone the repository:
@@ -66,7 +64,7 @@ This project follows the [Conventional Commits](https://www.conventionalcommits.
 - **feat**: A new feature
 - **fix**: A bug fix
 - **docs**: Documentation only changes
-- **style**: Code style changes (formatting, missing semicolons, etc.)
+- **style**: Code style or formatting changes
 - **refactor**: Code changes that neither fix a bug nor add a feature
 - **perf**: Performance improvements
 - **test**: Adding or updating tests
@@ -97,84 +95,43 @@ fix(parser): handle nested YAML structures correctly
 
 ## Git Hooks
 
-After running `vendor/bin/captainhook install`, the following hooks are active:
+After running `vendor/bin/captainhook install` (done automatically in the dev container), these
+hooks are active:
 
-### Pre-commit Hook
+| Hook | What it does |
+| --- | --- |
+| pre-commit | Runs ECS (`composer code-style`) on the project when PHP files are staged |
+| commit-msg | Rejects commit messages that don't follow Conventional Commits |
+| pre-push | Runs PHPStan (`composer code-analyse`) and the tests (`composer test`) |
 
-- Runs ECS (Easy Coding Standard) on staged PHP files
-- Ensures code style consistency before committing
-
-### Commit-msg Hook
-
-- Validates commit messages against Conventional Commits format
-- Prevents commits with invalid message format
-
-### Pre-push Hook
-
-- Runs PHPStan static analysis
-- Runs the full test suite
-- Prevents pushing code that doesn't pass quality checks
-
-### Skipping Hooks
-
-In rare cases where you need to skip hooks, use `--no-verify`:
-
-```bash
-git commit --no-verify -m "emergency fix"
-```
-
-**Note:** Use this sparingly and only when necessary.
+In rare cases, `git commit --no-verify` or `git push --no-verify` skips the hooks.
 
 ## Code Quality
 
-### Running Tests
+| Check | Command |
+| --- | --- |
+| Tests | `composer test` |
+| Code style (ECS) | `composer code-style` |
+| Static analysis (PHPStan) | `composer code-analyse` |
+| Markdown | `composer markdown-lint` (runs [markdownlint-cli2](https://github.com/DavidAnson/markdownlint-cli2) through `npx`, so it needs Node.js, which the dev container has) |
 
-```bash
-composer test
-# or
-./vendor/bin/phpunit
-```
-
-### Code Style Check
-
-```bash
-composer code-style
-# or
-./vendor/bin/ecs check .
-```
-
-### Static Analysis
-
-```bash
-composer code-analyse
-# or
-./vendor/bin/phpstan analyze --level 4 src
-```
-
-### Markdown Linting
-
-```bash
-composer markdown-lint
-```
-
-This runs [markdownlint-cli2](https://github.com/DavidAnson/markdownlint-cli2) via `npx` to lint markdown files. Requires Node.js (included in the dev container).
-
-### Running All Checks
-
-Before submitting a pull request, ensure all checks pass:
+To run them all before opening a pull request:
 
 ```bash
 composer test && composer code-style && composer code-analyse && composer markdown-lint
 ```
 
+CI runs these too, plus `composer validate --strict`, `composer audit`, yaml-lint on the
+repository's own YAML files, a smoke test of the distribution archive, and the tests against
+every supported combination of PHP and symfony/yaml.
+
 ## Testing
 
-- Add tests for new features in `tests/`
-- Ensure all tests pass before submitting a PR
-- Consider edge cases and error conditions
-- Test across multiple PHP and Symfony versions when possible
-- CI reports line coverage in the quality job's summary. The tests run the CLI in subprocesses, so
-  coverage is collected by `tests/coverage/prepend.php` rather than by PHPUnit
+The tests in `tests/YamlLintTest.php` run the CLI against fixtures in `tests/fixtures/` and check
+its output and exit code. Add a case there for any change in behaviour, including error cases.
+
+CI reports line coverage in the quality job's summary. The tests run the CLI in subprocesses, so
+coverage is collected by `tests/coverage/prepend.php` rather than by PHPUnit.
 
 ### PHP Platform Version for Development
 
@@ -198,35 +155,26 @@ as if it were running on PHP 8.3, whatever PHP version is actually installed.
 
 ## Pull Requests
 
-**Important**: All non-trivial changes should have an associated GitHub issue before submitting a PR. This helps with:
+Open or find an issue before starting on a non-trivial change, so the approach can be agreed
+first.
 
-- Discussion of the approach before implementation
-- Tracking the reasoning behind changes
-- Linking commits and PRs to specific issues
+1. Fork the repository and create a branch from `master`.
+2. Make your changes, and check that the checks above pass.
+3. Open a pull request that references the issue (for example "Closes #123").
 
-### Process
-
-1. **Create or find an issue** describing the bug or feature
-2. Fork the repository
-3. Create a feature branch from `master`
-4. Make your changes following the guidelines above
-5. Ensure all tests and quality checks pass
-6. Submit a pull request that references the issue (e.g., "Closes #123")
-
-### PR Title Format
-
-PR titles should also follow Conventional Commits format:
+When a pull request is squash-merged, its title becomes the commit message, so it needs to
+follow Conventional Commits too, for example:
 
 ```text
-feat: add support for JSON output format
-fix: resolve memory leak in large file processing
+fix: report a clear error when a path is a directory
+ci: pin GitHub Actions to commit SHAs
 ```
 
-## Questions or Issues?
+## Questions
 
-- Check existing [issues](https://github.com/j13k/yaml-lint/issues)
-- Open a new issue if you find a bug or have a feature request
-- For general questions, feel free to start a discussion
+Check the [existing issues](https://github.com/j13k/yaml-lint/issues), or open a new one for a
+bug, a feature request or a question. To report a security vulnerability, see the
+[security policy](SECURITY.md).
 
 ## License
 
