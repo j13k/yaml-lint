@@ -231,7 +231,7 @@ jobs:
       - name: Markdown lint
         run: composer markdown-lint
       - name: YAML lint (using yaml-lint itself)
-        run: php bin/yaml-lint .github/dependabot.yml .github/workflows/*.yml
+        run: php bin/yaml-lint .github/dependabot.yml .github/workflows/*.yml .github/ISSUE_TEMPLATE/*.yml
       # Checks that the distribution archive (what Composer dist installs get) has
       # everything it needs to run, given the allowlist in .gitattributes.
       - name: Distribution archive smoke test
@@ -270,6 +270,19 @@ jobs:
         with:
           name: coverage-badge
           path: coverage.json
+
+  # A single, stable check for branch rules to require, instead of every matrix job.
+  # It runs even if a job it depends on fails, and passes only if none failed or was
+  # cancelled.
+  ci-passed:
+    needs: [includes_only, quality]
+    if: always()
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check that all jobs passed
+        run: |
+          echo "Job results: ${{ join(needs.*.result, ', ') }}"
+          [ "${{ contains(needs.*.result, 'failure') || contains(needs.*.result, 'cancelled') }}" = false ]
 
   # Publishes the coverage badge data to the badges branch, read by the README badge
   # through shields.io. Only runs for pushes to master.

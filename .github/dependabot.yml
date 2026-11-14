@@ -6,8 +6,14 @@ updates:
     directory: "/"
     schedule:
       interval: "weekly"
-    allow:
-      - dependency-type: "production"
+    groups:
+      # Dev tools (PHPUnit, PHPStan, ECS and others): one PR for all minor and patch
+      # updates. Major updates, and updates to symfony/yaml, still get their own PRs.
+      dev-dependencies:
+        dependency-type: "development"
+        update-types:
+          - "minor"
+          - "patch"
 
   - package-ecosystem: "github-actions"
     directory: "/"

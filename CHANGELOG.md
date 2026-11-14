@@ -9,6 +9,7 @@
 * Add a security policy, with reporting through GitHub's private vulnerability reporting (#263)
 * Pin GitHub Actions to commit SHAs, and update the artifact actions to their current versions (#265)
 * Restructure the README (requirements, installation, usage examples and exit codes, troubleshooting), and bring CONTRIBUTING.md and RELEASE.md up to date (#269)
+* Add issue forms (bug report, feature request), a pull request template, and a link to the security policy on the new-issue page. Dependabot updates dev dependencies again, with minor and patch updates grouped into one pull request (#270)
 
 ## [1.1.8] - 2026-11-14
 

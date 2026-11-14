@@ -1,0 +1,6 @@
+# Blank issues stay enabled for questions, which neither form fits.
+blank_issues_enabled: true
+contact_links:
+  - name: Report a security vulnerability
+    url: https://github.com/j13k/yaml-lint/security/advisories/new
+    about: Report vulnerabilities privately, as the security policy describes. Please don't open a public issue.
