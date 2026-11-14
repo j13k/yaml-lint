@@ -28,6 +28,7 @@
 * Cover PHP 8.5 and 8.6 in the CI job matrix (#184)
 * Add a CI quality job (Composer validation and audit, ECS, PHPStan, markdownlint, YAML lint), run CI on pull requests and weekly, and cancel superseded runs (#186)
 * Report code coverage in CI, with a coverage badge (#250)
+* Distribution archives now contain only `bin/`, `src/`, `composer.json`, `LICENSE`, `README.md` and `CHANGELOG.md`, with a CI smoke test (#190)
 
 ## [1.1.7] - 2025-10-24
 
