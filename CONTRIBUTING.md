@@ -23,6 +23,29 @@ Thank you for your interest in contributing to yaml-lint! This document provides
    vendor/bin/captainhook install
    ```
 
+### Using the Dev Container
+
+As an alternative to installing PHP and Composer locally, the repository includes a
+[dev container](https://containers.dev/) configuration in `.devcontainer/`. Any tool
+that supports the Dev Container specification can use it (see
+[supporting tools](https://containers.dev/supporting)), including the reference
+[`devcontainer` CLI](https://github.com/devcontainers/cli):
+
+```bash
+devcontainer up --workspace-folder .
+devcontainer exec --workspace-folder . composer test
+```
+
+Dependencies and git hooks are installed automatically when the container is created.
+
+The git hooks run PHP, and they live in the repository's `.git/hooks` directory,
+which is shared with your host. Run git commands (commit, push, checkout) from a
+shell inside the container. On a host without PHP the hooks fail and block commits.
+
+Some tools copy your host git configuration into the container and others don't.
+If `git config user.name` is empty inside the container, set your name and email
+there before committing.
+
 ## Commit Message Convention
 
 This project follows the [Conventional Commits](https://www.conventionalcommits.org/) specification. Commit messages are automatically validated via git hooks.
@@ -133,7 +156,7 @@ composer code-analyse
 composer markdown-lint
 ```
 
-This uses the markdownlint-cli2 Docker image to lint markdown files. Requires Docker to be installed and running.
+This runs [markdownlint-cli2](https://github.com/DavidAnson/markdownlint-cli2) via `npx` to lint markdown files. Requires Node.js (included in the dev container).
 
 ### Running All Checks
 

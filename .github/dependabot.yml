@@ -13,3 +13,15 @@ updates:
     directory: "/"
     schedule:
       interval: "weekly"
+
+  # https://containers.dev/guide/dependabot
+  - package-ecosystem: "devcontainers"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+
+  # Base images in .devcontainer/Dockerfile (PHP, Composer).
+  - package-ecosystem: "docker"
+    directory: "/.devcontainer"
+    schedule:
+      interval: "weekly"
