@@ -5,6 +5,7 @@
 [![Total Downloads][ico-downloads]][link-downloads]
 [![Monthly Downloads][ico-downloads-monthly]][link-downloads]
 [![CI][ico-github-ci]][link-github-ci]
+[![Coverage][ico-coverage]][link-github-ci]
 
 A compact command line linting tool for validating YAML files, using the parsing facility of the [Symfony Yaml Component](https://github.com/symfony/yaml).
 
@@ -122,6 +123,8 @@ The MIT License (MIT). Please see [LICENCE](LICENSE) for more information.
 [ico-downloads-monthly]: https://poser.pugx.org/j13k/yaml-lint/d/monthly
 
 [ico-github-ci]: https://github.com/j13k/yaml-lint/actions/workflows/ci.yml/badge.svg
+
+[ico-coverage]: https://img.shields.io/endpoint?url=https%3A%2F%2Fraw.githubusercontent.com%2Fj13k%2Fyaml-lint%2Fbadges%2Fcoverage.json&style=flat-square
 
 [link-packagist]: https://packagist.org/packages/j13k/yaml-lint
 

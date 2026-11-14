@@ -172,6 +172,8 @@ composer test && composer code-style && composer code-analyse && composer markdo
 - Ensure all tests pass before submitting a PR
 - Consider edge cases and error conditions
 - Test across multiple PHP and Symfony versions when possible
+- CI reports line coverage in the quality job's summary. The tests run the CLI in subprocesses, so
+  coverage is collected by `tests/coverage/prepend.php` rather than by PHPUnit
 
 ### PHP Platform Version for Development
 
