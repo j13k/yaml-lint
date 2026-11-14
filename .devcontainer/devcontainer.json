@@ -21,7 +21,8 @@
   },
   "remoteUser": "dev",
 
-  "postCreateCommand": "composer install --no-interaction && vendor/bin/captainhook install --force --no-interaction",
+  // Installs dependencies, git hooks and Box.
+  "postCreateCommand": ".devcontainer/post-create.sh",
 
   "customizations": {
     "vscode": {

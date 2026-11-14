@@ -23,7 +23,8 @@ Tags use the bare version number, with no `v` prefix (for example `1.1.8`).
 
 ## Prerequisites
 
-- PHIVE installed (`brew install phive` on macOS)
+- PHIVE and Box. The dev container has both (Box is installed into `tools/` when the
+  container is created). Elsewhere, install PHIVE and run `phive install`.
 - GPG key set up for signing
 - Push access to the GitHub repository
 
@@ -75,7 +76,7 @@ The PHAR must be built from the git tag to ensure the version is correct.
 
    **Important:** This step updates `vendor/composer/installed.json` which is how the PHAR gets the correct version number. Without this, the PHAR will show "dev-master".
 
-3. Ensure you have Box installed via PHIVE:
+3. Ensure you have Box installed via PHIVE (already done in the dev container):
 
    ```bash
    phive install
