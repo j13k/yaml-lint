@@ -185,12 +185,12 @@ jobs:
             symfony-versions: '^8'
     steps:
       - name: Setup PHP
-        uses: shivammathur/setup-php@v2
+        uses: shivammathur/setup-php@eb7c497e18156a6bbabfef1d3a82760b9eda3962 # 2.40.0
         with:
           php-version: ${{ matrix.php-versions }}
           tools: composer:v2, phpunit:${{ matrix.phpunit-versions }}
       - name: Checkout
-        uses: actions/checkout@v7
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       - name: Remove composer.lock and dev dependencies
         run: |
           rm composer.lock
@@ -211,13 +211,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Setup PHP
-        uses: shivammathur/setup-php@v2
+        uses: shivammathur/setup-php@eb7c497e18156a6bbabfef1d3a82760b9eda3962 # 2.40.0
         with:
           php-version: '8.5'
           tools: composer:v2
           coverage: pcov
       - name: Checkout
-        uses: actions/checkout@v7
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       - name: Install dependencies
         run: composer install --no-interaction --no-progress
       - name: Validate composer.json and composer.lock
@@ -266,7 +266,7 @@ jobs:
           cat "$RUNNER_TEMP/coverage.md" >> "$GITHUB_STEP_SUMMARY"
       - name: Upload coverage badge data
         if: github.event_name == 'push' && github.ref == 'refs/heads/master'
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: coverage-badge
           path: coverage.json
@@ -281,7 +281,7 @@ jobs:
       contents: write
     steps:
       - name: Download coverage badge data
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
         with:
           name: coverage-badge
       - name: Commit to the badges branch
