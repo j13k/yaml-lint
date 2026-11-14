@@ -1,6 +1,6 @@
 # Changelog
 
-## [Unreleased]
+## [1.1.9] - 2026-11-14
 
 ### Added
 
@@ -16,6 +16,7 @@
 * Add issue forms (bug report, feature request), a pull request template, and a link to the security policy on the new-issue page. Dependabot updates dev dependencies again, with minor and patch updates grouped into one pull request (#270)
 * Adjust the ECS configuration for ECS 13.3: skip the short list syntax rule until the minimum PHP version allows it (#276)
 * Move `ecs.php` to the `ECSConfig::configure()` format (#278)
+* Update symfony/deprecation-contracts to 3.8.1 in the PHAR and the Docker image
 
 ## [1.1.8] - 2026-11-14
 
@@ -190,4 +191,4 @@
 
 [1.1.8]: https://github.com/j13k/yaml-lint/compare/1.1.7..1.1.8
 
-[Unreleased]: https://github.com/j13k/yaml-lint/compare/1.1.8..HEAD
+[1.1.9]: https://github.com/j13k/yaml-lint/compare/1.1.8..1.1.9
