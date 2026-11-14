@@ -1,0 +1,50 @@
+name: Bug report
+description: Report something that doesn't work as documented.
+labels: ["bug"]
+body:
+  - type: input
+    id: version
+    attributes:
+      label: Version
+      description: The output of `yaml-lint --version`, which includes the symfony/yaml version.
+      placeholder: yaml-lint 1.1.8, symfony/yaml v7.4.23
+    validations:
+      required: true
+  - type: input
+    id: php
+    attributes:
+      label: PHP version
+      description: The output of `php --version` (first line).
+    validations:
+      required: true
+  - type: dropdown
+    id: install
+    attributes:
+      label: Installation method
+      options:
+        - Composer (project)
+        - Composer (global)
+        - PHAR
+        - Docker (phpqa)
+    validations:
+      required: true
+  - type: textarea
+    id: command
+    attributes:
+      label: Command and output
+      description: The command you ran and everything it printed.
+      render: text
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behaviour
+    validations:
+      required: true
+  - type: textarea
+    id: yaml
+    attributes:
+      label: Sample YAML
+      description: A small file that shows the problem, if relevant.
+      render: yaml
