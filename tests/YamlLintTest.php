@@ -160,6 +160,34 @@ class YamlLintTest extends TestCase
                 1,
                 'Should display error message for unreadable fixture file',
             ],
+            [
+                'tests/fixtures',
+                'assertStringContainsString',
+                'File tests/fixtures is a directory',
+                1,
+                'Should display error message for a directory',
+            ],
+            [
+                'tests/fixtures/valid.yml tests/fixtures',
+                'assertStringContainsString',
+                'File tests/fixtures is a directory',
+                1,
+                'Should display error message for a directory in multiple files mode',
+            ],
+            [
+                '- < /dev/null',
+                'assertStringContainsString',
+                'Input has no content',
+                1,
+                'Should display error message for empty input',
+            ],
+            [
+                '- < tests/fixtures/valid.yml',
+                'assertStringContainsString',
+                "[ \e[32mOK\e[0m ]",
+                0,
+                'Should display [ OK ] for valid input from stdin',
+            ],
         ];
 
         // Always add custom tags tests - they will be skipped at runtime if Symfony doesn't support them
