@@ -1,9 +1,21 @@
 name: CI
 
-on: push
+on:
+  push:
+    branches: [master]
+  pull_request:
+  # Weekly run to catch breakage from new upstream releases and advisories between commits.
+  schedule:
+    - cron: '0 3 * * 1'
+  workflow_dispatch:
 
 permissions:
   contents: read
+
+# Cancel superseded runs on PR branches. Runs on master always complete.
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: ${{ github.ref != 'refs/heads/master' }}
 
 jobs:
   includes_only:
@@ -194,3 +206,28 @@ jobs:
       - run: composer update --ignore-platform-reqs
       - name: Test with phpunit
         run: phpunit
+
+  quality:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.5'
+          tools: composer:v2
+      - name: Checkout
+        uses: actions/checkout@v7
+      - name: Install dependencies
+        run: composer install --no-interaction --no-progress
+      - name: Validate composer.json and composer.lock
+        run: composer validate --strict
+      - name: Check dependencies for security advisories
+        run: composer audit
+      - name: Code style (ECS)
+        run: composer code-style
+      - name: Static analysis (PHPStan)
+        run: composer code-analyse
+      - name: Markdown lint
+        run: composer markdown-lint
+      - name: YAML lint (using yaml-lint itself)
+        run: php bin/yaml-lint .github/dependabot.yml .github/workflows/*.yml
