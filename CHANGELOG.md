@@ -6,6 +6,7 @@
 
 * Update bundled symfony/yaml and symfony/filesystem to 7.4.23 for security advisories, including CVE-2026-109413 (#239)
 * Document the `yaml-lint` binary name conflict with symfony/yaml (#181)
+* Report a clear error when a path is a directory, instead of a PHP notice and "Input has no content" (#33)
 
 ### Added
 

@@ -140,6 +140,9 @@ try {
             if (!file_exists($argPath)) {
                 throw new RuntimeException(sprintf('File %s does not exist', $argPath));
             }
+            if (is_dir($argPath)) {
+                throw new RuntimeException(sprintf('File %s is a directory', $argPath));
+            }
             if (!is_readable($argPath)) {
                 throw new RuntimeException(sprintf('File %s is not readable', $argPath));
             }
