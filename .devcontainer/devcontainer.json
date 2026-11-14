@@ -1,0 +1,34 @@
+// Format details: https://containers.dev/implementors/json_reference/
+{
+  "name": "yaml-lint",
+
+  // PHP and Composer come from the Dockerfile.
+  "build": {
+    "dockerfile": "Dockerfile"
+  },
+
+  "features": {
+    // Creates `remoteUser` (below) with sudo, plus common shell tools.
+    "ghcr.io/devcontainers/features/common-utils:2": {},
+    // GitHub CLI for issues and pull requests.
+    "ghcr.io/devcontainers/features/github-cli:1": {},
+    // Node (LTS) for `composer markdown-lint`, which runs markdownlint-cli2 via npx.
+    // No native modules or pnpm are needed, so skip the node-gyp toolchain and pnpm.
+    "ghcr.io/devcontainers/features/node:2": {
+      "nodeGypDependencies": false,
+      "pnpmVersion": "none"
+    }
+  },
+  "remoteUser": "dev",
+
+  "postCreateCommand": "composer install --no-interaction && vendor/bin/captainhook install --force --no-interaction",
+
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "bmewburn.vscode-intelephense-client",
+        "EditorConfig.EditorConfig"
+      ]
+    }
+  }
+}
