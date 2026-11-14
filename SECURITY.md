@@ -21,7 +21,7 @@ reproduce. You can expect an initial response within a week.
 
 ## Scope
 
-yaml-lint uses the [Symfony Yaml component](https://github.com/symfony/yaml) to parse YAML.
+YAML parsing is done by the [Symfony Yaml component](https://github.com/symfony/yaml).
 Report vulnerabilities in the parser itself to Symfony, following
 [Symfony's security policy](https://symfony.com/doc/current/contributing/code/security.html).
 If a Symfony fix affects the PHAR, which bundles symfony/yaml, a new yaml-lint release will

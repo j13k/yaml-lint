@@ -1,13 +1,66 @@
 # yaml-lint
 
 [![Latest Version on Packagist][ico-version]][link-packagist]
-[![Software License][ico-license]](LICENSE)
-[![Total Downloads][ico-downloads]][link-downloads]
-[![Monthly Downloads][ico-downloads-monthly]][link-downloads]
 [![CI][ico-github-ci]][link-github-ci]
 [![Coverage][ico-coverage]][link-github-ci]
+[![Total Downloads][ico-downloads]][link-downloads]
+[![Software License][ico-license]](LICENSE)
 
-A compact command line linting tool for validating YAML files, using the parsing facility of the [Symfony Yaml Component](https://github.com/symfony/yaml).
+A compact command line tool for checking YAML file syntax, using the parsing facility of the
+[Symfony Yaml component](https://github.com/symfony/yaml).
+
+- Works with PHP 5.6 and later, and symfony/yaml 2 to 8.
+- Also available as a signed, standalone PHAR.
+- Reports errors with exit codes, for use in scripts and CI.
+
+## Requirements
+
+- **With Composer:** PHP 5.6 or later, and symfony/yaml 2 to 8. Composer installs the version of
+  symfony/yaml that suits your project.
+- **As a PHAR:** PHP 8.2 or later, with the `json` and `zlib` extensions. The PHAR bundles
+  symfony/yaml 7.4.
+
+> [!NOTE]
+> Version 1.2.0 will drop support for symfony/yaml 2 to 4, which no longer receive security fixes,
+> and require PHP 7.2.5 or later ([#268](https://github.com/j13k/yaml-lint/issues/268)). Projects
+> on older versions will keep receiving 1.1.x.
+
+## Installation
+
+### Composer
+
+Install yaml-lint as a development dependency of your project:
+
+```bash
+composer require --dev j13k/yaml-lint
+```
+
+Then run it as `vendor/bin/yaml-lint`.
+
+To install it globally instead:
+
+```bash
+composer global require j13k/yaml-lint
+```
+
+Make sure Composer's global `bin` directory (`composer global config bin-dir --absolute`) is on
+your `PATH`.
+
+If Composer reports a binary name conflict during installation, see
+[Troubleshooting](#troubleshooting).
+
+### PHAR
+
+A standalone `yaml-lint.phar` is attached to each [release](https://github.com/j13k/yaml-lint/releases).
+
+- Install it with [PHIVE](https://phar.io/), which also checks its signature: `phive install yaml-lint`
+- Or download it from the release, and [verify its signature](#verifying-the-phar-signature).
+
+### Docker
+
+The [phpqa Docker image](https://hub.docker.com/r/jakzal/phpqa/) includes yaml-lint
+alongside other PHP static analysis tools. See the
+[phpqa instructions](https://github.com/jakzal/phpqa#running-tools) for how to run it.
 
 ## Usage
 
@@ -22,63 +75,51 @@ usage: yaml-lint [options] [input source]
   -V, --version     Display application version
 ```
 
-## Install
-
-### Composer
-
-To get started using yaml-lint in a project, install it with Composer:
+Check one or more files:
 
 ```bash
-composer require --dev j13k/yaml-lint
+yaml-lint config.yml
+yaml-lint config.yml services.yml
 ```
 
-It can then be run from the project's `vendor/bin` directory.
-
-To set up yaml-lint globally, install it in the Composer home directory:
+Check YAML from standard input:
 
 ```bash
-composer global require j13k/yaml-lint
+cat config.yml | yaml-lint -
 ```
 
-It can then be run from the `bin` directory of Composer home (typically  `~/.composer/vendor/bin`).
-
-> [!NOTE]
-> **Binary Name Conflict**: Both `j13k/yaml-lint` and `symfony/yaml` provide a `yaml-lint` binary. If you see this message during installation:
->
-> ```text
-> Skipped installation of bin bin/yaml-lint for package j13k/yaml-lint:
-> name conflicts with an existing file
-> ```
->
-> You can either call the binary directly with `vendor/j13k/yaml-lint/bin/yaml-lint`, or create a symlink:
->
-> ```bash
-> ln -sf ../j13k/yaml-lint/bin/yaml-lint vendor/bin/yaml-lint
-> ```
->
-> See [#181](https://github.com/j13k/yaml-lint/issues/181) for details.
-
-### Binary
-
-A binary edition , `yaml-lint.phar`, is available for download with [each release](https://github.com/j13k/yaml-lint/releases). This embeds the latest stable version of the Symfony Yaml component that is current at the time of the release.
-
-The binary can be conveniently installed using [PHIVE](https://phar.io/):
+Check every non-vendor YAML file in a project, for example in CI:
 
 ```bash
-phive install yaml-lint
+find . -path ./vendor -prune -o \( -name '*.yml' -o -name '*.yaml' \) -print0 \
+  | xargs -0 -n 1 vendor/bin/yaml-lint --quiet
 ```
 
-#### Verifying Signatures
+`-n 1` runs yaml-lint once per file, so every error is reported rather than only the first (see
+[Exit codes](#exit-codes)). If any file fails, `xargs` exits with code 123.
 
-Release binaries are signed with GPG, using the key with this fingerprint:
+### Exit codes
+
+| Code | Meaning |
+| --- | --- |
+| `0` | All input is valid YAML (or `--help` or `--version` was used) |
+| `1` | A syntax error, a missing or unreadable file, a directory, or invalid options |
+
+Checking stops at the first file with an error.
+
+## Verifying the PHAR signature
+
+Release PHARs are signed with GPG, using the key with this fingerprint:
 
 ```text
 528E 7737 B566 750F 7C00  D32A 38A1 82AB 4130 64D7
 ```
 
-To verify the signature:
+<details>
+<summary>How to verify the signature</summary>
 
-1. Download both `yaml-lint.phar` and `yaml-lint.phar.asc` from the [releases page](https://github.com/j13k/yaml-lint/releases)
+1. Download `yaml-lint.phar` and `yaml-lint.phar.asc` from the
+   [releases page](https://github.com/j13k/yaml-lint/releases).
 
 2. Import the public key, either from the maintainer's GitHub account:
 
@@ -98,47 +139,78 @@ To verify the signature:
    gpg --verify yaml-lint.phar.asc yaml-lint.phar
    ```
 
-   Check that the output says `Good signature` and shows the fingerprint above. A warning
-   that the key isn't certified with a trusted signature is normal unless you've signed
-   the key yourself.
+   Check that the output says `Good signature` and shows the fingerprint above. A warning that
+   the key isn't certified with a trusted signature is normal unless you've signed the key
+   yourself.
 
-   You should see: `Good signature from "John Fitzpatrick (Software signing key) <j13k@users.noreply.github.com>"`
+</details>
 
-### Docker
+## Troubleshooting
 
-yaml-lint is bundled in the [phpqa Docker image](https://hub.docker.com/r/jakzal/phpqa/), which provides a suite of
-static analysis tools for PHP. See the [phpqa project](https://github.com/jakzal/phpqa) for [installation
-and usage instructions](https://github.com/jakzal/phpqa#running-tools).
+<details>
+<summary>Composer reports a binary name conflict</summary>
 
-## Change log
+symfony/yaml has its own `yaml-lint` binary. If it's installed first, Composer skips this
+package's binary and shows:
 
-Please see [CHANGELOG](CHANGELOG.md) for information on what has changed recently.
+```text
+Skipped installation of bin bin/yaml-lint for package j13k/yaml-lint:
+name conflicts with an existing file
+```
+
+`vendor/bin/yaml-lint` then runs symfony/yaml's linter. To run this package's yaml-lint, call it
+directly:
+
+```bash
+vendor/j13k/yaml-lint/bin/yaml-lint
+```
+
+Or replace symfony/yaml's link in `vendor/bin` with one to this package. `-f` overwrites the
+existing link:
+
+```bash
+ln -sf ../j13k/yaml-lint/bin/yaml-lint vendor/bin/yaml-lint
+```
+
+Composer may restore symfony/yaml's link on a later install or update, so this may need
+repeating.
+
+See [#181](https://github.com/j13k/yaml-lint/issues/181) for background.
+
+</details>
+
+## Contributing
+
+Contributions are welcome.
+
+- The [contributing guide](CONTRIBUTING.md) covers the development setup and conventions.
+- To report a security vulnerability, see the [security policy](SECURITY.md).
+
+## Versioning and changelog
+
+Releases follow [semantic versioning](https://semver.org/).
+
+- The [release process](RELEASE.md#versioning) sets out which changes go into patch, minor and
+  major releases.
+- The [changelog](CHANGELOG.md) lists what has changed in each release.
 
 ## Credits
 
-- [yaml-lint contributors][link-contributors]
-- [Symfony Yaml contributors](https://github.com/symfony/yaml/graphs/contributors)
+[![yaml-lint contributors][ico-contributors]][link-contributors]
+
+Thanks also to the [Symfony Yaml contributors](https://github.com/symfony/yaml/graphs/contributors?all=1).
 
 ## License
 
-The MIT License (MIT). Please see [LICENCE](LICENSE) for more information.
+Released under the [MIT License](LICENSE).
 
 [ico-version]: https://img.shields.io/packagist/v/j13k/yaml-lint.svg?style=flat-square
-
-[ico-license]: https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square
-
-[ico-downloads]: https://img.shields.io/packagist/dt/j13k/yaml-lint.svg?style=flat-square
-
-[ico-downloads-monthly]: https://poser.pugx.org/j13k/yaml-lint/d/monthly
-
-[ico-github-ci]: https://github.com/j13k/yaml-lint/actions/workflows/ci.yml/badge.svg
-
+[ico-github-ci]: https://img.shields.io/github/actions/workflow/status/j13k/yaml-lint/ci.yml?branch=master&label=CI&style=flat-square
 [ico-coverage]: https://img.shields.io/endpoint?url=https%3A%2F%2Fraw.githubusercontent.com%2Fj13k%2Fyaml-lint%2Fbadges%2Fcoverage.json&style=flat-square
-
+[ico-downloads]: https://img.shields.io/packagist/dt/j13k/yaml-lint.svg?style=flat-square
+[ico-license]: https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square
+[ico-contributors]: https://contrib.rocks/image?repo=j13k/yaml-lint
 [link-packagist]: https://packagist.org/packages/j13k/yaml-lint
-
-[link-downloads]: https://packagist.org/packages/j13k/yaml-lint/stats
-
-[link-contributors]: https://github.com/j13k/yaml-lint/contributors
-
 [link-github-ci]: https://github.com/j13k/yaml-lint/actions/workflows/ci.yml
+[link-downloads]: https://packagist.org/packages/j13k/yaml-lint/stats
+[link-contributors]: https://github.com/j13k/yaml-lint/graphs/contributors?all=1

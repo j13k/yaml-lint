@@ -4,8 +4,8 @@ This document describes how to create a new release of yaml-lint.
 
 ## Versioning
 
-yaml-lint follows [Semantic Versioning](https://semver.org/). The public interface is the
-command line: options, output and exit codes.
+Releases follow [Semantic Versioning](https://semver.org/). The public interface is the command
+line: options, output and exit codes.
 
 | Release | When | Examples |
 | --- | --- | --- |
@@ -30,7 +30,9 @@ Tags use the bare version number, with no `v` prefix (for example `1.1.8`).
 
 ## Steps
 
-### 1. Update Version and Changelog
+### 1. Prepare the Release in a Pull Request
+
+On a new branch:
 
 1. Update the version constant in `src/yaml-lint.php`:
 
@@ -43,25 +45,23 @@ Tags use the bare version number, with no `v` prefix (for example `1.1.8`).
    - At the bottom, change the `[Unreleased]` compare link to
      `[x.y.z]: https://github.com/j13k/yaml-lint/compare/<previous>..x.y.z`.
 
-3. Commit these changes:
-
-   ```bash
-   git add src/yaml-lint.php CHANGELOG.md
-   git commit -m "chore: release x.y.z"
-   ```
+3. Commit as `chore: release x.y.z`, open a pull request, and merge it once CI passes.
 
 ### 2. Create Git Tag
 
-Sign the tag with the release key, check it, then push:
+Tag the merged release commit, not whatever is newest on `master`. Sign the tag with the release
+key, check it, then push it:
 
 ```bash
-git tag -s -m "Release x.y.z" x.y.z
+git fetch origin
+git log --oneline origin/master    # find the "chore: release x.y.z" commit
+git tag -s -m "Release x.y.z" x.y.z <release-commit>
 git tag -v x.y.z
-git push origin master
 git push origin x.y.z
 ```
 
-`git tag -v` should report a good signature from the current signing key (see "GPG signing fails" below for its fingerprint).
+`git tag -v` should report a good signature from the current signing key (see "GPG signing fails"
+below for its fingerprint).
 
 ### 3. Build the PHAR
 
@@ -117,19 +117,30 @@ gpg --verify build/yaml-lint.phar.asc build/yaml-lint.phar
 
 ### 5. Create GitHub Release
 
-1. Go to <https://github.com/j13k/yaml-lint/releases/new>
+1. Write the release notes to a file, for example `notes.md`: a link to the version's entry in
+   `CHANGELOG.md`, followed by that entry's sections.
 
-2. Select the tag `x.y.z`
+2. Create the release as a draft, with both files attached:
 
-3. Use the content from `CHANGELOG.md` for the release notes
+   ```bash
+   gh release create x.y.z --verify-tag --draft --title x.y.z --notes-file notes.md \
+     build/yaml-lint.phar build/yaml-lint.phar.asc
+   ```
 
-   Note: Signature verification instructions are in the [README](README.md#verifying-signatures)
+3. Download the files from the draft and check them, following the
+   [README's verification steps](README.md#verifying-the-phar-signature):
 
-4. Attach both files:
-   - `build/yaml-lint.phar`
-   - `build/yaml-lint.phar.asc`
+   ```bash
+   gh release download x.y.z --pattern 'yaml-lint.phar*'
+   ```
 
-5. Publish the release
+4. Publish the release, and close the version's milestone:
+
+   ```bash
+   gh release edit x.y.z --draft=false
+   ```
+
+The release can also be created in the web UI at <https://github.com/j13k/yaml-lint/releases/new>.
 
 ### 6. Return to Development
 
@@ -144,7 +155,6 @@ composer install  # Reinstall dev dependencies
 
 - Make sure you ran `composer install --no-dev` from the git tag
 - Verify you're building from the tag, not from a branch
-- Check that `APP_VERSION` in `src/yaml-lint.php` matches the tag
 
 ### Box or PHIVE not working
 
