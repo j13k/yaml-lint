@@ -26,6 +26,7 @@
 * Upgrade to PHPUnit 12, covered in CI on PHP 8.3 and later (#179)
 * Cover PHP 8.5 and 8.6 in the CI job matrix (#184)
 * Add a CI quality job (Composer validation and audit, ECS, PHPStan, markdownlint, YAML lint), run CI on pull requests and weekly, and cancel superseded runs (#186)
+* Report code coverage in CI, with a coverage badge (#250)
 
 ## [1.1.7] - 2025-10-24
 

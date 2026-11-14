@@ -215,6 +215,7 @@ jobs:
         with:
           php-version: '8.5'
           tools: composer:v2
+          coverage: pcov
       - name: Checkout
         uses: actions/checkout@v7
       - name: Install dependencies
@@ -231,3 +232,55 @@ jobs:
         run: composer markdown-lint
       - name: YAML lint (using yaml-lint itself)
         run: php bin/yaml-lint .github/dependabot.yml .github/workflows/*.yml
+      # The tests run the CLI in subprocesses, so coverage is collected in each one by
+      # loading tests/coverage/prepend.php through an extra ini file.
+      - name: Tests with coverage
+        run: |
+          mkdir -p "$RUNNER_TEMP/coverage-ini" "$RUNNER_TEMP/coverage"
+          printf 'pcov.enabled=1\nauto_prepend_file=%s\n' "$PWD/tests/coverage/prepend.php" > "$RUNNER_TEMP/coverage-ini/coverage.ini"
+          export PHP_INI_SCAN_DIR="$(php -r 'echo PHP_CONFIG_FILE_SCAN_DIR;'):$RUNNER_TEMP/coverage-ini"
+          export YAML_LINT_COVERAGE_DIR="$RUNNER_TEMP/coverage"
+          vendor/bin/phpunit
+      - name: Coverage report
+        run: |
+          php tests/coverage/report.php "$RUNNER_TEMP/coverage" "$RUNNER_TEMP/coverage.md" coverage.json
+          cat "$RUNNER_TEMP/coverage.md" >> "$GITHUB_STEP_SUMMARY"
+      - name: Upload coverage badge data
+        if: github.event_name == 'push' && github.ref == 'refs/heads/master'
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-badge
+          path: coverage.json
+
+  # Publishes the coverage badge data to the badges branch, read by the README badge
+  # through shields.io. Only runs for pushes to master.
+  coverage-badge:
+    needs: quality
+    if: github.event_name == 'push' && github.ref == 'refs/heads/master'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Download coverage badge data
+        uses: actions/download-artifact@v4
+        with:
+          name: coverage-badge
+      - name: Commit to the badges branch
+        env:
+          REPO_URL: https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}.git
+        run: |
+          if ! git clone --quiet --depth 1 --branch badges "$REPO_URL" badges; then
+            git init --quiet -b badges badges
+            git -C badges remote add origin "$REPO_URL"
+          fi
+          cp coverage.json badges/coverage.json
+          cd badges
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add coverage.json
+          if git diff --cached --quiet; then
+            echo 'Coverage unchanged'
+          else
+            git commit --quiet -m 'chore: update coverage badge'
+            git push --quiet origin badges
+          fi
