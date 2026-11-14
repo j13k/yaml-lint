@@ -232,6 +232,25 @@ jobs:
         run: composer markdown-lint
       - name: YAML lint (using yaml-lint itself)
         run: php bin/yaml-lint .github/dependabot.yml .github/workflows/*.yml
+      # Checks that the distribution archive (what Composer dist installs get) has
+      # everything it needs to run, given the allowlist in .gitattributes.
+      - name: Distribution archive smoke test
+        run: |
+          mkdir "$RUNNER_TEMP/dist"
+          git archive HEAD | tar -x -C "$RUNNER_TEMP/dist"
+          {
+            echo '## Distribution archive'
+            echo
+            git archive HEAD | tar -t | grep -v '/$' | sed 's/^/- `/; s/$/`/'
+          } >> "$GITHUB_STEP_SUMMARY"
+          cd "$RUNNER_TEMP/dist"
+          composer install --no-dev --no-interaction --no-progress
+          php bin/yaml-lint --version
+          php bin/yaml-lint "$GITHUB_WORKSPACE/tests/fixtures/valid.yml"
+          if php bin/yaml-lint "$GITHUB_WORKSPACE/tests/fixtures/invalid.yml"; then
+            echo 'Expected invalid.yml to fail linting' >&2
+            exit 1
+          fi
       # The tests run the CLI in subprocesses, so coverage is collected in each one by
       # loading tests/coverage/prepend.php through an extra ini file.
       - name: Tests with coverage
