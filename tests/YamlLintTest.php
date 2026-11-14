@@ -21,6 +21,7 @@ class YamlLintTest extends TestCase
      *
      * @dataProvider getTestSpecs
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('getTestSpecs')]
     public function testCommandOutput($yamlLintArgs, $assertionType, $expectedOutput, $expectedReturnCode, $message)
     {
         // Skip custom tags tests if Symfony doesn't support them

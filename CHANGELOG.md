@@ -22,6 +22,7 @@
 * Allow legacy symfony/yaml versions with security advisories in the CI matrix (#233, #237)
 * Use 2-space indentation for JSON files (#242)
 * Remove the stale bot (#244)
+* Upgrade to PHPUnit 12, covered in CI on PHP 8.3 and later (#179)
 
 ## [1.1.7] - 2025-10-24
 

@@ -175,13 +175,13 @@ composer test && composer code-style && composer code-analyse && composer markdo
 
 ### PHP Platform Version for Development
 
-`composer.json` sets `config.platform.php` to `8.2.0`. Composer resolves `composer.lock`
-as if it were running on PHP 8.2, whatever PHP version is actually installed.
+`composer.json` sets `config.platform.php` to `8.3.0`. Composer resolves `composer.lock`
+as if it were running on PHP 8.3, whatever PHP version is actually installed.
 
 - **Why:** the package supports PHP 5.6+, but the dev tools (PHPUnit, PHPStan, ECS) need
   PHP 8.x. Without the pin, Composer and Dependabot try to find dev tools that also run on
   PHP 5.6, and fail to resolve.
-- **Effect:** the lockfile works on PHP 8.2 and later. Projects that install yaml-lint
+- **Effect:** the lockfile works on PHP 8.3 and later. Projects that install yaml-lint
   don't use this lockfile or the pin.
 - **Older PHP and Symfony versions:** these are tested by the CI matrix, which installs
   each combination separately.
@@ -190,8 +190,8 @@ as if it were running on PHP 8.2, whatever PHP version is actually installed.
   fixed version. If a newer advisory then affects that version, Composer refuses to
   install it, and Dependabot closes the PR as "no longer updatable" without trying the
   versions in between (as with #236). Update those by hand with `composer update`.
-- **When to change:** raise the pin when the dev tools need a newer PHP, for example
-  PHPUnit 12 needs PHP 8.3.
+- **When to change:** raise the pin when the dev tools need a newer PHP (PHPUnit 12
+  set it to 8.3).
 
 ## Pull Requests
 
