@@ -1,0 +1,89 @@
+name: Docker
+
+# Publishes the production image to Docker Hub when a release is tagged. Run it by hand to
+# rebuild a release's image, for example to pick up security fixes in the PHP base image.
+on:
+  push:
+    tags:
+      - '[0-9]+.[0-9]+.[0-9]+'
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: 'Release tag to build (for example 1.1.9)'
+        required: true
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}
+
+env:
+  IMAGE: j13k/yaml-lint
+  VERSION: ${{ inputs.tag || github.ref_name }}
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check the tag is a release version
+        run: |
+          if ! [[ "$VERSION" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+            echo "Not a release version: $VERSION" >&2
+            exit 1
+          fi
+
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: refs/tags/${{ env.VERSION }}
+          persist-credentials: false
+
+      # Moves the latest, major and minor tags only if this is the newest release they
+      # cover, so a 1.1.x release after 1.2.0 doesn't take `latest` or `1` back to 1.1.
+      - name: Work out which image tags to move
+        id: newest
+        run: |
+          releases=$(git ls-remote --tags --refs origin | sed 's|.*refs/tags/||' | grep -E '^[0-9]+\.[0-9]+\.[0-9]+$')
+          newest() { echo "$releases" | grep -E "^$1" | sort -V | tail -n 1; }
+          major=${VERSION%%.*}
+          minor=${VERSION%.*}
+          echo "latest=$([ "$(newest '')" = "$VERSION" ] && echo true || echo false)" >> "$GITHUB_OUTPUT"
+          echo "major=$([ "$(newest "$major\.")" = "$VERSION" ] && echo true || echo false)" >> "$GITHUB_OUTPUT"
+          echo "minor=$([ "$(newest "${minor//./\\.}\.")" = "$VERSION" ] && echo true || echo false)" >> "$GITHUB_OUTPUT"
+          cat "$GITHUB_OUTPUT"
+
+      - name: Image metadata
+        id: meta
+        uses: docker/metadata-action@dc802804100637a589fabce1cb79ff13a1411302 # v6.2.0
+        with:
+          images: ${{ env.IMAGE }}
+          flavor: latest=${{ steps.newest.outputs.latest }}
+          tags: |
+            type=semver,pattern={{version}},value=${{ env.VERSION }}
+            type=semver,pattern={{major}}.{{minor}},value=${{ env.VERSION }},enable=${{ steps.newest.outputs.minor }}
+            type=semver,pattern={{major}},value=${{ env.VERSION }},enable=${{ steps.newest.outputs.major }}
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@f87e5991a6d7451dcb8d9637bfbc97413f497069 # v4.4.1
+
+      - name: Log in to Docker Hub
+        uses: docker/login-action@8aa5831fb8d48d8f76594c7ddde61ae58019f550 # v4.8.0
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Build and push
+        uses: docker/build-push-action@c3c9e263c25d99ce0380d002d59b67737d91b0dc # v7.4.0
+        with:
+          context: .
+          platforms: linux/amd64,linux/arm64
+          push: true
+          build-args: APP_VERSION=${{ env.VERSION }}
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+
+      - name: Check the published image
+        run: |
+          docker run --rm "$IMAGE:$VERSION" --version | tee version.txt
+          grep -q "^yaml-lint $VERSION," version.txt

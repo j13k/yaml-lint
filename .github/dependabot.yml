@@ -26,6 +26,12 @@ updates:
     schedule:
       interval: "weekly"
 
+  # Base images in the production Dockerfile (PHP, Composer).
+  - package-ecosystem: "docker"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+
   # Base images in .devcontainer/Dockerfile (PHP, Composer).
   - package-ecosystem: "docker"
     directory: "/.devcontainer"
