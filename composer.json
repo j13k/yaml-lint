@@ -21,7 +21,7 @@
     "require": {
         "php": ">=5.6",
         "ext-json": "*",
-        "symfony/yaml": "^2 || ^3 || ^4 || ^5 || ^6 || ^7"
+        "symfony/yaml": "^2 || ^3 || ^4 || ^5 || ^6 || ^7 || ^8"
     },
     "require-dev": {
         "captainhook/captainhook": "^5",

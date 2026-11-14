@@ -9,6 +9,7 @@
 
 ### Added
 
+* Support for symfony/yaml 8 (#184)
 * Versioning policy and release process documentation in `RELEASE.md` (#183, #246)
 * PHIVE configuration and GPG public key for verifying the PHAR
 * Dev container configuration (#213)
@@ -23,6 +24,7 @@
 * Use 2-space indentation for JSON files (#242)
 * Remove the stale bot (#244)
 * Upgrade to PHPUnit 12, covered in CI on PHP 8.3 and later (#179)
+* Cover PHP 8.5 and 8.6 in the CI job matrix (#184)
 
 ## [1.1.7] - 2025-10-24
 
