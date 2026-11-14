@@ -1,5 +1,11 @@
 # Changelog
 
+## [Unreleased]
+
+### Updated
+
+* Install PHIVE and Box in the dev container, so the PHAR can be built there, and update Box to 4.7.1 (#258)
+
 ## [1.1.8] - 2026-11-14
 
 ### Fixed
@@ -172,3 +178,5 @@
 [1.1.7]: https://github.com/j13k/yaml-lint/compare/1.1.6..1.1.7
 
 [1.1.8]: https://github.com/j13k/yaml-lint/compare/1.1.7..1.1.8
+
+[Unreleased]: https://github.com/j13k/yaml-lint/compare/1.1.8..HEAD

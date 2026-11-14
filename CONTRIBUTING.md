@@ -36,7 +36,8 @@ devcontainer up --workspace-folder .
 devcontainer exec --workspace-folder . composer test
 ```
 
-Dependencies and git hooks are installed automatically when the container is created.
+Dependencies, git hooks and Box (for building the PHAR, through PHIVE) are installed
+automatically when the container is created.
 
 The git hooks run PHP, and they live in the repository's `.git/hooks` directory,
 which is shared with your host. Run git commands (commit, push, checkout) from a
