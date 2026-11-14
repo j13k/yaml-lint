@@ -1,0 +1,6 @@
+# Send only what the production image needs to the build.
+*
+!bin
+!src
+!composer.json
+!composer.lock

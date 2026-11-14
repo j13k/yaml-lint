@@ -2,6 +2,10 @@
 
 ## [Unreleased]
 
+### Added
+
+* Docker image, published to Docker Hub as `j13k/yaml-lint` with each release (#56)
+
 ### Updated
 
 * Install PHIVE and Box in the dev container, so the PHAR can be built there, and update Box to 4.7.1 (#258)

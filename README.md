@@ -19,6 +19,7 @@ A compact command line tool for checking YAML file syntax, using the parsing fac
   symfony/yaml that suits your project.
 - **As a PHAR:** PHP 8.2 or later, with the `json` and `zlib` extensions. The PHAR bundles
   symfony/yaml 7.4.
+- **As a Docker image:** Docker only. The image includes PHP 8.5 and symfony/yaml 7.4.
 
 > [!NOTE]
 > Version 1.2.0 will drop support for symfony/yaml 2 to 4, which no longer receive security fixes,
@@ -57,6 +58,16 @@ A standalone `yaml-lint.phar` is attached to each [release](https://github.com/j
 - Or download it from the release, and [verify its signature](#verifying-the-phar-signature).
 
 ### Docker
+
+The [`j13k/yaml-lint` image](https://hub.docker.com/r/j13k/yaml-lint) is published with each
+release, and needs no PHP or Composer. Mount the files to check at `/workdir`:
+
+```bash
+docker run --rm -v "$PWD:/workdir:ro" j13k/yaml-lint config.yml
+cat config.yml | docker run --rm -i j13k/yaml-lint -
+```
+
+Tags follow the release versions: `1.1.9`, `1.1` (the latest 1.1.x) and `1` (the latest 1.x).
 
 The [phpqa Docker image](https://hub.docker.com/r/jakzal/phpqa/) includes yaml-lint
 alongside other PHP static analysis tools. See the

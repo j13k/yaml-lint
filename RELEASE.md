@@ -63,6 +63,14 @@ git push origin x.y.z
 `git tag -v` should report a good signature from the current signing key (see "GPG signing fails"
 below for its fingerprint).
 
+Pushing the tag starts the Docker workflow, which publishes the image to Docker Hub. Once it has
+finished, check the image:
+
+```bash
+gh run list --workflow docker.yml --limit 1
+docker run --rm j13k/yaml-lint:x.y.z --version
+```
+
 ### 3. Build the PHAR
 
 The PHAR must be built from the git tag to ensure the version is correct.
@@ -173,6 +181,8 @@ composer install  # Reinstall dev dependencies
 
 ## Files Related to Building
 
+- `Dockerfile` and `.github/workflows/docker.yml` - the Docker image, and the workflow that
+  publishes it (using the `DOCKERHUB_USERNAME` and `DOCKERHUB_TOKEN` repository secrets)
 - `.phive/phars.xml` - PHIVE configuration for Box tool
 - `box.json` - Box configuration for building the PHAR
 - `tools/` - Symlinks to PHIVE-managed tools (gitignored, created by `phive install`)

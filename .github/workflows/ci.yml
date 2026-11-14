@@ -271,11 +271,30 @@ jobs:
           name: coverage-badge
           path: coverage.json
 
+  # Builds the production image (published by docker.yml on release tags) and checks
+  # that it runs.
+  docker:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - name: Build the image
+        run: docker build --tag yaml-lint:ci .
+      - name: Image smoke test
+        run: |
+          docker run --rm yaml-lint:ci --version
+          docker run --rm -v "$PWD/tests/fixtures:/workdir:ro" yaml-lint:ci valid.yml
+          docker run --rm -i yaml-lint:ci - < tests/fixtures/valid.yml
+          if docker run --rm -v "$PWD/tests/fixtures:/workdir:ro" yaml-lint:ci invalid.yml; then
+            echo 'Expected invalid.yml to fail linting' >&2
+            exit 1
+          fi
+
   # A single, stable check for branch rules to require, instead of every matrix job.
   # It runs even if a job it depends on fails, and passes only if none failed or was
   # cancelled.
   ci-passed:
-    needs: [includes_only, quality]
+    needs: [includes_only, quality, docker]
     if: always()
     runs-on: ubuntu-latest
     steps:
