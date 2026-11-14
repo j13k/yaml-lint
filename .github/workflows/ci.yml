@@ -156,8 +156,12 @@ jobs:
           composer remove --dev --no-update phpstan/phpstan phpunit/phpunit symplify/easy-coding-standard captainhook/captainhook ramsey/conventional-commits
       - name: Require matrix symfony/yaml
         run: composer require --no-update symfony/yaml:${{ matrix.symfony-versions }}
+      # Matrix jobs install old symfony/yaml versions on purpose, to test compatibility.
+      # New advisories keep appearing for them, so turn off advisory blocking rather than
+      # ignoring advisory IDs one at a time. Composer 2.2 (PHP 5.6/7.1) has no advisory
+      # blocking and rejects the key, hence `|| true`.
       - name: Allow legacy symfony/yaml versions with known advisories
-        run: composer config --global --json audit.ignore '["PKSA-v5yj-8nmz-sk2q","PKSA-ft77-7h5f-p3r6","PKSA-b14r-zh1d-vdrc"]' || true
+        run: composer config --global --json policy.advisories.block false || true
       - run: composer update --ignore-platform-reqs
       - name: Test with phpunit
         run: phpunit
