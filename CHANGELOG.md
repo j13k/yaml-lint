@@ -1,5 +1,11 @@
 # Changelog
 
+## [Unreleased]
+
+### Updated
+
+* Skip ECS's no-break comment rule for `src/yaml-lint.php`, where ECS 13.3.16 and later wrongly expect a comment after `exit` (#282)
+
 ## [1.1.9] - 2026-11-14
 
 ### Added
@@ -192,3 +198,5 @@
 [1.1.8]: https://github.com/j13k/yaml-lint/compare/1.1.7..1.1.8
 
 [1.1.9]: https://github.com/j13k/yaml-lint/compare/1.1.8..1.1.9
+
+[Unreleased]: https://github.com/j13k/yaml-lint/compare/1.1.9..HEAD
