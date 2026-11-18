@@ -4,7 +4,7 @@
 
 ### Updated
 
-* Skip ECS's no-break comment rule for `src/yaml-lint.php`, where ECS 13.3.16 and later wrongly expect a comment after `exit` (#282)
+* Update ECS to 13.3.19, which fixes a false "no break" error after `exit` in a `switch` case. ECS 13.3.16 and 13.3.17 needed a temporary skip in `ecs.php` (#282, #284)
 
 ## [1.1.9] - 2026-11-14
 
