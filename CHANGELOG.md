@@ -1,13 +1,13 @@
 # Changelog
 
-## [Unreleased]
+## [1.1.10] - 2026-11-21
 
 ### Updated
 
-* Note that the symfony/yaml 7.4 in the PHAR and Docker image is the long-term support release, and add source and security links and more keywords to the Packagist metadata (#289)
-* Publish the Docker Hub overview from the Docker workflow, with the current release and the PHP and symfony/yaml versions in the image filled in (#286)
 * Support PHP 8.6: test it with every supported symfony/yaml version, and move the Docker image and the dev container to it. The Docker image now also installs Alpine package updates when it is built, and the newest release's image is rebuilt monthly (#267)
 * Update ECS to 13.3.19, which fixes a false "no break" error after `exit` in a `switch` case. ECS 13.3.16 and 13.3.17 needed a temporary skip in `ecs.php` (#282, #284)
+* Publish the Docker Hub overview from the Docker workflow, with the current release and the PHP and symfony/yaml versions in the image filled in (#286)
+* Note that the symfony/yaml 7.4 in the PHAR and Docker image is the long-term support release, and add source and security links and more keywords to the Packagist metadata (#289)
 
 ## [1.1.9] - 2026-11-14
 
@@ -202,4 +202,4 @@
 
 [1.1.9]: https://github.com/j13k/yaml-lint/compare/1.1.8..1.1.9
 
-[Unreleased]: https://github.com/j13k/yaml-lint/compare/1.1.9..HEAD
+[1.1.10]: https://github.com/j13k/yaml-lint/compare/1.1.9..1.1.10
