@@ -64,7 +64,10 @@ The [`j13k/yaml-lint` image](https://hub.docker.com/r/j13k/yaml-lint) is publish
 release, and needs no PHP or Composer. Mount the files to check at `/workdir`:
 
 ```bash
+# Check a file in the current directory
 docker run --rm -v "$PWD:/workdir:ro" j13k/yaml-lint config.yml
+
+# Check YAML from standard input
 cat config.yml | docker run --rm -i j13k/yaml-lint -
 ```
 
