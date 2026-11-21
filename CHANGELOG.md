@@ -8,6 +8,7 @@
 * Update ECS to 13.3.19, which fixes a false "no break" error after `exit` in a `switch` case. ECS 13.3.16 and 13.3.17 needed a temporary skip in `ecs.php` (#282, #284)
 * Publish the Docker Hub overview from the Docker workflow, with the current release and the PHP and symfony/yaml versions in the image filled in (#286)
 * Note that the symfony/yaml 7.4 in the PHAR and Docker image is the long-term support release, and add source and security links and more keywords to the Packagist metadata (#289)
+* Build mbstring in the dev container, which PHIVE needs and the PHP 8.6 images no longer include (#292)
 
 ## [1.1.9] - 2026-11-14
 
