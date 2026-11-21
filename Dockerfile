@@ -16,7 +16,10 @@ COPY src src
 RUN composer install --no-dev --no-interaction --no-progress --optimize-autoloader
 
 # Tracks the latest PHP release.
-FROM php:8.5-cli-alpine
+FROM php:8.6-cli-alpine
+
+# Pick up Alpine package fixes without waiting for the PHP image to be rebuilt.
+RUN apk upgrade --no-cache
 
 COPY --from=deps /app /app
 

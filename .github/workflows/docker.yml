@@ -1,11 +1,14 @@
 name: Docker
 
-# Publishes the production image to Docker Hub when a release is tagged. Run it by hand to
-# rebuild a release's image, for example to pick up security fixes in the PHP base image.
+# Publishes the production image to Docker Hub when a release is tagged, and rebuilds the
+# newest release's image monthly to pick up security fixes in the PHP base image and Alpine
+# packages. Run it by hand to rebuild a particular release's image.
 on:
   push:
     tags:
       - '[0-9]+.[0-9]+.[0-9]+'
+  schedule:
+    - cron: '0 4 1 * *'
   workflow_dispatch:
     inputs:
       tag:
@@ -20,38 +23,40 @@ concurrency:
 
 env:
   IMAGE: j13k/yaml-lint
-  VERSION: ${{ inputs.tag || github.ref_name }}
 
 jobs:
   publish:
     runs-on: ubuntu-latest
     steps:
-      - name: Check the tag is a release version
+      # Builds the pushed or requested tag, or for the monthly rebuild, the newest release.
+      # Moves the latest, major and minor tags only if this is the newest release they
+      # cover, so a 1.1.x release after 1.2.0 doesn't take `latest` or `1` back to 1.1.
+      - name: Work out the version and which image tags to move
+        id: newest
+        env:
+          REQUESTED: ${{ inputs.tag || (github.event_name == 'push' && github.ref_name) || '' }}
         run: |
+          releases=$(git ls-remote --tags --refs "$GITHUB_SERVER_URL/$GITHUB_REPOSITORY.git" | sed 's|.*refs/tags/||' | grep -E '^[0-9]+\.[0-9]+\.[0-9]+$')
+          newest() { echo "$releases" | grep -E "^$1" | sort -V | tail -n 1; }
+          VERSION=${REQUESTED:-$(newest '')}
           if ! [[ "$VERSION" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
             echo "Not a release version: $VERSION" >&2
             exit 1
           fi
+          echo "VERSION=$VERSION" >> "$GITHUB_ENV"
+          major=${VERSION%%.*}
+          minor=${VERSION%.*}
+          echo "latest=$([ "$(newest '')" = "$VERSION" ] && echo true || echo false)" >> "$GITHUB_OUTPUT"
+          echo "major=$([ "$(newest "$major\.")" = "$VERSION" ] && echo true || echo false)" >> "$GITHUB_OUTPUT"
+          echo "minor=$([ "$(newest "${minor//./\\.}\.")" = "$VERSION" ] && echo true || echo false)" >> "$GITHUB_OUTPUT"
+          echo "Version: $VERSION"
+          cat "$GITHUB_OUTPUT"
 
       - name: Checkout
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           ref: refs/tags/${{ env.VERSION }}
           persist-credentials: false
-
-      # Moves the latest, major and minor tags only if this is the newest release they
-      # cover, so a 1.1.x release after 1.2.0 doesn't take `latest` or `1` back to 1.1.
-      - name: Work out which image tags to move
-        id: newest
-        run: |
-          releases=$(git ls-remote --tags --refs origin | sed 's|.*refs/tags/||' | grep -E '^[0-9]+\.[0-9]+\.[0-9]+$')
-          newest() { echo "$releases" | grep -E "^$1" | sort -V | tail -n 1; }
-          major=${VERSION%%.*}
-          minor=${VERSION%.*}
-          echo "latest=$([ "$(newest '')" = "$VERSION" ] && echo true || echo false)" >> "$GITHUB_OUTPUT"
-          echo "major=$([ "$(newest "$major\.")" = "$VERSION" ] && echo true || echo false)" >> "$GITHUB_OUTPUT"
-          echo "minor=$([ "$(newest "${minor//./\\.}\.")" = "$VERSION" ] && echo true || echo false)" >> "$GITHUB_OUTPUT"
-          cat "$GITHUB_OUTPUT"
 
       - name: Image metadata
         id: meta
@@ -63,6 +68,10 @@ jobs:
             type=semver,pattern={{version}},value=${{ env.VERSION }}
             type=semver,pattern={{major}}.{{minor}},value=${{ env.VERSION }},enable=${{ steps.newest.outputs.minor }}
             type=semver,pattern={{major}},value=${{ env.VERSION }},enable=${{ steps.newest.outputs.major }}
+
+      # The final stage runs `apk upgrade`, so the arm64 build needs emulation.
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@99012661954931238ded8c8b007157a8430204e1 # v4.4.0
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@f87e5991a6d7451dcb8d9637bfbc97413f497069 # v4.4.1
