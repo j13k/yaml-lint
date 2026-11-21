@@ -68,7 +68,8 @@ docker run --rm -v "$PWD:/workdir:ro" j13k/yaml-lint config.yml
 cat config.yml | docker run --rm -i j13k/yaml-lint -
 ```
 
-Tags follow the release versions: `1.1.9`, `1.1` (the latest 1.1.x) and `1` (the latest 1.x).
+Tags follow the release versions: `x.y.z` for a specific release, `x.y` and `x` for the newest
+release in that minor or major version, and `latest` for the newest release.
 
 The [phpqa Docker image](https://hub.docker.com/r/jakzal/phpqa/) includes yaml-lint
 alongside other PHP static analysis tools. See the
