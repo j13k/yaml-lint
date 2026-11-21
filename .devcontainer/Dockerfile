@@ -2,10 +2,14 @@
 FROM php:8.6-cli-trixie
 
 # git for version control and Composer source installs; unzip for Composer dist installs;
-# gnupg for PHIVE's signature checks.
+# gnupg for PHIVE's signature checks; libonig-dev to build mbstring.
 RUN apt-get update \
-    && apt-get install -y --no-install-recommends git unzip gnupg \
+    && apt-get install -y --no-install-recommends git unzip gnupg libonig-dev \
     && rm -rf /var/lib/apt/lists/*
+
+# PHIVE needs mbstring, which the PHP 8.6 images no longer include
+# (https://github.com/docker-library/php/pull/1654).
+RUN docker-php-ext-install -j"$(nproc)" mbstring
 
 COPY --from=composer:2 /usr/bin/composer /usr/local/bin/composer
 
