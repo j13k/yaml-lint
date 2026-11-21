@@ -1,8 +1,8 @@
 name: Docker
 
-# Publishes the production image to Docker Hub when a release is tagged, and rebuilds the
-# newest release's image monthly to pick up security fixes in the PHP base image and Alpine
-# packages. Run it by hand to rebuild a particular release's image.
+# Publishes the production image and its overview to Docker Hub when a release is tagged, and
+# rebuilds the newest release's image monthly to pick up security fixes in the PHP base image
+# and Alpine packages. Run it by hand to rebuild a particular release's image.
 on:
   push:
     tags:
@@ -27,6 +27,8 @@ env:
 jobs:
   publish:
     runs-on: ubuntu-latest
+    # Holds the Docker Hub secrets, and only master and release tags can use it.
+    environment: docker-hub
     steps:
       # Builds the pushed or requested tag, or for the monthly rebuild, the newest release.
       # Moves the latest, major and minor tags only if this is the newest release they
@@ -96,3 +98,32 @@ jobs:
         run: |
           docker run --rm "$IMAGE:$VERSION" --version | tee version.txt
           grep -q "^yaml-lint $VERSION," version.txt
+
+      # Only the newest release updates the overview, so rebuilding an older one doesn't take
+      # it back. Releases from before the template was added skip it.
+      - name: Fill in the Docker Hub overview
+        if: steps.newest.outputs.latest == 'true' && hashFiles('.github/dockerhub-overview.md') != ''
+        run: |
+          php_version=$(docker run --rm --entrypoint php "$IMAGE:$VERSION" -r 'echo PHP_VERSION;')
+          yaml_version=$(sed -n 's|.*symfony/yaml v||p' version.txt)
+          sed -e '/^<!--.*-->$/d' \
+            -e "s/{{VERSION}}/$VERSION/g" \
+            -e "s/{{MINOR}}/${VERSION%.*}/g" \
+            -e "s/{{MAJOR}}/${VERSION%%.*}/g" \
+            -e "s/{{PHP_VERSION}}/$php_version/g" \
+            -e "s/{{SYMFONY_YAML_VERSION}}/$yaml_version/g" \
+            .github/dockerhub-overview.md > "$RUNNER_TEMP/dockerhub-overview.md"
+          cat "$RUNNER_TEMP/dockerhub-overview.md"
+          if grep -q '{{' "$RUNNER_TEMP/dockerhub-overview.md"; then
+            echo 'The overview has values that were not filled in' >&2
+            exit 1
+          fi
+
+      - name: Publish the Docker Hub overview
+        if: steps.newest.outputs.latest == 'true' && hashFiles('.github/dockerhub-overview.md') != ''
+        uses: peter-evans/dockerhub-description@1b9a80c056b620d92cedb9d9b5a223409c68ddfa # v5.0.0
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+          repository: ${{ env.IMAGE }}
+          readme-filepath: ${{ runner.temp }}/dockerhub-overview.md
