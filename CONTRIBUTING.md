@@ -150,8 +150,12 @@ as if it were running on PHP 8.3, whatever PHP version is actually installed.
   fixed version. If a newer advisory then affects that version, Composer refuses to
   install it, and Dependabot closes the PR as "no longer updatable" without trying the
   versions in between (as with #236). Update those by hand with `composer update`.
+- **PHAR and Docker image:** both are built from the lockfile, so the pin also decides the
+  symfony/yaml version they bundle: 7.4, the long-term support release. Raising the pin to
+  8.4.1 or later would move them to symfony/yaml 8.x and raise the PHAR's minimum PHP
+  version to 8.4, which needs a minor release.
 - **When to change:** raise the pin when the dev tools need a newer PHP (PHPUnit 12
-  set it to 8.3).
+  set it to 8.3), keeping in mind the effect on the PHAR and Docker image.
 
 ## Pull Requests
 

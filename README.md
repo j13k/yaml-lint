@@ -19,8 +19,9 @@ A compact command line tool for checking YAML file syntax, using the parsing fac
 - **With Composer:** PHP 5.6 or later, and symfony/yaml 2 to 8. Composer installs the version of
   symfony/yaml that suits your project.
 - **As a PHAR:** PHP 8.2 or later, with the `json` and `zlib` extensions. The PHAR bundles
-  symfony/yaml 7.4.
-- **As a Docker image:** Docker only. The image includes PHP 8.6 and symfony/yaml 7.4.
+  symfony/yaml 7.4, the long-term support release.
+- **As a Docker image:** Docker only. The image includes PHP 8.6 and symfony/yaml
+  7.4, the long-term support release.
 
 > [!NOTE]
 > Version 1.2.0 will drop support for symfony/yaml 2 to 4, which no longer receive security fixes,

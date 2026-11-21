@@ -8,7 +8,10 @@
         "syntax",
         "cli",
         "utility",
-        "symfony"
+        "symfony",
+        "linter",
+        "validator",
+        "ci"
     ],
     "homepage": "https://github.com/j13k/yaml-lint",
     "license": "MIT",
@@ -55,6 +58,8 @@
         "test": "./vendor/bin/phpunit"
     },
     "support": {
-        "issues": "https://github.com/j13k/yaml-lint/issues"
+        "issues": "https://github.com/j13k/yaml-lint/issues",
+        "source": "https://github.com/j13k/yaml-lint",
+        "security": "https://github.com/j13k/yaml-lint/security/policy"
     }
 }
