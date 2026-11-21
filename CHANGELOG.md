@@ -4,6 +4,7 @@
 
 ### Updated
 
+* Support PHP 8.6: test it with every supported symfony/yaml version, and move the Docker image and the dev container to it. The Docker image now also installs Alpine package updates when it is built, and the newest release's image is rebuilt monthly (#267)
 * Update ECS to 13.3.19, which fixes a false "no break" error after `exit` in a `switch` case. ECS 13.3.16 and 13.3.17 needed a temporary skip in `ecs.php` (#282, #284)
 
 ## [1.1.9] - 2026-11-14

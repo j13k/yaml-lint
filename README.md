@@ -1,6 +1,7 @@
 # yaml-lint
 
 [![Latest Version on Packagist][ico-version]][link-packagist]
+[![Docker Image Version][ico-docker]][link-docker]
 [![CI][ico-github-ci]][link-github-ci]
 [![Coverage][ico-coverage]][link-github-ci]
 [![Total Downloads][ico-downloads]][link-downloads]
@@ -19,7 +20,7 @@ A compact command line tool for checking YAML file syntax, using the parsing fac
   symfony/yaml that suits your project.
 - **As a PHAR:** PHP 8.2 or later, with the `json` and `zlib` extensions. The PHAR bundles
   symfony/yaml 7.4.
-- **As a Docker image:** Docker only. The image includes PHP 8.5 and symfony/yaml 7.4.
+- **As a Docker image:** Docker only. The image includes PHP 8.6 and symfony/yaml 7.4.
 
 > [!NOTE]
 > Version 1.2.0 will drop support for symfony/yaml 2 to 4, which no longer receive security fixes,
@@ -216,12 +217,14 @@ Thanks also to the [Symfony Yaml contributors](https://github.com/symfony/yaml/g
 Released under the [MIT License](LICENSE).
 
 [ico-version]: https://img.shields.io/packagist/v/j13k/yaml-lint.svg?style=flat-square
+[ico-docker]: https://img.shields.io/docker/v/j13k/yaml-lint?sort=semver&label=docker&style=flat-square
 [ico-github-ci]: https://img.shields.io/github/actions/workflow/status/j13k/yaml-lint/ci.yml?branch=master&label=CI&style=flat-square
 [ico-coverage]: https://img.shields.io/endpoint?url=https%3A%2F%2Fraw.githubusercontent.com%2Fj13k%2Fyaml-lint%2Fbadges%2Fcoverage.json&style=flat-square
 [ico-downloads]: https://img.shields.io/packagist/dt/j13k/yaml-lint.svg?style=flat-square
 [ico-license]: https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square
 [ico-contributors]: https://contrib.rocks/image?repo=j13k/yaml-lint
 [link-packagist]: https://packagist.org/packages/j13k/yaml-lint
+[link-docker]: https://hub.docker.com/r/j13k/yaml-lint
 [link-github-ci]: https://github.com/j13k/yaml-lint/actions/workflows/ci.yml
 [link-downloads]: https://packagist.org/packages/j13k/yaml-lint/stats
 [link-contributors]: https://github.com/j13k/yaml-lint/graphs/contributors?all=1

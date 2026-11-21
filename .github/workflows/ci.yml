@@ -176,7 +176,19 @@ jobs:
           - php-versions: '8.5'
             phpunit-versions: '^12'
             symfony-versions: '^8'
-          # 8.6 (setup-php installs a nightly build until 8.6 is released)
+          # 8.6
+          - php-versions: '8.6'
+            phpunit-versions: '^12'
+            symfony-versions: '^3'
+          - php-versions: '8.6'
+            phpunit-versions: '^12'
+            symfony-versions: '^4'
+          - php-versions: '8.6'
+            phpunit-versions: '^12'
+            symfony-versions: '^5'
+          - php-versions: '8.6'
+            phpunit-versions: '^12'
+            symfony-versions: '^6'
           - php-versions: '8.6'
             phpunit-versions: '^12'
             symfony-versions: '^7'
@@ -213,7 +225,7 @@ jobs:
       - name: Setup PHP
         uses: shivammathur/setup-php@eb7c497e18156a6bbabfef1d3a82760b9eda3962 # 2.40.0
         with:
-          php-version: '8.5'
+          php-version: '8.6'
           tools: composer:v2
           coverage: pcov
       - name: Checkout

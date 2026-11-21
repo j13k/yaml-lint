@@ -1,5 +1,5 @@
 # Tracks the latest PHP release.
-FROM php:8.5-cli-trixie
+FROM php:8.6-cli-trixie
 
 # git for version control and Composer source installs; unzip for Composer dist installs;
 # gnupg for PHIVE's signature checks.
