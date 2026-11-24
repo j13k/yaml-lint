@@ -871,11 +871,11 @@
         },
         {
             "name": "phpstan/phpstan",
-            "version": "2.3.5",
+            "version": "2.3.7",
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/645a1bd6bead15fc1b8474137467961d0fa30a79",
-                "reference": "645a1bd6bead15fc1b8474137467961d0fa30a79",
+                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/90c91c2498849ab8cc4e873864bbf1cb2bf6ea12",
+                "reference": "90c91c2498849ab8cc4e873864bbf1cb2bf6ea12",
                 "shasum": ""
             },
             "require": {
@@ -931,7 +931,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2026-11-03T12:14:22+00:00"
+            "time": "2026-11-19T10:31:11+00:00"
         },
         {
             "name": "phpunit/php-code-coverage",
@@ -3362,16 +3362,16 @@
         },
         {
             "name": "symplify/easy-coding-standard",
-            "version": "13.3.19",
+            "version": "13.3.23",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ecsphp/ecs.git",
-                "reference": "95cfc1d32de464132f394d43a294983ea0a73d8b"
+                "reference": "cb9a9bba3d1cbd82338b9a31cdf2bcdf780f02e9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ecsphp/ecs/zipball/95cfc1d32de464132f394d43a294983ea0a73d8b",
-                "reference": "95cfc1d32de464132f394d43a294983ea0a73d8b",
+                "url": "https://api.github.com/repos/ecsphp/ecs/zipball/cb9a9bba3d1cbd82338b9a31cdf2bcdf780f02e9",
+                "reference": "cb9a9bba3d1cbd82338b9a31cdf2bcdf780f02e9",
                 "shasum": ""
             },
             "require": {
@@ -3404,10 +3404,9 @@
             ],
             "support": {
                 "issues": "https://github.com/ecsphp/ecs/issues",
-                "source": "https://github.com/ecsphp/ecs/tree/13.3.19"
+                "source": "https://github.com/ecsphp/ecs/tree/13.3.23"
             },
-            "time": "2026-11-17T16:33:23+00:00",
-            "published-time": "2026-11-17T16:33:30+00:00"
+            "time": "2026-11-19T10:01:21+00:00"
         },
         {
             "name": "theseer/tokenizer",
@@ -3473,5 +3472,5 @@
     "platform-overrides": {
         "php": "8.3.0"
     },
-    "plugin-api-version": "2.11.0"
+    "plugin-api-version": "2.9.0"
 }
